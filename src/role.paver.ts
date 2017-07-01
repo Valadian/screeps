@@ -80,5 +80,3 @@ export function run(creep:Creep) {
         }
     }
 }
-var module:any;
-module.exports.run = run;

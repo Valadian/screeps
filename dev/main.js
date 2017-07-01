@@ -57,5 +57,5 @@ function loop() {
     }
 }
 var module;
-module.exports = loop;
+module.exports.loop = loop;
 //# sourceMappingURL=main.js.map
