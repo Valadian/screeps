@@ -2,9 +2,14 @@ import * as roleHarvester from "role.harvester";
 import * as roleUpgrader from "role.upgrader";
 import * as roleBuilder from "role.builder";
 import * as rolePaver from "role.paver";
+import * as traveler from "Traveler";
+
+(Creep.prototype as any).travelTo = function(destination: {pos: RoomPosition}, options?: TravelToOptions) {
+    return traveler.Traveler.travelTo(this, destination, options);
+};
 
 function loop() {
-
+    
     var tower = Game.getObjectById('59561fc2aee0ff6dbfec5cb9') as Tower;
     if(tower) {
          //structure.hits < structure.hitsMax/1000

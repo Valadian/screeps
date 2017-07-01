@@ -4,6 +4,10 @@ const roleHarvester = require("role.harvester");
 const roleUpgrader = require("role.upgrader");
 const roleBuilder = require("role.builder");
 const rolePaver = require("role.paver");
+const traveler = require("Traveler");
+Creep.prototype.travelTo = function (destination, options) {
+    return traveler.Traveler.travelTo(this, destination, options);
+};
 function loop() {
     var tower = Game.getObjectById('59561fc2aee0ff6dbfec5cb9');
     if (tower) {

@@ -410,6 +410,7 @@ declare type Spawn = StructureSpawn;
 declare const Spawn: StructureSpawnConstructor;
 interface Storage extends StructureStorage {
 }
+
 /**
  * Creeps are your units. Creeps can move, harvest energy, construct structures, attack another creeps, and perform other actions. Each creep consists of up to 50 body parts with the following possible types:
  */
@@ -558,6 +559,7 @@ interface Creep extends RoomObject {
      * @param opts An object containing pathfinding options flags (see Room.findPath for more info) or one of the following: reusePath, serializeMemory, noPathFinding
      */
     moveTo(x: number, y: number, opts?: MoveToOpts): number;
+    travelTo(destination: {pos: RoomPosition}, options?: TravelToOptions): number;
     /**
      * Find the optimal path to the target within the same room and move to it. A shorthand to consequent calls of pos.findPathTo() and move() methods. If the target is in another room, then the corresponding exit will be used as a target. Needs the MOVE body part.
      * @param target Can be a RoomPosition object or any object containing RoomPosition.

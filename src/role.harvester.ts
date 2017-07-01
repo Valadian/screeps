@@ -2,7 +2,7 @@ export function run(creep:Creep) {
     if(creep.carry.energy!=undefined && creep.carry.energy < creep.carryCapacity) {
         var sources = creep.room.find(FIND_SOURCES) as Source[];
         if(creep.harvest(sources[1]) == ERR_NOT_IN_RANGE) {
-            creep.moveTo(sources[1], {visualizePathStyle: {stroke: '#ffaa00'}});
+            creep.travelTo(sources[1]);//, {visualizePathStyle: {stroke: '#ffaa00'}});
         }
     }
     else {
@@ -15,7 +15,7 @@ export function run(creep:Creep) {
         }) as StructureExtension | StructureSpawn | StructureTower;
         if(target) {
             if(creep.transfer(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(target, {visualizePathStyle: {stroke: '#ffffff'}});
+                creep.travelTo(target);//, {visualizePathStyle: {stroke: '#ffffff'}});
             }
         }
     }

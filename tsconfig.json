@@ -6,12 +6,13 @@
     "noEmitOnError": true,
     "noResolve": false,
     "experimentalDecorators": true,
-    "strict": true,
+    // "strict": true,
     "noUnusedParameters": true,
     "noUnusedLocals": true,
     "sourceMap": true,
     "baseUrl": "./src/",
-    "outDir": "./dev/"
+    "outDir": "./dev/",
+    "allowJs": true
   },
   "compileOnSave": true,
   "include": [
