@@ -1,7 +1,7 @@
-import * as roleHarvester from "./role.harvester";
-import * as roleUpgrader from "./role.upgrader";
-import * as roleBuilder from "./role.builder";
-import * as rolePaver from "./role.paver";
+import * as roleHarvester from "role.harvester";
+import * as roleUpgrader from "role.upgrader";
+import * as roleBuilder from "role.builder";
+import * as rolePaver from "role.paver";
 
 function loop() {
 
