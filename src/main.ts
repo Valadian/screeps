@@ -3,7 +3,7 @@ import * as roleUpgrader from "./role.upgrader";
 import * as roleBuilder from "./role.builder";
 import * as rolePaver from "./role.paver";
 
-function mloop() {
+function loop() {
 
     var tower = Game.getObjectById('59561fc2aee0ff6dbfec5cb9') as Tower;
     if(tower) {
@@ -63,5 +63,5 @@ function mloop() {
         //Game.spawns["Home"].say('Spawn Upgrader!');
     }
 }
-
-export const loop = mloop;
+var module:any;
+module.exports = loop;
