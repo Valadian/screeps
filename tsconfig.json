@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es6",
+    "removeComments": true,
+    "noEmitOnError": true,
+    "noResolve": false,
+    "experimentalDecorators": true,
+    "strict": true,
+    "noUnusedParameters": true,
+    "noUnusedLocals": true,
+    "sourceMap": true,
+    "baseUrl": "./src/",
+    "outDir": "./dev/"
+  },
+  "compileOnSave": true,
+  "include": [
+    "typings/**/*.d.ts",
+    "src/**/*.ts",
+    "src/**/*.d.ts"
+  ],
+  "exclude": [
+    "dev",
+    "node_modules"
+  ]
+}
