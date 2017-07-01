@@ -64,4 +64,4 @@ function loop() {
     }
 }
 var module:any;
-module.exports = loop;
+module.exports.loop = loop;
