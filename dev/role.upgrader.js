@@ -22,4 +22,6 @@ function run(creep) {
     }
 }
 exports.run = run;
+var module;
+module.exports.run = run;
 //# sourceMappingURL=role.upgrader.js.map

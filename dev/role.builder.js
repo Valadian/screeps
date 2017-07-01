@@ -25,4 +25,6 @@ function run(creep) {
     }
 }
 exports.run = run;
+var module;
+module.exports.run = run;
 //# sourceMappingURL=role.builder.js.map
