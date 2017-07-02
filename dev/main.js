@@ -16,13 +16,14 @@ function defaultValue(myVar, defaultVal) {
 }
 var L4_1300_Worker = [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, WORK, WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY];
 var L4_1300_OFFROAD_Worker = [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY];
+var L4_1300_claim = [CLAIM, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE];
 var L3_800_Worker = [MOVE, MOVE, MOVE, MOVE, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY];
 var L3_800_OFFROAD_Worker = [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY];
+var L3_800_claim = [CLAIM, MOVE, MOVE, MOVE, MOVE];
 var L2_550_Worker = [MOVE, MOVE, MOVE, WORK, WORK, CARRY, CARRY, CARRY, CARRY];
 var L2_550_OFFROAD_Worker = [MOVE, MOVE, MOVE, MOVE, MOVE, WORK, WORK, CARRY, CARRY];
 var L1_300_Worker = [MOVE, WORK, CARRY];
 var L1_300_OFFROAD_Worker = [MOVE, MOVE, MOVE, WORK, CARRY];
-var L3_800_claim = [CLAIM, MOVE, MOVE, MOVE, MOVE];
 function runCreeps() {
     for (var name in Game.creeps) {
         var creep = Game.creeps[name];
@@ -56,9 +57,11 @@ function spawnNewCreeps(spawnName) {
     var energy = Game.spawns[spawnName].room.energyAvailable;
     var level = Game.spawns[spawnName].room.controller.level;
     if (Game.spawns[spawnName].room.energyCapacityAvailable >= 1300) {
-        if (checkThenSpawn(spawnName, 'harvester', 3, L3_800_claim, energy)) { }
+        if (checkThenSpawn(spawnName, 'claim', 1, L4_1300_claim, energy)) { }
+        else if (checkThenSpawn(spawnName, 'harvester', 3, L4_1300_Worker, energy)) { }
         else if (checkThenSpawn(spawnName, 'upgrader', 1, L4_1300_Worker, energy)) { }
         else if (checkThenSpawn(spawnName, 'harvester', 6, L4_1300_Worker, energy)) { }
+        else if (checkThenSpawn(spawnName, 'paver', 1, L4_1300_OFFROAD_Worker, energy)) { }
         else if (checkThenSpawn(spawnName, 'harvester', 9, L4_1300_Worker, energy)) { }
         else if (checkThenSpawn(spawnName, 'upgrader', 6, L4_1300_Worker, energy)) { }
     }
@@ -90,27 +93,32 @@ function spawnNewCreeps(spawnName) {
         else if (checkThenSpawn(spawnName, 'upgrader', 6, L1_300_Worker, energy)) { }
     }
 }
-function loop() {
-    var tower = Game.getObjectById('59561fc2aee0ff6dbfec5cb9');
-    if (tower) {
-        var closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
-            filter: (structure) => structure.hits < 1000
-        });
-        if (!closestDamagedStructure) {
-            closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
-                filter: (structure) => structure.hits < 50000 && structure.hits < structure.hitsMax * 0.75
+function commandTowers() {
+    for (var name of Object.keys(Game.spawns)) {
+        var towers = Game.spawns[name].room.find(FIND_MY_STRUCTURES, { filter: { structureType: STRUCTURE_TOWER } });
+        for (var tower of towers) {
+            var closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
+                filter: (structure) => structure.hits < 1000
             });
-        }
-        if (closestDamagedStructure) {
-            tower.repair(closestDamagedStructure);
-        }
-        var closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
-        if (closestHostile) {
-            tower.attack(closestHostile);
+            if (!closestDamagedStructure) {
+                closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
+                    filter: (structure) => structure.hits < 50000 && structure.hits < structure.hitsMax * 0.75
+                });
+            }
+            if (closestDamagedStructure) {
+                tower.repair(closestDamagedStructure);
+            }
+            var closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
+            if (closestHostile) {
+                tower.attack(closestHostile);
+            }
         }
     }
+}
+function loop() {
     runCreeps();
     if ((Game.time & 15) == 0) {
+        commandTowers();
         for (var name of Object.keys(Game.spawns)) {
             spawnNewCreeps(name);
         }
