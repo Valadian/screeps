@@ -21,6 +21,7 @@ var L2_550_Worker = [MOVE, MOVE, MOVE, WORK, WORK, CARRY, CARRY, CARRY, CARRY];
 var L2_550_OFFROAD_Worker = [MOVE, MOVE, MOVE, MOVE, MOVE, WORK, WORK, CARRY, CARRY];
 var L1_300_Worker = [MOVE, WORK, CARRY];
 var L1_300_OFFROAD_Worker = [MOVE, MOVE, MOVE, WORK, CARRY];
+var L3_800_claim = [CLAIM, MOVE, MOVE, MOVE, MOVE];
 function runCreeps() {
     for (var name in Game.creeps) {
         var creep = Game.creeps[name];
@@ -39,30 +40,26 @@ function runCreeps() {
     }
 }
 function spawnNewCreeps(spawnName) {
-    Memory.role_count = {};
-    for (var name in Game.creeps) {
+    Game.spawns[spawnName].memory.role_count = {};
+    for (var name in Game.spawns[spawnName].room.find(FIND_MY_CREEPS)) {
         var creep = Game.creeps[name];
         if (creep.memory.role == 'harvester') {
-            Memory.role_count['harvester'] = defaultValue(Memory.role_count['harvester'], 0) + 1;
-            roleHarvester.run(creep);
+            Game.spawns[spawnName].memory.role_count['harvester'] = defaultValue(Memory.role_count['harvester'], 0) + 1;
         }
         if (creep.memory.role == 'upgrader') {
-            Memory.role_count['upgrader'] = defaultValue(Memory.role_count['upgrader'], 0) + 1;
-            roleUpgrader.run(creep);
+            Game.spawns[spawnName].memory.role_count['upgrader'] = defaultValue(Memory.role_count['upgrader'], 0) + 1;
         }
         if (creep.memory.role == 'builder') {
-            Memory.role_count['builder'] = defaultValue(Memory.role_count['builder'], 0) + 1;
-            roleBuilder.run(creep);
+            Game.spawns[spawnName].memory.role_count['builder'] = defaultValue(Memory.role_count['builder'], 0) + 1;
         }
         if (creep.memory.role == 'paver') {
-            Memory.role_count['paver'] = defaultValue(Memory.role_count['paver'], 0) + 1;
-            rolePaver.run(creep);
+            Game.spawns[spawnName].memory.role_count['paver'] = defaultValue(Memory.role_count['paver'], 0) + 1;
         }
     }
     var energy = Game.spawns[spawnName].room.energyAvailable;
     var level = Game.spawns[spawnName].room.controller.level;
     if (Game.spawns[spawnName].room.energyCapacityAvailable >= 1300) {
-        if (checkThenSpawn(spawnName, 'harvester', 3, L4_1300_Worker, energy)) { }
+        if (checkThenSpawn(spawnName, 'harvester', 3, L3_800_claim, energy)) { }
         else if (checkThenSpawn(spawnName, 'upgrader', 1, L4_1300_Worker, energy)) { }
         else if (checkThenSpawn(spawnName, 'harvester', 3, L4_1300_Worker, energy)) { }
         else if (checkThenSpawn(spawnName, 'paver', 6, L4_1300_OFFROAD_Worker, energy)) { }
@@ -70,7 +67,8 @@ function spawnNewCreeps(spawnName) {
         else if (checkThenSpawn(spawnName, 'upgrader', 6, L4_1300_Worker, energy)) { }
     }
     else if (Game.spawns[spawnName].room.energyCapacityAvailable >= 800) {
-        if (checkThenSpawn(spawnName, 'harvester', 3, L3_800_Worker, energy)) { }
+        if (checkThenSpawn(spawnName, 'claim', 1, L3_800_Worker, energy)) { }
+        else if (checkThenSpawn(spawnName, 'harvester', 3, L3_800_Worker, energy)) { }
         else if (checkThenSpawn(spawnName, 'upgrader', 1, L3_800_Worker, energy)) { }
         else if (checkThenSpawn(spawnName, 'harvester', 3, L3_800_Worker, energy)) { }
         else if (checkThenSpawn(spawnName, 'paver', 6, L3_800_OFFROAD_Worker, energy)) { }
@@ -121,7 +119,7 @@ COSTS[WORK] = 100;
 COSTS[CARRY] = 50;
 function checkThenSpawn(spawnName, role, limit, body, energyAvailable) {
     var cost = body.map((part) => COSTS[part]).reduce((sum, next) => sum + next);
-    if ((Memory.role_count[role] == undefined || Memory.role_count[role] < limit) && energyAvailable >= cost) {
+    if ((Game.spawns[spawnName].memory.role_count[role] == undefined || Memory.role_count[role] < limit) && energyAvailable >= cost) {
         Game.spawns[spawnName].createCreep(body, role + Game.time.toString(), { role: role });
         return true;
     }
