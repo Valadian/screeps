@@ -25,7 +25,7 @@ function run(creep) {
         }
         var source = Game.getObjectById(creep.memory.source);
         if (creep.harvest(source) == ERR_NOT_IN_RANGE) {
-            creep.travelTo(source);
+            creep.travelTo(source, { maxRooms: 1 });
         }
     }
 }

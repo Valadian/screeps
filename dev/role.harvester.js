@@ -41,7 +41,7 @@ function run(creep) {
             });
             if (tower) {
                 if (creep.transfer(tower, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                    creep.travelTo(tower);
+                    creep.travelTo(tower, { maxRooms: 1 });
                 }
             }
         }

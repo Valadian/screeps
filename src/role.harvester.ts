@@ -39,7 +39,7 @@ export function run(creep:Creep) {
             }) as StructureExtension | StructureSpawn | StructureTower;
             if(tower) {
                 if(creep.transfer(tower, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                    creep.travelTo(tower);//, {visualizePathStyle: {stroke: '#ffffff'}});
+                    creep.travelTo(tower,{maxRooms:1});//, {visualizePathStyle: {stroke: '#ffffff'}});
                 }
             }
         }

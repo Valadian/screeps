@@ -26,7 +26,7 @@ export function run(creep: Creep) {
         var source = Game.getObjectById(creep.memory.source) as Source;
         //var sources = creep.room.find(FIND_SOURCES) as Source[];
         if(creep.harvest(source) == ERR_NOT_IN_RANGE) {
-            creep.travelTo(source);//, {visualizePathStyle: {stroke: '#ffaa00'}});
+            creep.travelTo(source,{maxRooms:1});//, {visualizePathStyle: {stroke: '#ffaa00'}});
         }
     }
 }
