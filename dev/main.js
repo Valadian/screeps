@@ -116,9 +116,7 @@ function commandTowers() {
 }
 function loop() {
     runCreeps();
-    if ((Game.time & 3) == 0) {
-        commandTowers();
-    }
+    commandTowers();
     if ((Game.time & 7) == 0) {
     }
     if ((Game.time & 15) == 0) {

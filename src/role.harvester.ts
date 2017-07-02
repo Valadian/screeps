@@ -46,8 +46,12 @@ export function run(creep:Creep) {
             }
         }
         else if(spawn_or_extension) {
-            if(creep.transfer(spawn_or_extension, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                creep.travelTo(spawn_or_extension);//, {visualizePathStyle: {stroke: '#ffffff'}});
+            if(creep.transfer(tower, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                creep.travelTo(tower,{maxRooms:1});//, {visualizePathStyle: {stroke: '#ffffff'}});
+            }
+        } else {//fill tower
+            if(creep.transfer(tower, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                creep.travelTo(tower,{maxRooms:1});//, {visualizePathStyle: {stroke: '#ffffff'}});
             }
         }
     }
