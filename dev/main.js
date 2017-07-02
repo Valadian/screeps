@@ -58,8 +58,8 @@ function spawnNewCreeps(spawnName) {
     if (Game.spawns[spawnName].room.energyCapacityAvailable >= 1300) {
         if (checkThenSpawn(spawnName, 'harvester', 3, L3_800_claim, energy)) { }
         else if (checkThenSpawn(spawnName, 'upgrader', 1, L4_1300_Worker, energy)) { }
-        else if (checkThenSpawn(spawnName, 'harvester', 3, L4_1300_Worker, energy)) { }
-        else if (checkThenSpawn(spawnName, 'harvester', 3, L4_1300_Worker, energy)) { }
+        else if (checkThenSpawn(spawnName, 'harvester', 6, L4_1300_Worker, energy)) { }
+        else if (checkThenSpawn(spawnName, 'harvester', 9, L4_1300_Worker, energy)) { }
         else if (checkThenSpawn(spawnName, 'upgrader', 6, L4_1300_Worker, energy)) { }
     }
     else if (Game.spawns[spawnName].room.energyCapacityAvailable >= 1250) {
@@ -68,25 +68,25 @@ function spawnNewCreeps(spawnName) {
     else if (Game.spawns[spawnName].room.energyCapacityAvailable >= 800) {
         if (checkThenSpawn(spawnName, 'harvester', 3, L3_800_Worker, energy)) { }
         else if (checkThenSpawn(spawnName, 'upgrader', 1, L3_800_Worker, energy)) { }
-        else if (checkThenSpawn(spawnName, 'harvester', 3, L3_800_Worker, energy)) { }
+        else if (checkThenSpawn(spawnName, 'harvester', 6, L3_800_Worker, energy)) { }
         else if (checkThenSpawn(spawnName, 'paver', 4, L3_800_OFFROAD_Worker, energy)) { }
-        else if (checkThenSpawn(spawnName, 'harvester', 3, L3_800_Worker, energy)) { }
+        else if (checkThenSpawn(spawnName, 'harvester', 9, L3_800_Worker, energy)) { }
         else if (checkThenSpawn(spawnName, 'upgrader', 6, L3_800_Worker, energy)) { }
     }
     else if (Game.spawns[spawnName].room.energyCapacityAvailable >= 550) {
         if (checkThenSpawn(spawnName, 'harvester', 3, L2_550_Worker, energy)) { }
         else if (checkThenSpawn(spawnName, 'upgrader', 1, L2_550_Worker, energy)) { }
-        else if (checkThenSpawn(spawnName, 'harvester', 3, L2_550_Worker, energy)) { }
+        else if (checkThenSpawn(spawnName, 'harvester', 6, L2_550_Worker, energy)) { }
         else if (checkThenSpawn(spawnName, 'paver', 4, L2_550_OFFROAD_Worker, energy)) { }
-        else if (checkThenSpawn(spawnName, 'harvester', 3, L2_550_Worker, energy)) { }
+        else if (checkThenSpawn(spawnName, 'harvester', 9, L2_550_Worker, energy)) { }
         else if (checkThenSpawn(spawnName, 'upgrader', 6, L2_550_Worker, energy)) { }
     }
     else if (Game.spawns[spawnName].room.energyCapacityAvailable >= 300) {
         if (checkThenSpawn(spawnName, 'harvester', 3, L1_300_Worker, energy)) { }
         else if (checkThenSpawn(spawnName, 'upgrader', 1, L1_300_Worker, energy)) { }
-        else if (checkThenSpawn(spawnName, 'harvester', 3, L1_300_Worker, energy)) { }
+        else if (checkThenSpawn(spawnName, 'harvester', 6, L1_300_Worker, energy)) { }
         else if (checkThenSpawn(spawnName, 'paver', 2, L1_300_OFFROAD_Worker, energy)) { }
-        else if (checkThenSpawn(spawnName, 'harvester', 3, L1_300_Worker, energy)) { }
+        else if (checkThenSpawn(spawnName, 'harvester', 9, L1_300_Worker, energy)) { }
         else if (checkThenSpawn(spawnName, 'upgrader', 6, L1_300_Worker, energy)) { }
     }
 }
