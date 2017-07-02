@@ -142,7 +142,7 @@ COSTS[CARRY] = 50;
 COSTS[CLAIM] = 600;
 function checkThenSpawn(spawnName:string,role:string, limit:number, body:string[], energyAvailable:number){
     var cost:number = body.map((part) => COSTS[part]).reduce((sum, next) => sum + next);
-    if((Game.spawns[spawnName].memory.role_count[role]==undefined || Memory.role_count[role]<limit) && energyAvailable>=cost){
+    if((Game.spawns[spawnName].memory.role_count[role]==undefined || Game.spawns[spawnName].memory.role_count[role]<limit) && energyAvailable>=cost){
         Game.spawns[spawnName].createCreep(body,role + Game.time.toString(),{role:role});
         return true;
     }
