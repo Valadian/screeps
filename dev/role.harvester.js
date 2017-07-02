@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const sourceUtil = require("util.source");
 var HARVEST = "harvest";
 var DELIVER = "deliver";
+var DISABLE_ALMS = false;
 function run(creep) {
     if (creep.memory.mode == undefined || creep.carry.energy == 0) {
         creep.memory.mode = HARVEST;
@@ -28,7 +29,7 @@ function run(creep) {
                     structure.structureType == STRUCTURE_SPAWN) && structure.energy < structure.energyCapacity;
             }
         });
-        if (spawn_or_extension) {
+        if (spawn_or_extension && (!DISABLE_ALMS || creep.carry.energy != creep.carryCapacity)) {
             if (creep.transfer(spawn_or_extension, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                 creep.travelTo(spawn_or_extension);
             }

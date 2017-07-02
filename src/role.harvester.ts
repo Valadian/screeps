@@ -1,6 +1,7 @@
 import * as sourceUtil from "util.source" 
 var HARVEST = "harvest";
 var DELIVER = "deliver";
+var DISABLE_ALMS = false;
 export function run(creep:Creep) {
     if (creep.memory.mode == undefined || creep.carry.energy==0){
         creep.memory.mode = HARVEST;
@@ -27,7 +28,7 @@ export function run(creep:Creep) {
             }
         }) as StructureExtension | StructureSpawn;
 
-        if(spawn_or_extension) { // DISABLE ALMS && creep.carry.energy!=creep.carryCapacity
+        if(spawn_or_extension && (!DISABLE_ALMS || creep.carry.energy!=creep.carryCapacity)) { // DISABLE ALMS && creep.carry.energy!=creep.carryCapacity
             if(creep.transfer(spawn_or_extension, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                 creep.travelTo(spawn_or_extension);//, {visualizePathStyle: {stroke: '#ffffff'}});
             }
