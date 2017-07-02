@@ -59,7 +59,6 @@ function spawnNewCreeps(spawnName) {
         if (checkThenSpawn(spawnName, 'harvester', 3, L3_800_claim, energy)) { }
         else if (checkThenSpawn(spawnName, 'upgrader', 1, L4_1300_Worker, energy)) { }
         else if (checkThenSpawn(spawnName, 'harvester', 3, L4_1300_Worker, energy)) { }
-        else if (checkThenSpawn(spawnName, 'paver', 6, L4_1300_OFFROAD_Worker, energy)) { }
         else if (checkThenSpawn(spawnName, 'harvester', 3, L4_1300_Worker, energy)) { }
         else if (checkThenSpawn(spawnName, 'upgrader', 6, L4_1300_Worker, energy)) { }
     }
