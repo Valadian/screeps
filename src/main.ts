@@ -62,10 +62,10 @@ function spawnNewCreeps(spawnName:string){
         //else 
         if(checkThenSpawn(spawnName,'harvester',3,L4_1300_Worker,energy)){}
         else if(checkThenSpawn(spawnName,'upgrader',1,L4_1300_Worker,energy)){}
-        else if(checkThenSpawn(spawnName,'harvester',6,L4_1300_Worker,energy)){}
+        // else if(checkThenSpawn(spawnName,'harvester',6,L4_1300_Worker,energy)){}
         else if(checkThenSpawn(spawnName,'paver',1,L4_1300_OFFROAD_Worker,energy)){}
-        else if(checkThenSpawn(spawnName,'harvester',9,L4_1300_Worker,energy)){}
-        else if(checkThenSpawn(spawnName,'upgrader',6,L4_1300_Worker,energy)){}
+        else if(checkThenSpawn(spawnName,'harvester',4,L4_1300_Worker,energy)){}
+        else if(checkThenSpawn(spawnName,'upgrader',4,L4_1300_Worker,energy)){}
     } else 
     if (Game.spawns[spawnName].room.energyCapacityAvailable>=1250){
         checkThenSpawn(spawnName,'harvester',6,[MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, WORK, WORK, WORK, WORK, WORK, CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY],energy)
