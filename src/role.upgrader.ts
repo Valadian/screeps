@@ -1,11 +1,11 @@
 export function run(creep: Creep) {
     if(creep.memory.upgrading && creep.carry.energy == 0) {
         creep.memory.upgrading = false;
-        creep.say('🔄 harvest');
+        creep.say('\uD83D\uDD04 harvest');//🔄
     }
     if(!creep.memory.upgrading && creep.carry.energy == creep.carryCapacity) {
         creep.memory.upgrading = true;
-        creep.say('⚡ upgrade');
+        creep.say('\u26A1 upgrade');//⚡
     }
 
     if(creep.memory.upgrading) {

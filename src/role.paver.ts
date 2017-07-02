@@ -3,11 +3,11 @@ export function run(creep:Creep) {
 
     if(creep.memory.building && creep.carry.energy == 0) {
         creep.memory.building = false;
-        creep.say('?? harvest');
+        creep.say('\uD83D\uDD04 harvest');//🔄
     }
     if(!creep.memory.building && creep.carry.energy == creep.carryCapacity) {
         creep.memory.building = true;
-        creep.say('?? build');
+        creep.say('\uD83D\uDEA7 build'); //🚧
     }
 
     if(creep.memory.building) {
