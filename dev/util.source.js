@@ -14,7 +14,7 @@ function findsourceid(creep) {
             Memory.source_harvest_slots[source.id] = 9 - terrain.length;
         }
         var results = creep.room.lookForAtArea(LOOK_CREEPS, source.pos.y - 2, source.pos.x - 2, source.pos.y + 2, source.pos.x + 2, true);
-        var num_harvesting = results.map((result) => result.creep).filter((creep) => creep.memory.mode == "HARVEST").length;
+        var num_harvesting = results.map((result) => result.creep).filter((creep) => creep.memory.mode == "harvest").length;
         source_ratios[source.id] = num_harvesting / Memory.source_harvest_slots[source.id];
     }
     var items = Object.keys(source_ratios).map(function (key) {
