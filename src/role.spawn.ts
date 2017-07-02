@@ -1,7 +1,7 @@
 export function run(creep:Creep) {
     if (!creep.room.controller.my){
-        if(creep.claimController(flag.room.controller) == ERR_NOT_IN_RANGE){
-            creep.travelTo(flag.room.controller)
+        if(creep.claimController(creep.room.controller) == ERR_NOT_IN_RANGE){
+            creep.travelTo(creep.room.controller)
         }
     } else {
         for(var name in Game.flags){

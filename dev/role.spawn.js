@@ -2,8 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 function run(creep) {
     if (!creep.room.controller.my) {
-        if (creep.claimController(flag.room.controller) == ERR_NOT_IN_RANGE) {
-            creep.travelTo(flag.room.controller);
+        if (creep.claimController(creep.room.controller) == ERR_NOT_IN_RANGE) {
+            creep.travelTo(creep.room.controller);
         }
     }
     else {
