@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const roleHarvester = require("role.harvester");
 const roleUpgrader = require("role.upgrader");
 const roleBuilder = require("role.builder");
 const rolePaver = require("role.paver");
@@ -31,6 +32,7 @@ function loop() {
         var creep = Game.creeps[name];
         if (creep.memory.role == 'harvester') {
             Memory.role_count['harvester'] = defaultValue(Memory.role_count['harvester'], 0) + 1;
+            roleHarvester.run(creep);
         }
         if (creep.memory.role == 'upgrader') {
             Memory.role_count['upgrader'] = defaultValue(Memory.role_count['upgrader'], 0) + 1;

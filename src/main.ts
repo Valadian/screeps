@@ -33,6 +33,7 @@ function loop() {
         var creep = Game.creeps[name];
         if(creep.memory.role == 'harvester') {
             Memory.role_count['harvester'] = defaultValue(Memory.role_count['harvester'],0)+1;
+            roleHarvester.run(creep);
         }
         if(creep.memory.role == 'upgrader') {
             Memory.role_count['upgrader'] = defaultValue(Memory.role_count['upgrader'],0)+1;
