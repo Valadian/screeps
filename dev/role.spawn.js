@@ -2,7 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 function run(creep) {
     if (creep.room.controller.my == undefined) {
-        if (creep.claimController(creep.room.controller) == ERR_NOT_IN_RANGE) {
+        var err = creep.claimController(creep.room.controller);
+        creep.say("" + err);
+        if (err == ERR_NOT_IN_RANGE) {
             creep.travelTo(creep.room.controller);
         }
     }

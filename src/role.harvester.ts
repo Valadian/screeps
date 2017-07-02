@@ -28,20 +28,18 @@ export function run(creep:Creep) {
             }
         }) as StructureExtension | StructureSpawn;
 
-        if(spawn_or_extension && (DISABLE_ALMS || creep.carry.energy!=creep.carryCapacity)) { // DISABLE ALMS && creep.carry.energy!=creep.carryCapacity
-            if(creep.transfer(spawn_or_extension, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                creep.travelTo(spawn_or_extension);//, {visualizePathStyle: {stroke: '#ffffff'}});
-            }
-        } else{
-            var tower = creep.pos.findClosestByRange(FIND_STRUCTURES, {
+        var tower = creep.pos.findClosestByRange<Tower>(FIND_STRUCTURES, {
                 filter: (structure:StructureExtension | StructureSpawn | StructureTower) => {
                     return (structure.structureType == STRUCTURE_TOWER) && structure.energy < structure.energyCapacity;
-                }
-            }) as StructureExtension | StructureSpawn | StructureTower;
-            if(tower) {
-                if(creep.transfer(tower, RESOURCE_ENERGY,creep.carryCapacity/3) == ERR_NOT_IN_RANGE) {
-                    creep.travelTo(tower,{maxRooms:1});//, {visualizePathStyle: {stroke: '#ffffff'}});
-                }
+                }});
+        if(!DISABLE_ALMS && tower.energyCapacity-tower.energy<creep.carryCapacity/3){
+            if(creep.transfer(tower, RESOURCE_ENERGY,creep.carryCapacity/3) == ERR_NOT_IN_RANGE) {
+                creep.travelTo(tower,{maxRooms:1});//, {visualizePathStyle: {stroke: '#ffffff'}});
+            }
+        }
+        else if(spawn_or_extension) {
+            if(creep.transfer(spawn_or_extension, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                creep.travelTo(spawn_or_extension);//, {visualizePathStyle: {stroke: '#ffffff'}});
             }
         }
     }
