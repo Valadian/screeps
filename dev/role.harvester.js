@@ -29,7 +29,7 @@ function run(creep) {
                     structure.structureType == STRUCTURE_SPAWN) && structure.energy < structure.energyCapacity;
             }
         });
-        if (spawn_or_extension && (!DISABLE_ALMS || creep.carry.energy != creep.carryCapacity)) {
+        if (spawn_or_extension && (DISABLE_ALMS || creep.carry.energy != creep.carryCapacity)) {
             if (creep.transfer(spawn_or_extension, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                 creep.travelTo(spawn_or_extension);
             }
@@ -41,7 +41,7 @@ function run(creep) {
                 }
             });
             if (tower) {
-                if (creep.transfer(tower, RESOURCE_ENERGY, 50) == ERR_NOT_IN_RANGE) {
+                if (creep.transfer(tower, RESOURCE_ENERGY, creep.carryCapacity / 3) == ERR_NOT_IN_RANGE) {
                     creep.travelTo(tower, { maxRooms: 1 });
                 }
             }
