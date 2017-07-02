@@ -11,6 +11,7 @@ function run(creep) {
         }
     }
     else {
+        creep.memory.deliver = true;
         var spawn_or_extension = creep.pos.findClosestByRange(FIND_STRUCTURES, {
             filter: (structure) => {
                 return (structure.structureType == STRUCTURE_EXTENSION ||

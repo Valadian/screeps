@@ -9,7 +9,7 @@ export function run(creep:Creep) {
         }
     }
     else {
-        
+        creep.memory.deliver = true;
         var spawn_or_extension = creep.pos.findClosestByRange(FIND_STRUCTURES, {
             filter: (structure:StructureExtension | StructureSpawn | StructureTower) => {
                 return (structure.structureType == STRUCTURE_EXTENSION ||
