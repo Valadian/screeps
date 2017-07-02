@@ -116,8 +116,12 @@ function commandTowers() {
 }
 function loop() {
     runCreeps();
-    if ((Game.time & 15) == 0) {
+    if ((Game.time & 3) == 0) {
         commandTowers();
+    }
+    if ((Game.time & 7) == 0) {
+    }
+    if ((Game.time & 15) == 0) {
         for (var name of Object.keys(Game.spawns)) {
             spawnNewCreeps(name);
         }
