@@ -47,6 +47,8 @@ function loop() {
             rolePaver.run(creep);
         }
     }
+    var L4_1300_Worker = [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, WORK, WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY];
+    var L4_1300_OFFROAD_Worker = [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY];
     var L3_800_Worker = [MOVE, MOVE, MOVE, MOVE, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY];
     var L3_800_OFFROAD_Worker = [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY];
     var L2_550_Worker = [MOVE, MOVE, MOVE, WORK, WORK, CARRY, CARRY, CARRY, CARRY];
@@ -54,10 +56,18 @@ function loop() {
     var L1_300_Worker = [MOVE, MOVE, MOVE, MOVE, MOVE, WORK, WORK, CARRY, CARRY];
     var energy = Game.spawns["Home"].room.energyAvailable;
     var level = Game.spawns["Home"].room.controller.level;
-    if (level >= 3) {
+    if (Game.spawns["Home"].room.energyCapacityAvailable >= 1300) {
+        if (checkThenSpawn('harvester', 3, L4_1300_Worker, energy)) { }
+        else if (checkThenSpawn('upgrader', 1, L4_1300_Worker, energy)) { }
+        else if (checkThenSpawn('harvester', 3, L4_1300_Worker, energy)) { }
+        else if (checkThenSpawn('paver', 2, L4_1300_OFFROAD_Worker, energy)) { }
+        else if (checkThenSpawn('harvester', 3, L4_1300_Worker, energy)) { }
+        else if (checkThenSpawn('upgrader', 10, L4_1300_Worker, energy)) { }
+    }
+    else if (Game.spawns["Home"].room.energyCapacityAvailable >= 800) {
         if (checkThenSpawn('harvester', 3, L3_800_Worker, energy)) { }
         else if (checkThenSpawn('upgrader', 1, L3_800_Worker, energy)) { }
-        else if (checkThenSpawn('harvester', 5, L3_800_Worker, energy)) { }
+        else if (checkThenSpawn('harvester', 3, L3_800_Worker, energy)) { }
         else if (checkThenSpawn('paver', 2, L3_800_OFFROAD_Worker, energy)) { }
         else if (checkThenSpawn('harvester', 3, L3_800_Worker, energy)) { }
         else if (checkThenSpawn('upgrader', 10, L3_800_Worker, energy)) { }
