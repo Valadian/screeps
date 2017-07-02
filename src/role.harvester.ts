@@ -6,16 +6,27 @@ export function run(creep:Creep) {
         }
     }
     else {
-        var target = creep.pos.findClosestByRange(FIND_STRUCTURES, {
+        
+        var spawn_or_extension = creep.pos.findClosestByRange(FIND_STRUCTURES, {
             filter: (structure:StructureExtension | StructureSpawn | StructureTower) => {
                 return (structure.structureType == STRUCTURE_EXTENSION ||
-                    structure.structureType == STRUCTURE_SPAWN ||
-                    structure.structureType == STRUCTURE_TOWER) && structure.energy < structure.energyCapacity;
+                    structure.structureType == STRUCTURE_SPAWN) && structure.energy < structure.energyCapacity;
+            }
+        }) as StructureExtension | StructureSpawn;
+
+        if(spawn_or_extension) {
+            if(creep.transfer(spawn_or_extension, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                creep.travelTo(spawn_or_extension);//, {visualizePathStyle: {stroke: '#ffffff'}});
+            }
+        }
+        var tower = creep.pos.findClosestByRange(FIND_STRUCTURES, {
+            filter: (structure:StructureExtension | StructureSpawn | StructureTower) => {
+                return (structure.structureType == STRUCTURE_TOWER) && structure.energy < structure.energyCapacity;
             }
         }) as StructureExtension | StructureSpawn | StructureTower;
-        if(target) {
-            if(creep.transfer(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                creep.travelTo(target);//, {visualizePathStyle: {stroke: '#ffffff'}});
+        if(tower) {
+            if(creep.transfer(tower, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                creep.travelTo(tower);//, {visualizePathStyle: {stroke: '#ffffff'}});
             }
         }
     }
