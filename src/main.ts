@@ -58,8 +58,9 @@ function spawnNewCreeps(spawnName:string){
     var energy = Game.spawns[spawnName].room.energyAvailable;
     var level = Game.spawns[spawnName].room.controller.level;
     if (Game.spawns[spawnName].room.energyCapacityAvailable>=1300){
-        if(checkThenSpawn(spawnName,'claim',1,L4_1300_claim,energy)){}
-        else if(checkThenSpawn(spawnName,'harvester',3,L4_1300_Worker,energy)){}
+        //if(checkThenSpawn(spawnName,'claim',1,L4_1300_claim,energy)){}
+        //else 
+        if(checkThenSpawn(spawnName,'harvester',3,L4_1300_Worker,energy)){}
         else if(checkThenSpawn(spawnName,'upgrader',1,L4_1300_Worker,energy)){}
         else if(checkThenSpawn(spawnName,'harvester',6,L4_1300_Worker,energy)){}
         else if(checkThenSpawn(spawnName,'paver',1,L4_1300_OFFROAD_Worker,energy)){}
