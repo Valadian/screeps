@@ -122,6 +122,7 @@ var COSTS: {[id:string]:number} = {};
 COSTS[MOVE] = 50;
 COSTS[WORK] = 100;
 COSTS[CARRY] = 50;
+COSTS[CLAIM] = 600;
 function checkThenSpawn(spawnName:string,role:string, limit:number, body:string[], energyAvailable:number){
     var cost:number = body.map((part) => COSTS[part]).reduce((sum, next) => sum + next);
     if((Game.spawns[spawnName].memory.role_count[role]==undefined || Memory.role_count[role]<limit) && energyAvailable>=cost){

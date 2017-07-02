@@ -21,14 +21,14 @@ export function run(creep:Creep) {
     else if (creep.memory.mode == DELIVER){
         delete creep.memory.source;
         var spawn_or_extension = creep.pos.findClosestByRange(FIND_STRUCTURES, {
-            filter: (structure:StructureExtension | StructureSpawn | StructureTower) => {
+            filter: (structure:StructureExtension | StructureSpawn) => {
                 return (structure.structureType == STRUCTURE_EXTENSION ||
                     structure.structureType == STRUCTURE_SPAWN) && structure.energy < structure.energyCapacity;
             }
         }) as StructureExtension | StructureSpawn;
 
-        if(spawn_or_extension) {
-            if(creep.transfer(spawn_or_extension, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+        if(spawn_or_extension && creep.carry.energy!=creep.carryCapacity) {
+            if(creep.transfer(spawn_or_extension, RESOURCE_ENERGY,50) == ERR_NOT_IN_RANGE) {
                 creep.travelTo(spawn_or_extension);//, {visualizePathStyle: {stroke: '#ffffff'}});
             }
         } else{
