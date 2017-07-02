@@ -7,14 +7,17 @@ import * as traveler from "Traveler";
 (Creep.prototype as any).travelTo = function(destination: {pos: RoomPosition}, options?: TravelToOptions) {
     return traveler.Traveler.travelTo(this, destination, options);
 };
-
+function defaultValue(myVar, defaultVal){
+    if(typeof myVar === "undefined") myVar = defaultVal;
+    return myVar;
+}
 function loop() {
     
     var tower = Game.getObjectById('59561fc2aee0ff6dbfec5cb9') as Tower;
     if(tower) {
          //structure.hits < structure.hitsMax/1000
         var closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
-            filter: (structure:Structure) => structure.hits<1500 && structure.hits < structure.hitsMax/2
+            filter: (structure:Structure) => structure.hits<50000 && structure.hits < structure.hitsMax*0.75
         }) as Structure;
         if(closestDamagedStructure) {
             tower.repair(closestDamagedStructure);
@@ -29,19 +32,18 @@ function loop() {
     for(var name in Game.creeps) {
         var creep = Game.creeps[name];
         if(creep.memory.role == 'harvester') {
-            Memory.role_count['harvester']+=1;
-            roleHarvester.run(creep);
+            Memory.role_count['harvester'] = defaultValue(Memory.role_count['harvester'],0)+1;
         }
         if(creep.memory.role == 'upgrader') {
-            Memory.role_count['upgrader']+=1;
+            Memory.role_count['upgrader'] = defaultValue(Memory.role_count['upgrader'],0)+1;
             roleUpgrader.run(creep);
         }
         if(creep.memory.role == 'builder') {
-            Memory.role_count['builder']+=1;
+            Memory.role_count['builder'] = defaultValue(Memory.role_count['builder'],0)+1;
             roleBuilder.run(creep);
         }
         if(creep.memory.role == 'paver') {
-            Memory.role_count['paver']+=1;
+            Memory.role_count['paver'] = defaultValue(Memory.role_count['paver'],0)+1;
             rolePaver.run(creep);
         }
     }
