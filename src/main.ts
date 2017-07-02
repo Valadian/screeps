@@ -16,35 +16,46 @@ function defaultValue(myVar, defaultVal){
 var L4_1300_Worker = [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, WORK, WORK, WORK, WORK, WORK, WORK,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY]
 var L4_1300_OFFROAD_Worker = [MOVE,MOVE, MOVE,MOVE, MOVE,MOVE, MOVE,MOVE, MOVE,MOVE, MOVE, WORK, WORK, WORK, WORK, CARRY,CARRY, CARRY,CARRY, CARRY,CARRY, CARRY]
 var L4_1300_claim = [CLAIM,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE];
+
 var L3_800_Worker = [MOVE, MOVE, MOVE, MOVE, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY];
 var L3_800_OFFROAD_Worker = [MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,WORK,WORK,WORK,CARRY,CARRY,CARRY,CARRY];
 var L3_800_claim = [CLAIM,MOVE,MOVE,MOVE,MOVE];
+
 var L2_550_Worker = [MOVE, MOVE, MOVE, WORK, WORK, CARRY,CARRY,CARRY, CARRY];
 var L2_550_OFFROAD_Worker = [MOVE,MOVE,MOVE,MOVE,MOVE,WORK,WORK,CARRY,CARRY];
+
 var L1_300_Worker = [MOVE,WORK,CARRY];
 var L1_300_OFFROAD_Worker = [MOVE,MOVE,MOVE,WORK,CARRY];
 
+var ROLE_HARVESTER = 'harvester';
+var ROLE_UPGRADER = 'upgrader';
+var ROLE_BUILDER = 'builder';
+var ROLE_PAVER = 'paver';
+var ROLE_CLAIM = 'claim';
+var CASTE_WORKER = 'worker';
+var CASTE_ROVER = 'rover';
+var CASTE_CLAIM = 'claim';
 function runCreeps(){
     for(var name in Game.creeps) {
         var creep = Game.creeps[name];
-        if(creep.memory.role == 'harvester') {
+        if(creep.memory.role == ROLE_HARVESTER) {
             roleHarvester.run(creep);
         }
-        if(creep.memory.role == 'upgrader') {
+        if(creep.memory.role == ROLE_UPGRADER) {
             roleUpgrader.run(creep);
         }
-        if(creep.memory.role == 'builder') {
+        if(creep.memory.role == ROLE_BUILDER) {
             roleBuilder.run(creep);
         }
-        if(creep.memory.role == 'paver') {
+        if(creep.memory.role == ROLE_PAVER) {
             rolePaver.run(creep);
         }
-        if(creep.memory.role == 'claim') {
+        if(creep.memory.role == ROLE_CLAIM) {
             roleClaim.run(creep);
         }
     }
 }
-var ROLES = ['harvester','upgrader','builder','paver','claim'];
+var ROLES = [ROLE_HARVESTER,ROLE_UPGRADER,ROLE_BUILDER,ROLE_PAVER,ROLE_CLAIM];
 function spawnNewCreeps(spawnName:string){
     Game.spawns[spawnName].memory.role_count = {}
     for(var creep of Game.spawns[spawnName].room.find(FIND_MY_CREEPS) as Creep[]) {
@@ -60,39 +71,39 @@ function spawnNewCreeps(spawnName:string){
     if (Game.spawns[spawnName].room.energyCapacityAvailable>=1300){
         //if(checkThenSpawn(spawnName,'claim',1,L4_1300_claim,energy)){}
         //else 
-        if(checkThenSpawn(spawnName,'harvester',3,L4_1300_Worker,energy)){}
-        else if(checkThenSpawn(spawnName,'upgrader',1,L4_1300_Worker,energy)){}
+        if(     checkThenSpawn(spawnName,ROLE_HARVESTER,CASTE_WORKER,3,L4_1300_Worker,energy)){}
+        else if(checkThenSpawn(spawnName,ROLE_UPGRADER,CASTE_WORKER,1,L4_1300_Worker,energy)){}
         // else if(checkThenSpawn(spawnName,'harvester',6,L4_1300_Worker,energy)){}
-        else if(checkThenSpawn(spawnName,'paver',1,L4_1300_OFFROAD_Worker,energy)){}
-        else if(checkThenSpawn(spawnName,'harvester',4,L4_1300_Worker,energy)){}
-        else if(checkThenSpawn(spawnName,'upgrader',4,L4_1300_Worker,energy)){}
+        else if(checkThenSpawn(spawnName,ROLE_PAVER,CASTE_ROVER,1,L4_1300_OFFROAD_Worker,energy)){}
+        else if(checkThenSpawn(spawnName,ROLE_HARVESTER,CASTE_WORKER,4,L4_1300_Worker,energy)){}
+        else if(checkThenSpawn(spawnName,ROLE_UPGRADER,CASTE_WORKER,4,L4_1300_Worker,energy)){}
     } else 
     if (Game.spawns[spawnName].room.energyCapacityAvailable>=1250){
-        checkThenSpawn(spawnName,'harvester',6,[MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, WORK, WORK, WORK, WORK, WORK, CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY],energy)
+        checkThenSpawn(spawnName,ROLE_HARVESTER,CASTE_WORKER,6,[MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, WORK, WORK, WORK, WORK, WORK, CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY],energy)
     }
     else if (Game.spawns[spawnName].room.energyCapacityAvailable>=800){
-        if(checkThenSpawn(spawnName,'harvester',3,L3_800_Worker,energy)){}
-        else if(checkThenSpawn(spawnName,'upgrader',1,L3_800_Worker,energy)){}
-        else if(checkThenSpawn(spawnName,'harvester',6,L3_800_Worker,energy)){}
-        else if(checkThenSpawn(spawnName,'paver',4,L3_800_OFFROAD_Worker,energy)){}
-        else if(checkThenSpawn(spawnName,'harvester',9,L3_800_Worker,energy)){}
-        else if(checkThenSpawn(spawnName,'upgrader',6,L3_800_Worker,energy)){}
+        if(     checkThenSpawn(spawnName,ROLE_HARVESTER,CASTE_WORKER,3,L3_800_Worker,energy)){}
+        else if(checkThenSpawn(spawnName,ROLE_UPGRADER,CASTE_WORKER,1,L3_800_Worker,energy)){}
+        else if(checkThenSpawn(spawnName,ROLE_HARVESTER,CASTE_WORKER,6,L3_800_Worker,energy)){}
+        else if(checkThenSpawn(spawnName,ROLE_PAVER,CASTE_ROVER,4,L3_800_OFFROAD_Worker,energy)){}
+        else if(checkThenSpawn(spawnName,ROLE_HARVESTER,CASTE_WORKER,9,L3_800_Worker,energy)){}
+        else if(checkThenSpawn(spawnName,ROLE_UPGRADER,CASTE_WORKER,6,L3_800_Worker,energy)){}
     } else 
     if (Game.spawns[spawnName].room.energyCapacityAvailable>=550){
-        if(checkThenSpawn(spawnName,'harvester',3,L2_550_Worker,energy)){}
-        else if(checkThenSpawn(spawnName,'upgrader',1,L2_550_Worker,energy)){}
-        else if(checkThenSpawn(spawnName,'harvester',6,L2_550_Worker,energy)){}
-        else if(checkThenSpawn(spawnName,'paver',4,L2_550_OFFROAD_Worker,energy)){}
-        else if(checkThenSpawn(spawnName,'harvester',9,L2_550_Worker,energy)){}
-        else if(checkThenSpawn(spawnName,'upgrader',6,L2_550_Worker,energy)){}
+        if(     checkThenSpawn(spawnName,ROLE_HARVESTER,CASTE_WORKER,3,L2_550_Worker,energy)){}
+        else if(checkThenSpawn(spawnName,ROLE_UPGRADER,CASTE_WORKER,1,L2_550_Worker,energy)){}
+        else if(checkThenSpawn(spawnName,ROLE_HARVESTER,CASTE_WORKER,6,L2_550_Worker,energy)){}
+        else if(checkThenSpawn(spawnName,ROLE_PAVER,CASTE_ROVER,4,L2_550_OFFROAD_Worker,energy)){}
+        else if(checkThenSpawn(spawnName,ROLE_HARVESTER,CASTE_WORKER,9,L2_550_Worker,energy)){}
+        else if(checkThenSpawn(spawnName,ROLE_UPGRADER,CASTE_WORKER,6,L2_550_Worker,energy)){}
     } else 
     if (Game.spawns[spawnName].room.energyCapacityAvailable>=300){
-        if(checkThenSpawn(spawnName,'harvester',3,L1_300_Worker,energy)){}
-        else if(checkThenSpawn(spawnName,'upgrader',1,L1_300_Worker,energy)){}
-        else if(checkThenSpawn(spawnName,'harvester',6,L1_300_Worker,energy)){}
-        else if(checkThenSpawn(spawnName,'paver',2,L1_300_OFFROAD_Worker,energy)){}
-        else if(checkThenSpawn(spawnName,'harvester',9,L1_300_Worker,energy)){}
-        else if(checkThenSpawn(spawnName,'upgrader',6,L1_300_Worker,energy)){}
+        if(     checkThenSpawn(spawnName,ROLE_HARVESTER,CASTE_WORKER,3,L1_300_Worker,energy)){}
+        else if(checkThenSpawn(spawnName,ROLE_UPGRADER,CASTE_WORKER,1,L1_300_Worker,energy)){}
+        else if(checkThenSpawn(spawnName,ROLE_HARVESTER,CASTE_WORKER,6,L1_300_Worker,energy)){}
+        else if(checkThenSpawn(spawnName,ROLE_PAVER,CASTE_ROVER,2,L1_300_OFFROAD_Worker,energy)){}
+        else if(checkThenSpawn(spawnName,ROLE_HARVESTER,CASTE_WORKER,9,L1_300_Worker,energy)){}
+        else if(checkThenSpawn(spawnName,ROLE_UPGRADER,CASTE_WORKER,6,L1_300_Worker,energy)){}
     }
 }
 function commandTowers(){
@@ -149,10 +160,10 @@ COSTS[MOVE] = 50;
 COSTS[WORK] = 100;
 COSTS[CARRY] = 50;
 COSTS[CLAIM] = 600;
-function checkThenSpawn(spawnName:string,role:string, limit:number, body:string[], energyAvailable:number){
+function checkThenSpawn(spawnName:string,role:string,caste:string, limit:number, body:string[], energyAvailable:number){
     var cost:number = body.map((part) => COSTS[part]).reduce((sum, next) => sum + next);
     if((Game.spawns[spawnName].memory.role_count[role]==undefined || Game.spawns[spawnName].memory.role_count[role]<limit) && energyAvailable>=cost){
-        Game.spawns[spawnName].createCreep(body,role + Game.time.toString(),{role:role});
+        Game.spawns[spawnName].createCreep(body,caste + Game.time.toString(),{role:role,caste:caste});
         return true;
     }
     return false;
