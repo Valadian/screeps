@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 function run(creep) {
-    if (!creep.room.controller.my) {
+    if (creep.room.controller.my == undefined) {
         if (creep.claimController(creep.room.controller) == ERR_NOT_IN_RANGE) {
             creep.travelTo(creep.room.controller);
         }
