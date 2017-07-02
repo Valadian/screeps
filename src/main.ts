@@ -2,6 +2,7 @@ import * as roleHarvester from "role.harvester";
 import * as roleUpgrader from "role.upgrader";
 import * as roleBuilder from "role.builder";
 import * as rolePaver from "role.paver";
+import * as roleClaim from "role.spawn";
 import * as traveler from "Traveler";
 
 (Creep.prototype as any).travelTo = function(destination: {pos: RoomPosition}, options?: TravelToOptions) {
@@ -37,6 +38,9 @@ function runCreeps(){
         if(creep.memory.role == 'paver') {
             rolePaver.run(creep);
         }
+        if(creep.memory.role == 'claim') {
+            roleClaim.run(creep);
+        }
     }
 }
 function spawnNewCreeps(spawnName:string){
@@ -55,6 +59,9 @@ function spawnNewCreeps(spawnName:string){
         if(creep.memory.role == 'paver') {
             Game.spawns[spawnName].memory.role_count['paver'] = defaultValue(Memory.role_count['paver'],0)+1;
         }
+        if(creep.memory.role == 'claim') {
+            Game.spawns[spawnName].memory.role_count['claim'] = defaultValue(Memory.role_count['claim'],0)+1;
+        }
     }
 
     var energy = Game.spawns[spawnName].room.energyAvailable;
@@ -72,7 +79,7 @@ function spawnNewCreeps(spawnName:string){
         else if(checkThenSpawn(spawnName,'harvester',3,L3_800_Worker,energy)){}
         else if(checkThenSpawn(spawnName,'upgrader',1,L3_800_Worker,energy)){}
         else if(checkThenSpawn(spawnName,'harvester',3,L3_800_Worker,energy)){}
-        else if(checkThenSpawn(spawnName,'paver',6,L3_800_OFFROAD_Worker,energy)){}
+        else if(checkThenSpawn(spawnName,'paver',4,L3_800_OFFROAD_Worker,energy)){}
         else if(checkThenSpawn(spawnName,'harvester',3,L3_800_Worker,energy)){}
         else if(checkThenSpawn(spawnName,'upgrader',6,L3_800_Worker,energy)){}
     } else 
