@@ -10,6 +10,7 @@ function checkEnergy(creep:Creep){
     }
 }
 export function run(creep:Creep) {
+    checkEnergy(creep);
     if (creep.memory.mode == undefined || creep.carry.energy==0){
         creep.memory.mode = HARVEST;
     } else if(creep.carry.energy == creep.carryCapacity){

@@ -12,6 +12,7 @@ function checkEnergy(creep) {
     }
 }
 function run(creep) {
+    checkEnergy(creep);
     if (creep.memory.mode == undefined || creep.carry.energy == 0) {
         creep.memory.mode = HARVEST;
     }
