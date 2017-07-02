@@ -50,12 +50,12 @@ function loop() {
     var energy = Game.spawns["Home"].room.energyAvailable;
     var level = Game.spawns["Home"].room.controller.level;
     if (level >= 3) {
-        if (!checkThenSpawn('harvester', 3, L3_800_Worker, energy)) { }
-        else if (!checkThenSpawn('upgrader', 1, L3_800_Worker, energy)) { }
-        else if (!checkThenSpawn('harvester', 5, L3_800_Worker, energy)) { }
-        else if (!checkThenSpawn('paver', 2, L3_800_OFFROAD_Worker, energy)) { }
-        else if (!checkThenSpawn('harvester', 3, L3_800_Worker, energy)) { }
-        else if (!checkThenSpawn('upgrader', 10, L3_800_Worker, energy)) { }
+        if (checkThenSpawn('harvester', 3, L3_800_Worker, energy)) { }
+        else if (checkThenSpawn('upgrader', 1, L3_800_Worker, energy)) { }
+        else if (checkThenSpawn('harvester', 5, L3_800_Worker, energy)) { }
+        else if (checkThenSpawn('paver', 2, L3_800_OFFROAD_Worker, energy)) { }
+        else if (checkThenSpawn('harvester', 3, L3_800_Worker, energy)) { }
+        else if (checkThenSpawn('upgrader', 10, L3_800_Worker, energy)) { }
     }
 }
 var COSTS = {};
