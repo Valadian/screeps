@@ -7,7 +7,7 @@
  * mod.thing == 'a thing'; // true
  */
 var DIRS = [{x:0,y:-1},{x:1,y:-1},{x:0,y:1},{x:1,y:1},{x:0,y:1},{x:-1,y:1},{x:-1,y:0},{x:-1,y:-1}]
-export function findsource(creep:Creep): Source{
+export function findsourceid(creep:Creep): string{
     var sources = creep.room.find(FIND_SOURCES) as Source[];
     var source_ratios = {}
     for(var source of sources){
@@ -28,5 +28,5 @@ export function findsource(creep:Creep): Source{
     items.sort(function(first, second) {
         return second[1] - first[1];
     });
-    return Game.getObjectById(items[0][0]) as Source;
+    return items[0][0];
 }

@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const sourceUtil = require("util.source");
 var HARVEST = "harvest";
 var DELIVER = "deliver";
 function run(creep) {
@@ -10,12 +11,17 @@ function run(creep) {
         creep.memory.mode = DELIVER;
     }
     if (creep.memory.mode == HARVEST) {
-        var sources = creep.room.find(FIND_SOURCES);
-        if (creep.harvest(sources[1]) == ERR_NOT_IN_RANGE) {
-            creep.travelTo(sources[1]);
+        if (creep.memory.source == undefined) {
+            creep.memory.source == sourceUtil.findsourceid(creep);
+            creep.say("Found new Source: " + creep.memory.source.substring(0, 4));
+        }
+        var source = Game.getObjectById(creep.memory.source);
+        if (creep.harvest(source) == ERR_NOT_IN_RANGE) {
+            creep.travelTo(source);
         }
     }
     else if (creep.memory.mode == DELIVER) {
+        delete creep.memory.source;
         var spawn_or_extension = creep.pos.findClosestByRange(FIND_STRUCTURES, {
             filter: (structure) => {
                 return (structure.structureType == STRUCTURE_EXTENSION ||

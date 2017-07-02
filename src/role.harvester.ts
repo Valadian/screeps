@@ -1,3 +1,4 @@
+import * as sourceUtil from "util.source" 
 var HARVEST = "harvest";
 var DELIVER = "deliver";
 export function run(creep:Creep) {
@@ -7,12 +8,18 @@ export function run(creep:Creep) {
         creep.memory.mode = DELIVER;
     }
     if(creep.memory.mode == HARVEST) {
-        var sources = creep.room.find(FIND_SOURCES) as Source[];
-        if(creep.harvest(sources[1]) == ERR_NOT_IN_RANGE) {
-            creep.travelTo(sources[1]);//, {visualizePathStyle: {stroke: '#ffaa00'}});
+        if(creep.memory.source==undefined){
+            creep.memory.source==sourceUtil.findsourceid(creep);
+            creep.say("Found new Source: "+creep.memory.source.substring(0,4));
+        }
+        //var sources = creep.room.find(FIND_SOURCES) as Source[];
+        var source = Game.getObjectById(creep.memory.source) as Source;
+        if(creep.harvest(source) == ERR_NOT_IN_RANGE) {
+            creep.travelTo(source);//, {visualizePathStyle: {stroke: '#ffaa00'}});
         }
     }
     else if (creep.memory.mode == DELIVER){
+        delete creep.memory.source;
         var spawn_or_extension = creep.pos.findClosestByRange(FIND_STRUCTURES, {
             filter: (structure:StructureExtension | StructureSpawn | StructureTower) => {
                 return (structure.structureType == STRUCTURE_EXTENSION ||

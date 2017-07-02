@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var DIRS = [{ x: 0, y: -1 }, { x: 1, y: -1 }, { x: 0, y: 1 }, { x: 1, y: 1 }, { x: 0, y: 1 }, { x: -1, y: 1 }, { x: -1, y: 0 }, { x: -1, y: -1 }];
-function findsource(creep) {
+function findsourceid(creep) {
     var sources = creep.room.find(FIND_SOURCES);
     var source_ratios = {};
     for (var source of sources) {
@@ -22,6 +22,6 @@ function findsource(creep) {
     items.sort(function (first, second) {
         return second[1] - first[1];
     });
-    return Game.getObjectById(items[0][0]);
+    return items[0][0];
 }
-exports.findsource = findsource;
+exports.findsourceid = findsourceid;
