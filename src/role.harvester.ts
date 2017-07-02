@@ -13,7 +13,7 @@ export function run(creep:Creep) {
     checkEnergy(creep);
     if (creep.memory.mode == undefined || creep.carry.energy==0){
         creep.memory.mode = HARVEST;
-    } else if(creep.carry.energy == creep.carryCapacity){
+    } else if(creep.carry.energy == creep.carryCapacity || (creep.carry.energy>0 && Game.getObjectById(creep.memory.source) as Source).energy==0){
         creep.memory.mode = DELIVER;
     }
     if(creep.memory.mode == HARVEST) {
