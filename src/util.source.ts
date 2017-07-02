@@ -21,7 +21,8 @@ export function findsourceid(creep:Creep): string{
             terrain = terrain.filter((t)=>t.terrain=="wall")
             Memory.source_harvest_slots[source.id]=9-terrain.length;
         }
-        var results = creep.room.lookForAtArea(LOOK_CREEPS,source.pos.y-1,source.pos.x-1,source.pos.y+1,source.pos.x+1,true) as LookAtResultWithPos[];
+        //look in 5x5 area for waiting creeps (can catch passerbys)
+        var results = creep.room.lookForAtArea(LOOK_CREEPS,source.pos.y-2,source.pos.x-2,source.pos.y+2,source.pos.x+2,true) as LookAtResultWithPos[];
         var num_harvesting = results.map((result) => result.creep).filter((creep:Creep) => creep.memory.mode=="HARVEST").length;
         source_ratios[source.id] = num_harvesting/Memory.source_harvest_slots[source.id];
     }

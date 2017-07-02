@@ -13,7 +13,7 @@ function findsourceid(creep) {
             terrain = terrain.filter((t) => t.terrain == "wall");
             Memory.source_harvest_slots[source.id] = 9 - terrain.length;
         }
-        var results = creep.room.lookForAtArea(LOOK_CREEPS, source.pos.y - 1, source.pos.x - 1, source.pos.y + 1, source.pos.x + 1, true);
+        var results = creep.room.lookForAtArea(LOOK_CREEPS, source.pos.y - 2, source.pos.x - 2, source.pos.y + 2, source.pos.x + 2, true);
         var num_harvesting = results.map((result) => result.creep).filter((creep) => creep.memory.mode == "HARVEST").length;
         source_ratios[source.id] = num_harvesting / Memory.source_harvest_slots[source.id];
     }
