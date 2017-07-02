@@ -41,14 +41,15 @@ export function run(creep:Creep) {
                 filter: (structure:StructureExtension | StructureSpawn | StructureTower) => {
                     return (structure.structureType == STRUCTURE_TOWER) && structure.energy < structure.energyCapacity;
                 }});
+        //Alms enabled, tower has room, and creep is maxed
         if(!DISABLE_ALMS && tower.energyCapacity-tower.energy>creep.carryCapacity/3 && creep.carryCapacity == creep.carry.energy){
             if(creep.transfer(tower, RESOURCE_ENERGY,creep.carryCapacity/3) == ERR_NOT_IN_RANGE) {
                 creep.travelTo(tower,{maxRooms:1});//, {visualizePathStyle: {stroke: '#ffffff'}});
             }
         }
         else if(spawn_or_extension) {
-            if(creep.transfer(tower, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                creep.travelTo(tower,{maxRooms:1});//, {visualizePathStyle: {stroke: '#ffffff'}});
+            if(creep.transfer(spawn_or_extension, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                creep.travelTo(spawn_or_extension,{maxRooms:1});//, {visualizePathStyle: {stroke: '#ffffff'}});
             }
         } else {//fill tower
             if(creep.transfer(tower, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {

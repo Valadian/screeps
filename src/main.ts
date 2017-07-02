@@ -121,8 +121,16 @@ function commandTowers(){
         }
     }
 }
+var MAX_CREEPS = 9;
+function calculateNeeds(){
+    for(var name of Object.keys(Game.spawns)){
+        var spawn = Game.spawns[name];
+        spawn.memory.needsHarvester = spawn.energy<spawn.energyCapacity;
+        spawn.memory.needsPavers = spawn.room.find<ConstructionSite>(FIND_CONSTRUCTION_SITES).length > 0;
+    }
+}
 function loop() {
-    
+    calculateNeeds();
     
     runCreeps();
     commandTowers();
