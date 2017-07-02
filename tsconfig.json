@@ -9,7 +9,7 @@
     // "strict": true,
     "noUnusedParameters": true,
     "noUnusedLocals": true,
-    "sourceMap": true,
+    //"sourceMap": true,
     "baseUrl": "./src/",
     "outDir": "./dev/",
     "allowJs": true

@@ -44,7 +44,10 @@ function loop() {
         }
     }
     var energy = Game.spawns["Home"].room.energyAvailable;
-    if (Memory.numupgrader < 1 && energy >= 800) {
+    if (Memory.numharvester < 3 && energy >= 800) {
+        Game.spawns["Home"].createCreep([MOVE, MOVE, MOVE, MOVE, WORK, WORK, WORK, WORK, WORK, CARRY, CARRY], 'harvester' + Game.time.toString(), { role: 'harvester' });
+    }
+    else if (Memory.numupgrader < 1 && energy >= 800) {
         Game.spawns["Home"].createCreep([MOVE, MOVE, MOVE, MOVE, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY], 'upgrader' + Game.time.toString(), { role: 'upgrader' });
     }
     else if (Memory.numharvester < 5 && energy >= 800) {
