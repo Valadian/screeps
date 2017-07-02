@@ -11,23 +11,16 @@ function defaultValue(myVar, defaultVal){
     if(typeof myVar === "undefined") myVar = defaultVal;
     return myVar;
 }
-function loop() {
-    
-    var tower = Game.getObjectById('59561fc2aee0ff6dbfec5cb9') as Tower;
-    if(tower) {
-         //structure.hits < structure.hitsMax/1000
-        var closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
-            filter: (structure:Structure) => structure.hits<50000 && structure.hits < structure.hitsMax*0.75
-        }) as Structure;
-        if(closestDamagedStructure) {
-            tower.repair(closestDamagedStructure);
-        }
 
-        var closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS) as Creep;
-        if(closestHostile) {
-            tower.attack(closestHostile);
-        }
-    }
+var L4_1300_Worker = [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, WORK, WORK, WORK, WORK, WORK, WORK,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY]
+var L4_1300_OFFROAD_Worker = [MOVE,MOVE, MOVE,MOVE, MOVE,MOVE, MOVE,MOVE, MOVE,MOVE, MOVE, WORK, WORK, WORK, WORK, CARRY,CARRY, CARRY,CARRY, CARRY,CARRY, CARRY]
+var L3_800_Worker = [MOVE, MOVE, MOVE, MOVE, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY];
+var L3_800_OFFROAD_Worker = [MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,WORK,WORK,WORK,CARRY,CARRY,CARRY,CARRY];
+var L2_550_Worker = [MOVE, MOVE, MOVE, WORK, WORK, CARRY,CARRY,CARRY, CARRY];
+var L2_550_OFFROAD_Work_Carry = [MOVE,MOVE,MOVE,MOVE,MOVE,WORK,WORK,CARRY,CARRY];
+var L1_300_Worker = [MOVE,MOVE,MOVE,MOVE,MOVE,WORK,WORK,CARRY,CARRY];
+
+function spawnNewCreeps(){
     Memory.role_count = {}
     for(var name in Game.creeps) {
         var creep = Game.creeps[name];
@@ -48,13 +41,6 @@ function loop() {
             rolePaver.run(creep);
         }
     }
-    var L4_1300_Worker = [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, WORK, WORK, WORK, WORK, WORK, WORK,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY]
-    var L4_1300_OFFROAD_Worker = [MOVE,MOVE, MOVE,MOVE, MOVE,MOVE, MOVE,MOVE, MOVE,MOVE, MOVE, WORK, WORK, WORK, WORK, CARRY,CARRY, CARRY,CARRY, CARRY,CARRY, CARRY]
-    var L3_800_Worker = [MOVE, MOVE, MOVE, MOVE, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY];
-    var L3_800_OFFROAD_Worker = [MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,WORK,WORK,WORK,CARRY,CARRY,CARRY,CARRY];
-    var L2_550_Worker = [MOVE, MOVE, MOVE, WORK, WORK, CARRY,CARRY,CARRY, CARRY];
-    var L2_550_OFFROAD_Work_Carry = [MOVE,MOVE,MOVE,MOVE,MOVE,WORK,WORK,CARRY,CARRY];
-    var L1_300_Worker = [MOVE,MOVE,MOVE,MOVE,MOVE,WORK,WORK,CARRY,CARRY];
 
     var energy = Game.spawns["Home"].room.energyAvailable;
     var level = Game.spawns["Home"].room.controller.level;
@@ -73,6 +59,27 @@ function loop() {
         else if(checkThenSpawn('paver',2,L3_800_OFFROAD_Worker,energy)){}
         else if(checkThenSpawn('harvester',3,L3_800_Worker,energy)){}
         else if(checkThenSpawn('upgrader',10,L3_800_Worker,energy)){}
+    }
+}
+function loop() {
+    
+    var tower = Game.getObjectById('59561fc2aee0ff6dbfec5cb9') as Tower;
+    if(tower) {
+         //structure.hits < structure.hitsMax/1000
+        var closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
+            filter: (structure:Structure) => structure.hits<50000 && structure.hits < structure.hitsMax*0.75
+        }) as Structure;
+        if(closestDamagedStructure) {
+            tower.repair(closestDamagedStructure);
+        }
+
+        var closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS) as Creep;
+        if(closestHostile) {
+            tower.attack(closestHostile);
+        }
+    }
+    if((Game.time & 15) == 0){ //every 16 ticks
+        spawnNewCreeps();
     }
 }
 

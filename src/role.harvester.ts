@@ -10,7 +10,7 @@ export function run(creep:Creep) {
     if(creep.memory.mode == HARVEST) {
         if(creep.memory.source==undefined){
             creep.memory.source=sourceUtil.findsourceid(creep);
-            creep.say("Source: "+creep.memory.source.substring(0,4));
+            creep.say("Source: "+creep.memory.source.substring(21,23));
         }
         //var sources = creep.room.find(FIND_SOURCES) as Source[];
         var source = Game.getObjectById(creep.memory.source) as Source;

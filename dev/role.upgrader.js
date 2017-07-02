@@ -20,7 +20,7 @@ function run(creep) {
     else {
         if (creep.memory.source == undefined) {
             creep.memory.source = sourceUtil.findsourceid(creep);
-            creep.say("Source: " + creep.memory.source.substring(0, 4));
+            creep.say("Source: " + creep.memory.source.substring(21, 23));
         }
         var source = Game.getObjectById(creep.memory.source);
         if (creep.harvest(source) == ERR_NOT_IN_RANGE) {
