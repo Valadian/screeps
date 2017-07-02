@@ -1,5 +1,8 @@
 export function run(creep:Creep) {
-    if(creep.carry.energy!=undefined && creep.carry.energy < creep.carryCapacity) {
+    if(creep.carry.energy==0){
+        creep.memory.deliver = false;
+    }
+    if(creep.carry.energy!=undefined && creep.carry.energy < creep.carryCapacity && creep.memory.deliver != true) {
         var sources = creep.room.find(FIND_SOURCES) as Source[];
         if(creep.harvest(sources[1]) == ERR_NOT_IN_RANGE) {
             creep.travelTo(sources[1]);//, {visualizePathStyle: {stroke: '#ffaa00'}});
