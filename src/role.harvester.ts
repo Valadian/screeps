@@ -2,6 +2,7 @@ import * as sourceUtil from "util.source"
 var HARVEST = "harvest";
 var DELIVER = "deliver";
 export function run(creep:Creep) {
+    creep.say("I am being run");
     if (creep.memory.mode == undefined || creep.carry.energy==0){
         creep.memory.mode = HARVEST;
     } else if(creep.carry.energy == creep.carryCapacity){

@@ -4,6 +4,7 @@ const sourceUtil = require("util.source");
 var HARVEST = "harvest";
 var DELIVER = "deliver";
 function run(creep) {
+    creep.say("I am being run");
     if (creep.memory.mode == undefined || creep.carry.energy == 0) {
         creep.memory.mode = HARVEST;
     }

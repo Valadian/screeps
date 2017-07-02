@@ -73,8 +73,7 @@ function spawnNewCreeps(spawnName) {
         else if (checkThenSpawn(spawnName, 'upgrader', 6, L4_1300_Worker, energy)) { }
     }
     else if (Game.spawns[spawnName].room.energyCapacityAvailable >= 800) {
-        if (checkThenSpawn(spawnName, 'claim', 1, L3_800_claim, energy)) { }
-        else if (checkThenSpawn(spawnName, 'harvester', 3, L3_800_Worker, energy)) { }
+        if (checkThenSpawn(spawnName, 'harvester', 3, L3_800_Worker, energy)) { }
         else if (checkThenSpawn(spawnName, 'upgrader', 1, L3_800_Worker, energy)) { }
         else if (checkThenSpawn(spawnName, 'harvester', 3, L3_800_Worker, energy)) { }
         else if (checkThenSpawn(spawnName, 'paver', 4, L3_800_OFFROAD_Worker, energy)) { }
