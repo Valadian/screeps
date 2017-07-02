@@ -38,9 +38,9 @@ function runCreeps(){
         if(creep.memory.role == 'paver') {
             rolePaver.run(creep);
         }
-        // if(creep.memory.role == 'claim') {
-        //     roleClaim.run(creep);
-        // }
+        if(creep.memory.role == 'claim') {
+            roleClaim.run(creep);
+        }
     }
 }
 function spawnNewCreeps(spawnName:string){

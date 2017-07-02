@@ -4,6 +4,7 @@ const roleHarvester = require("role.harvester");
 const roleUpgrader = require("role.upgrader");
 const roleBuilder = require("role.builder");
 const rolePaver = require("role.paver");
+const roleClaim = require("role.spawn");
 const traveler = require("Traveler");
 Creep.prototype.travelTo = function (destination, options) {
     return traveler.Traveler.travelTo(this, destination, options);
@@ -36,6 +37,9 @@ function runCreeps() {
         }
         if (creep.memory.role == 'paver') {
             rolePaver.run(creep);
+        }
+        if (creep.memory.role == 'claim') {
+            roleClaim.run(creep);
         }
     }
 }
