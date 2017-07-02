@@ -2,6 +2,13 @@ import * as sourceUtil from "util.source"
 var HARVEST = "harvest";
 var DELIVER = "deliver";
 var DISABLE_ALMS = false;
+function checkEnergy(creep:Creep){
+    if(creep.pos.lookFor(LOOK_ENERGY)){
+        if(creep.carryCapacity>creep.carry.energy){
+            creep.pickup(creep.pos.lookFor<Resource>(LOOK_ENERGY)[0])
+        }
+    }
+}
 export function run(creep:Creep) {
     if (creep.memory.mode == undefined || creep.carry.energy==0){
         creep.memory.mode = HARVEST;

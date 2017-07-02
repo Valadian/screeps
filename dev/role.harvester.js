@@ -4,6 +4,13 @@ const sourceUtil = require("util.source");
 var HARVEST = "harvest";
 var DELIVER = "deliver";
 var DISABLE_ALMS = false;
+function checkEnergy(creep) {
+    if (creep.pos.lookFor(LOOK_ENERGY)) {
+        if (creep.carryCapacity > creep.carry.energy) {
+            creep.pickup(creep.pos.lookFor(LOOK_ENERGY)[0]);
+        }
+    }
+}
 function run(creep) {
     if (creep.memory.mode == undefined || creep.carry.energy == 0) {
         creep.memory.mode = HARVEST;
