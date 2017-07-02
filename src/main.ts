@@ -115,9 +115,15 @@ function loop() {
     var tower = Game.getObjectById('59561fc2aee0ff6dbfec5cb9') as Tower;
     if(tower) {
          //structure.hits < structure.hitsMax/1000
-        var closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
-            filter: (structure:Structure) => structure.hits<50000 && structure.hits < structure.hitsMax*0.75
+         //repair critically damaged first!
+         var closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
+            filter: (structure:Structure) => structure.hits<1000
         }) as Structure;
+        if(!closestDamagedStructure){
+            closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
+                filter: (structure:Structure) => structure.hits<50000 && structure.hits < structure.hitsMax*0.75
+            }) as Structure;
+        }
         if(closestDamagedStructure) {
             tower.repair(closestDamagedStructure);
         }
