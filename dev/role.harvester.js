@@ -4,7 +4,6 @@ const sourceUtil = require("util.source");
 var HARVEST = "harvest";
 var DELIVER = "deliver";
 function run(creep) {
-    creep.say("I am being run");
     if (creep.memory.mode == undefined || creep.carry.energy == 0) {
         creep.memory.mode = HARVEST;
     }
@@ -29,7 +28,7 @@ function run(creep) {
                     structure.structureType == STRUCTURE_SPAWN) && structure.energy < structure.energyCapacity;
             }
         });
-        if (spawn_or_extension && creep.carry.energy != creep.carryCapacity) {
+        if (spawn_or_extension) {
             if (creep.transfer(spawn_or_extension, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                 creep.travelTo(spawn_or_extension);
             }
