@@ -12,6 +12,7 @@ export function run(creep: Creep) {
     }
 
     if(creep.memory.upgrading) {
+        delete creep.memory.source;
         if(creep.upgradeController(creep.room.controller as StructureController) == ERR_NOT_IN_RANGE) {
             creep.travelTo(creep.room.controller as StructureController);//, {visualizePathStyle: {stroke: '#ffffff'}});
         }

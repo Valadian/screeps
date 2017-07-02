@@ -1,16 +1,19 @@
-
+import * as sourceUtil from "util.source" 
 export function run(creep:Creep) {
 
     if(creep.memory.building && creep.carry.energy == 0) {
         creep.memory.building = false;
+        creep.memory.mode = "harvest"
         creep.say('\uD83D\uDD04 harvest');//🔄
     }
     if(!creep.memory.building && creep.carry.energy == creep.carryCapacity) {
         creep.memory.building = true;
+        creep.memory.mode = "building"
         creep.say('\uD83D\uDEA7 build'); //🚧
     }
 
     if(creep.memory.building) {
+        delete creep.memory.source;
         // var targets = creep.room.find(FIND_STRUCTURES);
         // if(targets.length){
         //     targets = targets.filter(function(target){
@@ -74,9 +77,15 @@ export function run(creep:Creep) {
         }
     }
     else {
-        var sources = creep.room.find(FIND_SOURCES) as Source[];
-        if(creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
-            creep.travelTo(sources[0]);//, {visualizePathStyle: {stroke: '#ffaa00'}});
+        if(creep.memory.source==undefined){
+            creep.memory.source=sourceUtil.findsourceid(creep);
+            creep.say("Source: "+creep.memory.source.substring(21,23));
+        }
+        //var sources = creep.room.find(FIND_SOURCES) as Source[];
+        var source = Game.getObjectById(creep.memory.source) as Source;
+        //var sources = creep.room.find(FIND_SOURCES) as Source[];
+        if(creep.harvest(source) == ERR_NOT_IN_RANGE) {
+            creep.travelTo(source);//, {visualizePathStyle: {stroke: '#ffaa00'}});
         }
     }
 }
