@@ -29,7 +29,7 @@ export function findsourceid(creep:Creep): string{
         return [key, source_ratios[key]];
     });
     items.sort(function(first, second) {
-        return second[1] - first[1];
+        return first[1] - second[1];
     });
     return items[0][0];
 }
