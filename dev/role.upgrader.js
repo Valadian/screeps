@@ -10,6 +10,7 @@ function run(creep) {
     if (!creep.memory.upgrading && creep.carry.energy == creep.carryCapacity) {
         creep.memory.upgrading = true;
         creep.say('\u26A1 upgrade');
+        debugger;
         creep.memory.mode = "upgrade";
     }
     if (creep.memory.upgrading) {
