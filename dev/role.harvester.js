@@ -1,17 +1,21 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+var HARVEST = "harvest";
+var DELIVER = "deliver";
 function run(creep) {
-    if (creep.carry.energy == 0) {
-        creep.memory.deliver = false;
+    if (creep.memory.mode == undefined || creep.carry.energy == 0) {
+        creep.memory.mode = HARVEST;
     }
-    if (creep.carry.energy != undefined && creep.carry.energy < creep.carryCapacity && creep.memory.deliver != true) {
+    else if (creep.carry.energy == creep.carryCapacity) {
+        creep.memory.mode = DELIVER;
+    }
+    if (creep.memory.mode == HARVEST) {
         var sources = creep.room.find(FIND_SOURCES);
         if (creep.harvest(sources[1]) == ERR_NOT_IN_RANGE) {
             creep.travelTo(sources[1]);
         }
     }
-    else {
-        creep.memory.deliver = true;
+    else if (creep.memory.mode == DELIVER) {
         var spawn_or_extension = creep.pos.findClosestByRange(FIND_STRUCTURES, {
             filter: (structure) => {
                 return (structure.structureType == STRUCTURE_EXTENSION ||
