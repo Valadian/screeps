@@ -9,7 +9,7 @@ export function run(creep:Creep) {
     }
     if(creep.memory.mode == HARVEST) {
         if(creep.memory.source==undefined){
-            creep.memory.source==sourceUtil.findsourceid(creep);
+            creep.memory.source=sourceUtil.findsourceid(creep);
             creep.say("Found new Source: "+creep.memory.source.substring(0,4));
         }
         //var sources = creep.room.find(FIND_SOURCES) as Source[];

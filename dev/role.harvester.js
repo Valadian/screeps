@@ -12,7 +12,7 @@ function run(creep) {
     }
     if (creep.memory.mode == HARVEST) {
         if (creep.memory.source == undefined) {
-            creep.memory.source == sourceUtil.findsourceid(creep);
+            creep.memory.source = sourceUtil.findsourceid(creep);
             creep.say("Found new Source: " + creep.memory.source.substring(0, 4));
         }
         var source = Game.getObjectById(creep.memory.source);
