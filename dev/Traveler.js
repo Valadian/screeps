@@ -1,6 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const _ = require("underscore");
+travelToimport * as;
+_;
+from;
+"underscore";
 class Traveler {
     static travelTo(creep, destination, options = {}) {
         if (!destination) {

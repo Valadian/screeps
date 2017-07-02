@@ -42,7 +42,7 @@ function run(creep) {
                 return (structure.structureType == STRUCTURE_TOWER) && structure.energy < structure.energyCapacity;
             }
         });
-        if (!DISABLE_ALMS && tower.energyCapacity - tower.energy > creep.carryCapacity / 3) {
+        if (!DISABLE_ALMS && tower.energyCapacity - tower.energy > creep.carryCapacity / 3 && creep.carryCapacity == creep.carry.energy) {
             if (creep.transfer(tower, RESOURCE_ENERGY, creep.carryCapacity / 3) == ERR_NOT_IN_RANGE) {
                 creep.travelTo(tower, { maxRooms: 1 });
             }
