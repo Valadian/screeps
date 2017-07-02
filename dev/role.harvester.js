@@ -34,4 +34,3 @@ function run(creep) {
     }
 }
 exports.run = run;
-//# sourceMappingURL=role.harvester.js.map

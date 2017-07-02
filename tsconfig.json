@@ -3,12 +3,12 @@
     "module": "commonjs",
     "target": "es6",
     "removeComments": true,
-    "noEmitOnError": true,
+    "noEmitOnError": false,
     "noResolve": false,
     "experimentalDecorators": true,
     // "strict": true,
-    "noUnusedParameters": true,
-    "noUnusedLocals": true,
+    "noUnusedParameters": false,
+    "noUnusedLocals": false,
     //"sourceMap": true,
     "baseUrl": "./src/",
     "outDir": "./dev/",
@@ -21,6 +21,8 @@
     "src/**/*.d.ts"
   ],
   "exclude": [
+    "src/Traveler.ts",
+    "src/underscore.js",
     "dev",
     "node_modules"
   ]

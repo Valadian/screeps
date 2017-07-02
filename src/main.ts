@@ -25,52 +25,55 @@ function loop() {
             tower.attack(closestHostile);
         }
     }
-    Memory.numpaver = 0;
-    Memory.numharvester = 0;
-    Memory.numupgrader = 0;
+    Memory.role_count = {}
     for(var name in Game.creeps) {
         var creep = Game.creeps[name];
         if(creep.memory.role == 'harvester') {
-            Memory.numharvester = Memory.numharvester + 1;
+            Memory.role_count['harvester']+=1;
             roleHarvester.run(creep);
         }
         if(creep.memory.role == 'upgrader') {
-            Memory.numupgrader = Memory.numupgrader + 1;
+            Memory.role_count['upgrader']+=1;
             roleUpgrader.run(creep);
         }
         if(creep.memory.role == 'builder') {
+            Memory.role_count['builder']+=1;
             roleBuilder.run(creep);
         }
         if(creep.memory.role == 'paver') {
-            Memory.numpaver = Memory.numpaver + 1;
+            Memory.role_count['paver']+=1;
             rolePaver.run(creep);
         }
     }
+    var L3_800_Worker = [MOVE, MOVE, MOVE, MOVE, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY];
+    var L3_800_OFFROAD_Worker = [MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,WORK,WORK,WORK,CARRY,CARRY,CARRY,CARRY];
+    var L2_550_Worker = [MOVE, MOVE, MOVE, WORK, WORK, CARRY,CARRY,CARRY, CARRY];
+    var L2_550_OFFROAD_Work_Carry = [MOVE,MOVE,MOVE,MOVE,MOVE,WORK,WORK,CARRY,CARRY];
+    var L1_300_Worker = [MOVE,MOVE,MOVE,MOVE,MOVE,WORK,WORK,CARRY,CARRY];
+
     var energy = Game.spawns["Home"].room.energyAvailable;
-    if(Memory.numharvester<3 && energy>=800){
-        Game.spawns["Home"].createCreep([MOVE,MOVE,MOVE,MOVE,WORK,WORK,WORK,WORK,WORK,CARRY,CARRY],'harvester' + Game.time.toString(),{role:'harvester'});
-        //Game.spawns["Home"].say('Spawn Harvester!');
+    var level = Game.spawns["Home"].room.controller.level;
+    if (level>=3){
+        if(!checkThenSpawn('harvester',3,L3_800_Worker,energy)){}
+        else if(!checkThenSpawn('upgrader',1,L3_800_Worker,energy)){}
+        else if(!checkThenSpawn('harvester',5,L3_800_Worker,energy)){}
+        else if(!checkThenSpawn('paver',2,L3_800_OFFROAD_Worker,energy)){}
+        else if(!checkThenSpawn('harvester',3,L3_800_Worker,energy)){}
+        else if(!checkThenSpawn('upgrader',10,L3_800_Worker,energy)){}
     }
-    else if(Memory.numupgrader<1 && energy>=800){
-        Game.spawns["Home"].createCreep([MOVE,MOVE,MOVE,MOVE,WORK,WORK,WORK,WORK,CARRY,CARRY,CARRY,CARRY],'upgrader' + Game.time.toString(),{role:'upgrader'});
-        //Game.spawns["Home"].say('Spawn Upgrader!');
+}
+
+var COSTS: {[id:string]:number} = {};
+COSTS[MOVE] = 50;
+COSTS[WORK] = 100;
+COSTS[CARRY] = 50;
+function checkThenSpawn(role:string, limit:number, body:string[], energyAvailable:number){
+    var cost:number = body.map((part) => COSTS[part]).reduce((sum, next) => sum + next);
+    if(Memory.role_count[role]<limit && energyAvailable>=cost){
+        Game.spawns["Home"].createCreep(body,role + Game.time.toString(),{role:role});
+        return true;
     }
-    else if(Memory.numharvester<5 && energy>=800){
-        Game.spawns["Home"].createCreep([MOVE,MOVE,MOVE,MOVE,WORK,WORK,WORK,WORK,WORK,CARRY,CARRY],'harvester' + Game.time.toString(),{role:'harvester'});
-        //Game.spawns["Home"].say('Spawn Harvester!');
-    }
-    else if(Memory.numpaver<5 && energy>=800){
-        Game.spawns["Home"].createCreep([MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,WORK,WORK,WORK,CARRY,CARRY,CARRY,CARRY],'paver' + Game.time.toString(),{role:'paver'});
-        //Game.spawns["Home"].say('Spawn Paver!');
-    }
-    else if(Memory.numharvester<3 && energy>=800){
-        Game.spawns["Home"].createCreep([MOVE,MOVE,MOVE,MOVE,WORK,WORK,WORK,WORK,WORK,CARRY,CARRY],'harvester' + Game.time.toString(),{role:'harvester'});
-        //Game.spawns["Home"].say('Spawn Harvester!');
-    }
-    else if(Memory.numupgrader<6 && energy>=800){
-        Game.spawns["Home"].createCreep([MOVE,MOVE,MOVE,MOVE,WORK,WORK,WORK,WORK,CARRY,CARRY,CARRY,CARRY],'upgrader' + Game.time.toString(),{role:'upgrader'});
-        //Game.spawns["Home"].say('Spawn Upgrader!');
-    }
+    return false;
 }
 var module:any;
 module.exports.loop = loop;

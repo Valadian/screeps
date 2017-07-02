@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var DIRS = [[0, -1], [1, -1], [0, 1], [1, 1], [0, 1], [-1, 1], [-1, 0], [-1, -1]];
+var DIRS = [{ x: 0, y: -1 }, { x: 1, y: -1 }, { x: 0, y: 1 }, { x: 1, y: 1 }, { x: 0, y: 1 }, { x: -1, y: 1 }, { x: -1, y: 0 }, { x: -1, y: -1 }];
 function findsource(creep) {
     var sources = creep.room.find(FIND_SOURCES);
     for (var i in sources) {
@@ -9,13 +9,9 @@ function findsource(creep) {
             Memory.source_harvest_slots = {};
         }
         if (!Memory.source_harvest_slots[source.id]) {
-            for (var i in DIRS) {
-            }
+            var terrain = creep.room.lookForAtArea('terrain', source.pos.y - 1, source.pos.x - 1, source.pos.y + 1, source.pos.x + 1, true);
+            Memory.source_harvest_slots[source.id] = 9 - terrain.length;
         }
-    }
-    if (!Memory.source_repo) {
-        Memory.source_repo = {};
     }
 }
 exports.findsource = findsource;
-//# sourceMappingURL=util.source.js.map

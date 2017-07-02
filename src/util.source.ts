@@ -6,7 +6,7 @@
  * var mod = require('util.source');
  * mod.thing == 'a thing'; // true
  */
-var DIRS = [[0,-1],[1,-1],[0,1],[1,1],[0,1],[-1,1],[-1,0],[-1,-1]]
+var DIRS = [{x:0,y:-1},{x:1,y:-1},{x:0,y:1},{x:1,y:1},{x:0,y:1},{x:-1,y:1},{x:-1,y:0},{x:-1,y:-1}]
 export function findsource(creep:Creep){
     var sources = creep.room.find(FIND_SOURCES) as Source[];
     for(var i in sources){
@@ -15,16 +15,8 @@ export function findsource(creep:Creep){
             Memory.source_harvest_slots = {}
         }
         if(!Memory.source_harvest_slots[source.id]){
-            for(var i in DIRS){
-                //var offset = DIRS[i];
-            }
+            var terrain = creep.room.lookForAtArea('terrain',source.pos.y-1,source.pos.x-1,source.pos.y+1,source.pos.x+1,true)
+            Memory.source_harvest_slots[source.id]=9-(terrain as LookAtResultWithPos[]).length;
         }
     }
-    if(!Memory.source_repo){
-        Memory.source_repo = {}
-    }
-    //if(!Memory.source_repo[creep.room]){
-        // Initialize source information
-    //    for()
-    //}
 }
