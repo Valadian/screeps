@@ -82,7 +82,7 @@ COSTS[WORK] = 100;
 COSTS[CARRY] = 50;
 function checkThenSpawn(role:string, limit:number, body:string[], energyAvailable:number){
     var cost:number = body.map((part) => COSTS[part]).reduce((sum, next) => sum + next);
-    if(Memory.role_count[role]<limit && energyAvailable>=cost){
+    if((Memory.role_count[role]==undefined || Memory.role_count[role]<limit) && energyAvailable>=cost){
         Game.spawns["Home"].createCreep(body,role + Game.time.toString(),{role:role});
         return true;
     }
