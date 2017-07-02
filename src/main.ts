@@ -77,7 +77,7 @@ function spawnNewCreeps(spawnName:string){
     if (Game.spawns[spawnName].room.energyCapacityAvailable>=1250){
         checkThenSpawn(spawnName,'harvester',6,[MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, WORK, WORK, WORK, WORK, WORK, CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY],energy)
     }
-    if (Game.spawns[spawnName].room.energyCapacityAvailable>=800){
+    else if (Game.spawns[spawnName].room.energyCapacityAvailable>=800){
         //if(checkThenSpawn(spawnName,'claim',1,L3_800_claim,energy)){}
         //else 
         if(checkThenSpawn(spawnName,'harvester',3,L3_800_Worker,energy)){}
