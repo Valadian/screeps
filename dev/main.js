@@ -47,19 +47,19 @@ function spawnNewCreeps(spawnName) {
     Game.spawns[spawnName].memory.role_count = {};
     for (var creep of Game.spawns[spawnName].room.find(FIND_MY_CREEPS)) {
         if (creep.memory.role == 'harvester') {
-            Game.spawns[spawnName].memory.role_count['harvester'] = defaultValue(Memory.role_count['harvester'], 0) + 1;
+            Game.spawns[spawnName].memory.role_count['harvester'] = defaultValue(Game.spawns[spawnName].memory.role_count['harvester'], 0) + 1;
         }
         if (creep.memory.role == 'upgrader') {
-            Game.spawns[spawnName].memory.role_count['upgrader'] = defaultValue(Memory.role_count['upgrader'], 0) + 1;
+            Game.spawns[spawnName].memory.role_count['upgrader'] = defaultValue(Game.spawns[spawnName].memory.role_count['upgrader'], 0) + 1;
         }
         if (creep.memory.role == 'builder') {
-            Game.spawns[spawnName].memory.role_count['builder'] = defaultValue(Memory.role_count['builder'], 0) + 1;
+            Game.spawns[spawnName].memory.role_count['builder'] = defaultValue(Game.spawns[spawnName].memory.role_count['builder'], 0) + 1;
         }
         if (creep.memory.role == 'paver') {
-            Game.spawns[spawnName].memory.role_count['paver'] = defaultValue(Memory.role_count['paver'], 0) + 1;
+            Game.spawns[spawnName].memory.role_count['paver'] = defaultValue(Game.spawns[spawnName].memory.role_count['paver'], 0) + 1;
         }
         if (creep.memory.role == 'claim') {
-            Game.spawns[spawnName].memory.role_count['claim'] = defaultValue(Memory.role_count['claim'], 0) + 1;
+            Game.spawns[spawnName].memory.role_count['claim'] = defaultValue(Game.spawns[spawnName].memory.role_count['claim'], 0) + 1;
         }
     }
     var energy = Game.spawns[spawnName].room.energyAvailable;
