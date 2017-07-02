@@ -41,8 +41,7 @@ function runCreeps() {
 }
 function spawnNewCreeps(spawnName) {
     Game.spawns[spawnName].memory.role_count = {};
-    for (var name in Game.spawns[spawnName].room.find(FIND_MY_CREEPS)) {
-        var creep = Game.creeps[name];
+    for (var creep of Game.spawns[spawnName].room.find(FIND_MY_CREEPS)) {
         if (creep.memory.role == 'harvester') {
             Game.spawns[spawnName].memory.role_count['harvester'] = defaultValue(Memory.role_count['harvester'], 0) + 1;
         }
