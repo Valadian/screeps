@@ -1,4 +1,4 @@
-travelToimport * as _ from "underscore"
+import * as _ from "underscore"
 /**
  * To start using Traveler, require it in main.js:
  * Example: var Traveler = require('Traveler.js');
