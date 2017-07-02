@@ -1,6 +1,12 @@
 export function run(creep:Creep) {
-    var flag = creep.pos.findClosestByPath(FIND_FLAGS) as Flag;
-    if(creep.claimController(flag.room.controller) == ERR_NOT_IN_RANGE){
-        creep.travelTo(flag.room.controller)
+    for(var name in Game.flags){
+        var flag = Game.flags[name];
+        if(!flag.room.controller.my){
+            if(creep.claimController(flag.room.controller) == ERR_NOT_IN_RANGE){
+                creep.travelTo(flag.room.controller)
+            }
+            break;
+        }
     }
+    //var flag = creep.pos.findClosestByPath(FIND_FLAGS) as Flag;
 }
