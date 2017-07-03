@@ -23,7 +23,7 @@ export function findsourceid(creep:Creep): string{
         }
         //look in 5x5 area for waiting creeps (can catch passerbys)
         var results = creep.room.lookForAtArea(LOOK_CREEPS,source.pos.y-2,source.pos.x-2,source.pos.y+2,source.pos.x+2,true) as LookAtResultWithPos[];
-        var num_harvesting = results.map((result) => result.creep).filter((creep:Creep) => creep.memory.mode=="harvest").length;
+        var num_harvesting = results.map((result) => result.creep).filter((creep:Creep) => creep.memory!=undefined && creep.memory.mode=="harvest").length;
         source_ratios[source.id] = num_harvesting/Memory.source_harvest_slots[source.id];
     }
     var items = Object.keys(source_ratios).map(function(key) {
