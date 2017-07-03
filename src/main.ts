@@ -112,6 +112,10 @@ function commandTowers(){
     for(var name of Object.keys(Game.spawns)){
         var towers = Game.spawns[name].room.find<Tower>(FIND_MY_STRUCTURES, {filter: {structureType: STRUCTURE_TOWER}});
         for(var tower of towers){
+            var closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS) as Creep;
+            if(closestHostile) {
+                tower.attack(closestHostile);
+            }
             //var tower = Game.getObjectById('59561fc2aee0ff6dbfec5cb9') as Tower;
             //structure.hits < structure.hitsMax/1000
             //repair critically damaged first!
@@ -127,10 +131,6 @@ function commandTowers(){
                 tower.repair(closestDamagedStructure);
             }
 
-            var closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS) as Creep;
-            if(closestHostile) {
-                tower.attack(closestHostile);
-            }
         }
     }
 }
