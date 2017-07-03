@@ -43,7 +43,7 @@ export function run(creep:Creep) {
                 }});
         var alm_amount = Math.min(creep.carry.energy,50);
         //Alms enabled, tower has room, and creep is maxed
-        if(!DISABLE_ALMS && tower.energyCapacity-tower.energy>alm_amount && creep.carryCapacity == creep.carry.energy){
+        if(!DISABLE_ALMS && tower.energyCapacity-tower.energy>alm_amount && creep.carryCapacity == creep.carry.energy && tower.energy/tower.energyCapacity<0.50){
             if(creep.transfer(tower, RESOURCE_ENERGY,alm_amount) == ERR_NOT_IN_RANGE) {
                 creep.travelTo(tower,{maxRooms:1});//, {visualizePathStyle: {stroke: '#ffffff'}});
             }
