@@ -38,20 +38,22 @@ var CASTE_CLAIM = 'claim';
 function runCreeps(){
     for(var name in Game.creeps) {
         var creep = Game.creeps[name];
-        if(creep.memory.role == ROLE_HARVESTER) {
-            roleHarvester.run(creep);
-        }
-        if(creep.memory.role == ROLE_UPGRADER) {
-            roleUpgrader.run(creep);
-        }
-        if(creep.memory.role == ROLE_BUILDER) {
-            roleBuilder.run(creep);
-        }
-        if(creep.memory.role == ROLE_PAVER) {
-            rolePaver.run(creep);
-        }
-        if(creep.memory.role == ROLE_CLAIM) {
-            roleClaim.run(creep);
+        if (creep.my){
+            if(creep.memory.role == ROLE_HARVESTER) {
+                roleHarvester.run(creep);
+            }
+            if(creep.memory.role == ROLE_UPGRADER) {
+                roleUpgrader.run(creep);
+            }
+            if(creep.memory.role == ROLE_BUILDER) {
+                roleBuilder.run(creep);
+            }
+            if(creep.memory.role == ROLE_PAVER) {
+                rolePaver.run(creep);
+            }
+            if(creep.memory.role == ROLE_CLAIM) {
+                roleClaim.run(creep);
+            }
         }
     }
 }
