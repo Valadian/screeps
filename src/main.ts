@@ -144,7 +144,6 @@ function loop() {
     calculateNeeds();
     
     runCreeps();
-    commandTowers();
     if((Game.time & 7) == 0){
 
     }
@@ -153,6 +152,7 @@ function loop() {
             spawnNewCreeps(name);
         }
     }
+    commandTowers();
 }
 
 var COSTS: {[id:string]:number} = {};
