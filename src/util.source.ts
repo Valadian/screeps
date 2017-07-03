@@ -30,6 +30,13 @@ export function findsourceid(creep:Creep): string{
         return [key, source_ratios[key]];
     });
     items.sort(function(first, second) {
+        var first_pos = Game.getObjectById(first[0]).pos;
+        var second_pos = Game.getObjectById(second[0]).pos
+        var first_dist = Math.sqrt(Math.pos(second_pos.x-creep.pos.x,2)+Math.pos(Math.pow(second_pos.y-creep.pos.y,2));
+        var second_dist = Math.sqrt(Math.pos(second_pos.x-creep.pos.x,2)+Math.pos(Math.pow(second_pos.y-creep.pos.y,2));
+        return first_dist - second_dist;
+    });
+    items.sort(function(first, second) {
         return first[1] - second[1];
     });
     return items[0][0];
