@@ -135,6 +135,19 @@ function calculateNeeds() {
         spawn.memory.needsPavers = spawn.room.find(FIND_CONSTRUCTION_SITES).length > 0;
     }
 }
+function handleRoomRecovery() {
+    for (var name of Object.keys(Game.spawns)) {
+        var spawn = Game.spawns[name];
+        if (spawn.room.energyAvailable > 200 && spawn.room.find(FIND_MY_CREEPS).length == 0 && spawn.room.find(FIND_HOSTILE_CREEPS).length == 0) {
+            var size = Math.floor(spawn.room.energyAvailable / 200);
+            var body = [];
+            for (var i = 0; i < size; i++) {
+                body.push([WORK, CARRY, MOVE]);
+            }
+            spawn.createCreep(body, "worker" + Game.time.toString(), { role: "harvester", caste: "worker" });
+        }
+    }
+}
 function loop() {
     calculateNeeds();
     runCreeps();
@@ -144,6 +157,9 @@ function loop() {
         for (var name of Object.keys(Game.spawns)) {
             spawnNewCreeps(name);
         }
+    }
+    if ((Game.time & 63) == 0) {
+        handleRoomRecovery();
     }
     commandTowers();
 }
