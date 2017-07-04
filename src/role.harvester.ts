@@ -52,7 +52,7 @@ export function run(creep:Creep) {
             if(creep.transfer(spawn_or_extension, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                 creep.travelTo(spawn_or_extension,{maxRooms:1});//, {visualizePathStyle: {stroke: '#ffffff'}});
             }
-        } else if(tower && tower.energyCapacity-tower.energy>0) {//fill tower
+        } else if(tower) {//fill tower
             if(creep.transfer(tower, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                 creep.travelTo(tower,{maxRooms:1});//, {visualizePathStyle: {stroke: '#ffffff'}});
             }
@@ -63,7 +63,7 @@ export function run(creep:Creep) {
                 }});
             if(storage){
                 if(creep.transfer(storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                    creep.travelTo(storage,{maxRooms:1});//, {visualizePathStyle: {stroke: '#ffffff'}});
+                    creep.travelTo(storage);//, {visualizePathStyle: {stroke: '#ffffff'}});
                 }
             }
         }
