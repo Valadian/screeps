@@ -13,6 +13,7 @@ export function commandTowers(){
                 var allCriticalRamparts = tower.room.find(FIND_MY_STRUCTURES, {
                     filter: (structure:Structure) => structure.structureType == STRUCTURE_RAMPART && structure.hits<4000
                 }) as Structure[];
+                console.log("Critical Ramparts count" +allCriticalRamparts.length);
                 allCriticalRamparts.sort((a:Structure,b:Structure) => a.hits - b.hits)
                 var closestDamagedStructure = null;
                 if(allCriticalRamparts){
@@ -23,11 +24,14 @@ export function commandTowers(){
                         filter: (structure:Structure) => structure.hits<4000
                     }) as Structure;
                 }
+                
+                console.log("Other structures <4000" +closestDamagedStructure);
                 if(!closestDamagedStructure){
                     closestDamagedStructure = tower.pos.findClosestByRange(FIND_MY_STRUCTURES, {
                         filter: (structure:Structure) => structure.hits<50000 && structure.hits < structure.hitsMax*0.75
                     }) as Structure;
                 }
+                console.log("Other structures <50000" +closestDamagedStructure);
                 if(closestDamagedStructure) {
                     var ret = tower.repair(closestDamagedStructure);
                     if(ret!=0){
