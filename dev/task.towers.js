@@ -20,13 +20,13 @@ function commandTowers() {
                     closestDamagedStructure = allCriticalRamparts[0];
                 }
                 if (!closestDamagedStructure) {
-                    closestDamagedStructure = tower.pos.findClosestByRange(FIND_MY_STRUCTURES, {
+                    closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
                         filter: (structure) => structure.hits < 4000 && structure.id != tower.id && structure.hits < structure.hitsMax
                     });
                 }
                 console.log("Other structures <4000" + closestDamagedStructure);
                 if (!closestDamagedStructure) {
-                    closestDamagedStructure = tower.pos.findClosestByRange(FIND_MY_STRUCTURES, {
+                    closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
                         filter: (structure) => structure.hits < 50000 && structure.hits < structure.hitsMax * 0.75 && structure.id != tower.id && structure.hits < structure.hitsMax
                     });
                 }
