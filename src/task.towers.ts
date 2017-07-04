@@ -21,14 +21,14 @@ export function commandTowers(){
                 }
                 if(!closestDamagedStructure){
                     closestDamagedStructure = tower.pos.findClosestByRange(FIND_MY_STRUCTURES, {
-                        filter: (structure:Structure) => structure.hits<4000
+                        filter: (structure:Structure) => structure.hits<4000 && structure.id != tower.id
                     }) as Structure;
                 }
                 
                 console.log("Other structures <4000" +closestDamagedStructure);
                 if(!closestDamagedStructure){
                     closestDamagedStructure = tower.pos.findClosestByRange(FIND_MY_STRUCTURES, {
-                        filter: (structure:Structure) => structure.hits<50000 && structure.hits < structure.hitsMax*0.75
+                        filter: (structure:Structure) => structure.hits<50000 && structure.hits < structure.hitsMax*0.75 && structure.id != tower.id
                     }) as Structure;
                 }
                 console.log("Other structures <50000" +closestDamagedStructure);

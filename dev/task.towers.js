@@ -21,13 +21,13 @@ function commandTowers() {
                 }
                 if (!closestDamagedStructure) {
                     closestDamagedStructure = tower.pos.findClosestByRange(FIND_MY_STRUCTURES, {
-                        filter: (structure) => structure.hits < 4000
+                        filter: (structure) => structure.hits < 4000 && structure.id != tower.id
                     });
                 }
                 console.log("Other structures <4000" + closestDamagedStructure);
                 if (!closestDamagedStructure) {
                     closestDamagedStructure = tower.pos.findClosestByRange(FIND_MY_STRUCTURES, {
-                        filter: (structure) => structure.hits < 50000 && structure.hits < structure.hitsMax * 0.75
+                        filter: (structure) => structure.hits < 50000 && structure.hits < structure.hitsMax * 0.75 && structure.id != tower.id
                     });
                 }
                 console.log("Other structures <50000" + closestDamagedStructure);
