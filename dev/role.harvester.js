@@ -60,14 +60,10 @@ function run(creep) {
             }
         }
         else {
-            var storage = creep.pos.findClosestByRange(FIND_STRUCTURES, {
-                filter: (structure) => {
-                    return (structure.structureType == STRUCTURE_STORAGE) && structure.energy < structure.energyCapacity;
-                }
-            });
-            if (storage) {
-                if (creep.transfer(storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                    creep.travelTo(storage);
+            if (creep.room.storage) {
+                creep.say("STORE!");
+                if (creep.transfer(creep.room.storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                    creep.travelTo(creep.room.storage);
                 }
             }
         }

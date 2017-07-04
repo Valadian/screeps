@@ -57,13 +57,14 @@ export function run(creep:Creep) {
                 creep.travelTo(tower,{maxRooms:1});//, {visualizePathStyle: {stroke: '#ffffff'}});
             }
         } else {
-            var storage = creep.pos.findClosestByRange<Storage>(FIND_STRUCTURES, {
-                filter: (structure:Storage) => {
-                    return (structure.structureType == STRUCTURE_STORAGE) && structure.energy < structure.energyCapacity;
-                }});
-            if(storage){
-                if(creep.transfer(storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                    creep.travelTo(storage);//, {visualizePathStyle: {stroke: '#ffffff'}});
+            // var storage = creep.pos.findClosestByRange<Storage>(FIND_STRUCTURES, {
+            //     filter: (structure:Storage) => {
+            //         return (structure.structureType == STRUCTURE_STORAGE) && structure.energy < structure.energyCapacity;
+            //     }});
+            if(creep.room.storage){
+                creep.say("STORE!");
+                if(creep.transfer(creep.room.storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                    creep.travelTo(creep.room.storage);//, {visualizePathStyle: {stroke: '#ffffff'}});
                 }
             }
         }
