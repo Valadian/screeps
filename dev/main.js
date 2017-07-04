@@ -35,20 +35,22 @@ var CASTE_CLAIM = 'claim';
 function runCreeps() {
     for (var name in Game.creeps) {
         var creep = Game.creeps[name];
-        if (creep.memory.role == ROLE_HARVESTER) {
-            roleHarvester.run(creep);
-        }
-        if (creep.memory.role == ROLE_UPGRADER) {
-            roleUpgrader.run(creep);
-        }
-        if (creep.memory.role == ROLE_BUILDER) {
-            roleBuilder.run(creep);
-        }
-        if (creep.memory.role == ROLE_PAVER) {
-            rolePaver.run(creep);
-        }
-        if (creep.memory.role == ROLE_CLAIM) {
-            roleClaim.run(creep);
+        if (creep.my) {
+            if (creep.memory.role == ROLE_HARVESTER) {
+                roleHarvester.run(creep);
+            }
+            if (creep.memory.role == ROLE_UPGRADER) {
+                roleUpgrader.run(creep);
+            }
+            if (creep.memory.role == ROLE_BUILDER) {
+                roleBuilder.run(creep);
+            }
+            if (creep.memory.role == ROLE_PAVER) {
+                rolePaver.run(creep);
+            }
+            if (creep.memory.role == ROLE_CLAIM) {
+                roleClaim.run(creep);
+            }
         }
     }
 }
@@ -103,6 +105,10 @@ function commandTowers() {
     for (var name of Object.keys(Game.spawns)) {
         var towers = Game.spawns[name].room.find(FIND_MY_STRUCTURES, { filter: { structureType: STRUCTURE_TOWER } });
         for (var tower of towers) {
+            var closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
+            if (closestHostile) {
+                tower.attack(closestHostile);
+            }
             var closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
                 filter: (structure) => structure.hits < 1000
             });
@@ -113,10 +119,6 @@ function commandTowers() {
             }
             if (closestDamagedStructure) {
                 tower.repair(closestDamagedStructure);
-            }
-            var closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
-            if (closestHostile) {
-                tower.attack(closestHostile);
             }
         }
     }
@@ -132,7 +134,6 @@ function calculateNeeds() {
 function loop() {
     calculateNeeds();
     runCreeps();
-    commandTowers();
     if ((Game.time & 7) == 0) {
     }
     if ((Game.time & 15) == 0) {
@@ -140,6 +141,7 @@ function loop() {
             spawnNewCreeps(name);
         }
     }
+    commandTowers();
 }
 var COSTS = {};
 COSTS[MOVE] = 50;

@@ -43,8 +43,9 @@ function run(creep) {
                 return (structure.structureType == STRUCTURE_TOWER) && structure.energy < structure.energyCapacity;
             }
         });
-        if (!DISABLE_ALMS && tower.energyCapacity - tower.energy > creep.carryCapacity / 3 && creep.carryCapacity == creep.carry.energy) {
-            if (creep.transfer(tower, RESOURCE_ENERGY, creep.carryCapacity / 3) == ERR_NOT_IN_RANGE) {
+        var alm_amount = Math.min(creep.carry.energy, 50);
+        if (tower && !DISABLE_ALMS && tower.energyCapacity - tower.energy > alm_amount && creep.carryCapacity == creep.carry.energy && tower.energy / tower.energyCapacity < 0.50) {
+            if (creep.transfer(tower, RESOURCE_ENERGY, alm_amount) == ERR_NOT_IN_RANGE) {
                 creep.travelTo(tower, { maxRooms: 1 });
             }
         }
@@ -53,9 +54,21 @@ function run(creep) {
                 creep.travelTo(spawn_or_extension, { maxRooms: 1 });
             }
         }
-        else {
+        else if (tower) {
             if (creep.transfer(tower, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                 creep.travelTo(tower, { maxRooms: 1 });
+            }
+        }
+        else {
+            var storage = creep.pos.findClosestByRange(FIND_STRUCTURES, {
+                filter: (structure) => {
+                    return (structure.structureType == STRUCTURE_STORAGE) && structure.energy < structure.energyCapacity;
+                }
+            });
+            if (storage) {
+                if (creep.transfer(storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                    creep.travelTo(storage, { maxRooms: 1 });
+                }
             }
         }
     }
