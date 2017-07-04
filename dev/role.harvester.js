@@ -61,7 +61,6 @@ function run(creep) {
         }
         else {
             if (creep.room.storage) {
-                creep.say("STORE!");
                 if (creep.transfer(creep.room.storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                     creep.travelTo(creep.room.storage);
                 }
