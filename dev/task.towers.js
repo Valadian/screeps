@@ -18,7 +18,7 @@ function commandTowers() {
                     closestDamagedStructure = allCriticalRamparts[0];
                 }
                 if (!closestDamagedStructure) {
-                    var allStructures = tower.room.find(FIND_MY_STRUCTURES, {
+                    var allStructures = tower.room.find(FIND_STRUCTURES, {
                         filter: (structure) => structure.id != tower.id && structure.hits < structure.hitsMax
                     });
                     allStructures.sort((a, b) => a.hits - b.hits);

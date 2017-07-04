@@ -23,7 +23,7 @@ export function commandTowers(){
                     // closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
                     //     filter: (structure:Structure) => structure.hits<4000 && structure.id != tower.id && structure.hits<structure.hitsMax
                     // }) as Structure;
-                    var allStructures = tower.room.find(FIND_MY_STRUCTURES, {
+                    var allStructures = tower.room.find(FIND_STRUCTURES, {
                         filter: (structure:Structure) => structure.id != tower.id && structure.hits<structure.hitsMax
                     }) as Structure[];
                     allStructures.sort((a:Structure,b:Structure)=>a.hits-b.hits);
