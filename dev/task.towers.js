@@ -8,9 +8,14 @@ function commandTowers() {
             if (closestHostile) {
                 tower.attack(closestHostile);
             }
-            var closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
+            var allCriticalRamparts = tower.room.find(FIND_STRUCTURES, {
                 filter: (structure) => structure.structureType == STRUCTURE_RAMPART && structure.hits < 4000
             });
+            allCriticalRamparts.sort((a, b) => a.hits - b.hits);
+            var closestDamagedStructure = new Structure[0];
+            if (allCriticalRamparts) {
+                closestDamagedStructure = allCriticalRamparts[0];
+            }
             if (!closestDamagedStructure) {
                 closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
                     filter: (structure) => structure.hits < 4000

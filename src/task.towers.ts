@@ -9,9 +9,14 @@ export function commandTowers(){
             //var tower = Game.getObjectById('59561fc2aee0ff6dbfec5cb9') as Tower;
             //structure.hits < structure.hitsMax/1000
             //repair critically damaged first!
-            var closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
-                filter: (structure:StructureRampart) => structure.structureType == STRUCTURE_RAMPART && structure.hits<4000
-            }) as Structure;
+            var allCriticalRamparts = tower.room.find(FIND_STRUCTURES, {
+                filter: (structure:Structure) => structure.structureType == STRUCTURE_RAMPART && structure.hits<4000
+            }) as Structure[];
+            allCriticalRamparts.sort((a:Structure,b:Structure) => a.hits - b.hits)
+            var closestDamagedStructure = new Structure[0];
+            if(allCriticalRamparts){
+                closestDamagedStructure = allCriticalRamparts[0];
+            }
             if(!closestDamagedStructure){
                 closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
                     filter: (structure:Structure) => structure.hits<4000
