@@ -157,7 +157,9 @@ function handleRoomRecovery(){
             var body = [];
             console.log("Spawning "+size+" worker")
             for (var i = 0; i<size; i++){
-                body.push([WORK,CARRY,MOVE]);
+                body.push(WORK);
+                body.push(MOVE);
+                body.push(CARRY);
             }
             var workername = spawn.createCreep(body,"worker"+Game.time.toString(),{role:"harvester",caste:"worker"});
             console.log("Named: "+workername);
