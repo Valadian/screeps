@@ -12,7 +12,7 @@ function commandTowers() {
                 filter: (structure) => structure.structureType == STRUCTURE_RAMPART && structure.hits < 4000
             });
             allCriticalRamparts.sort((a, b) => a.hits - b.hits);
-            var closestDamagedStructure = new Structure[0];
+            var closestDamagedStructure = null;
             if (allCriticalRamparts) {
                 closestDamagedStructure = allCriticalRamparts[0];
             }
