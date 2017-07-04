@@ -6,6 +6,7 @@ export function commandTowers(){
             if(closestHostile) {
                 tower.attack(closestHostile);
             } else {
+                console.log(tower.id+" Looking for something to repair");
                 //var tower = Game.getObjectById('59561fc2aee0ff6dbfec5cb9') as Tower;
                 //structure.hits < structure.hitsMax/1000
                 //repair critically damaged first!

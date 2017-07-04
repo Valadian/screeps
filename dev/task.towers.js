@@ -9,6 +9,7 @@ function commandTowers() {
                 tower.attack(closestHostile);
             }
             else {
+                console.log(tower.id + " Looking for something to repair");
                 var allCriticalRamparts = tower.room.find(FIND_MY_STRUCTURES, {
                     filter: (structure) => structure.structureType == STRUCTURE_RAMPART && structure.hits < 4000
                 });
