@@ -54,7 +54,7 @@ function run(creep) {
                 creep.travelTo(spawn_or_extension, { maxRooms: 1 });
             }
         }
-        else if (tower) {
+        else if (tower && tower.energyCapacity - tower.energy > 0) {
             if (creep.transfer(tower, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                 creep.travelTo(tower, { maxRooms: 1 });
             }
