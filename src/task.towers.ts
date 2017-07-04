@@ -5,30 +5,34 @@ export function commandTowers(){
             var closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS) as Creep;
             if(closestHostile) {
                 tower.attack(closestHostile);
-            }
-            //var tower = Game.getObjectById('59561fc2aee0ff6dbfec5cb9') as Tower;
-            //structure.hits < structure.hitsMax/1000
-            //repair critically damaged first!
-            var allCriticalRamparts = tower.room.find(FIND_STRUCTURES, {
-                filter: (structure:Structure) => structure.structureType == STRUCTURE_RAMPART && structure.hits<4000
-            }) as Structure[];
-            allCriticalRamparts.sort((a:Structure,b:Structure) => a.hits - b.hits)
-            var closestDamagedStructure = null;
-            if(allCriticalRamparts){
-                closestDamagedStructure = allCriticalRamparts[0];
-            }
-            if(!closestDamagedStructure){
-                closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
-                    filter: (structure:Structure) => structure.hits<4000
-                }) as Structure;
-            }
-            if(!closestDamagedStructure){
-                closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
-                    filter: (structure:Structure) => structure.hits<50000 && structure.hits < structure.hitsMax*0.75
-                }) as Structure;
-            }
-            if(closestDamagedStructure) {
-                tower.repair(closestDamagedStructure);
+            } else {
+                //var tower = Game.getObjectById('59561fc2aee0ff6dbfec5cb9') as Tower;
+                //structure.hits < structure.hitsMax/1000
+                //repair critically damaged first!
+                var allCriticalRamparts = tower.room.find(FIND_MY_STRUCTURES, {
+                    filter: (structure:Structure) => structure.structureType == STRUCTURE_RAMPART && structure.hits<4000
+                }) as Structure[];
+                allCriticalRamparts.sort((a:Structure,b:Structure) => a.hits - b.hits)
+                var closestDamagedStructure = null;
+                if(allCriticalRamparts){
+                    closestDamagedStructure = allCriticalRamparts[0];
+                }
+                if(!closestDamagedStructure){
+                    closestDamagedStructure = tower.pos.findClosestByRange(FIND_MY_STRUCTURES, {
+                        filter: (structure:Structure) => structure.hits<4000
+                    }) as Structure;
+                }
+                if(!closestDamagedStructure){
+                    closestDamagedStructure = tower.pos.findClosestByRange(FIND_MY_STRUCTURES, {
+                        filter: (structure:Structure) => structure.hits<50000 && structure.hits < structure.hitsMax*0.75
+                    }) as Structure;
+                }
+                if(closestDamagedStructure) {
+                    var ret = tower.repair(closestDamagedStructure);
+                    if(ret!=0){
+                        console.log("tower.repair ret = "+ret);
+                    }
+                }
             }
 
         }

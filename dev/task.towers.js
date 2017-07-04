@@ -8,26 +8,31 @@ function commandTowers() {
             if (closestHostile) {
                 tower.attack(closestHostile);
             }
-            var allCriticalRamparts = tower.room.find(FIND_STRUCTURES, {
-                filter: (structure) => structure.structureType == STRUCTURE_RAMPART && structure.hits < 4000
-            });
-            allCriticalRamparts.sort((a, b) => a.hits - b.hits);
-            var closestDamagedStructure = null;
-            if (allCriticalRamparts) {
-                closestDamagedStructure = allCriticalRamparts[0];
-            }
-            if (!closestDamagedStructure) {
-                closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
-                    filter: (structure) => structure.hits < 4000
+            else {
+                var allCriticalRamparts = tower.room.find(FIND_MY_STRUCTURES, {
+                    filter: (structure) => structure.structureType == STRUCTURE_RAMPART && structure.hits < 4000
                 });
-            }
-            if (!closestDamagedStructure) {
-                closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
-                    filter: (structure) => structure.hits < 50000 && structure.hits < structure.hitsMax * 0.75
-                });
-            }
-            if (closestDamagedStructure) {
-                tower.repair(closestDamagedStructure);
+                allCriticalRamparts.sort((a, b) => a.hits - b.hits);
+                var closestDamagedStructure = null;
+                if (allCriticalRamparts) {
+                    closestDamagedStructure = allCriticalRamparts[0];
+                }
+                if (!closestDamagedStructure) {
+                    closestDamagedStructure = tower.pos.findClosestByRange(FIND_MY_STRUCTURES, {
+                        filter: (structure) => structure.hits < 4000
+                    });
+                }
+                if (!closestDamagedStructure) {
+                    closestDamagedStructure = tower.pos.findClosestByRange(FIND_MY_STRUCTURES, {
+                        filter: (structure) => structure.hits < 50000 && structure.hits < structure.hitsMax * 0.75
+                    });
+                }
+                if (closestDamagedStructure) {
+                    var ret = tower.repair(closestDamagedStructure);
+                    if (ret != 0) {
+                        console.log("tower.repair ret = " + ret);
+                    }
+                }
             }
         }
     }
