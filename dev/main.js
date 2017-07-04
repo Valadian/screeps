@@ -139,17 +139,14 @@ function handleRoomRecovery() {
     for (var name of Object.keys(Game.spawns)) {
         var spawn = Game.spawns[name];
         if (spawn.room.energyAvailable > 200 && spawn.room.find(FIND_MY_CREEPS).length == 0 && spawn.room.find(FIND_HOSTILE_CREEPS).length == 0) {
-            console.log("Everyone is dead");
             var size = Math.floor(spawn.room.energyAvailable / 200);
             var body = [];
-            console.log("Spawning " + size + " worker");
             for (var i = 0; i < size; i++) {
                 body.push(WORK);
                 body.push(MOVE);
                 body.push(CARRY);
             }
             var workername = spawn.createCreep(body, "worker" + Game.time.toString(), { role: "harvester", caste: "worker" });
-            console.log("Named: " + workername);
         }
     }
 }
@@ -163,7 +160,9 @@ function loop() {
             spawnNewCreeps(name);
         }
     }
-    handleRoomRecovery();
+    if ((Game.time & 63) == 0) {
+        handleRoomRecovery();
+    }
     commandTowers();
 }
 var COSTS = {};
