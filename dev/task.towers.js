@@ -9,28 +9,28 @@ function commandTowers() {
                 tower.attack(closestHostile);
             }
             else {
-                console.log(tower.id + " Looking for something to repair");
                 var allCriticalRamparts = tower.room.find(FIND_MY_STRUCTURES, {
                     filter: (structure) => structure.structureType == STRUCTURE_RAMPART && structure.hits < 4000
                 });
-                console.log("Critical Ramparts count" + allCriticalRamparts.length);
                 allCriticalRamparts.sort((a, b) => a.hits - b.hits);
                 var closestDamagedStructure = null;
                 if (allCriticalRamparts) {
                     closestDamagedStructure = allCriticalRamparts[0];
                 }
                 if (!closestDamagedStructure) {
-                    closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
-                        filter: (structure) => structure.hits < 4000 && structure.id != tower.id && structure.hits < structure.hitsMax
+                    var allStructures = tower.room.find(FIND_MY_STRUCTURES, {
+                        filter: (structure) => structure.id != tower.id && structure.hits < structure.hitsMax
                     });
+                    allStructures.sort((a, b) => a.hits - b.hits);
+                    if (allStructures.length > 0) {
+                        closestDamagedStructure = allStructures[0];
+                    }
                 }
-                console.log("Other structures <4000" + closestDamagedStructure);
                 if (!closestDamagedStructure) {
                     closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
                         filter: (structure) => structure.hits < 50000 && structure.hits < structure.hitsMax * 0.75 && structure.id != tower.id && structure.hits < structure.hitsMax
                     });
                 }
-                console.log("Other structures <50000" + closestDamagedStructure);
                 if (closestDamagedStructure != undefined) {
                     var ret = tower.repair(closestDamagedStructure);
                     if (ret != 0) {
