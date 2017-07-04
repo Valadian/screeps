@@ -110,7 +110,7 @@ function commandTowers() {
                 tower.attack(closestHostile);
             }
             var closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
-                filter: (structure) => structure.hits < 1000
+                filter: (structure) => structure.hits < 4000
             });
             if (!closestDamagedStructure) {
                 closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {

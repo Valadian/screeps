@@ -120,7 +120,7 @@ function commandTowers(){
             //structure.hits < structure.hitsMax/1000
             //repair critically damaged first!
             var closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
-                filter: (structure:Structure) => structure.hits<1000
+                filter: (structure:Structure) => structure.hits<4000
             }) as Structure;
             if(!closestDamagedStructure){
                 closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
