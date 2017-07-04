@@ -32,7 +32,7 @@ export function commandTowers(){
                     }) as Structure;
                 }
                 console.log("Other structures <50000" +closestDamagedStructure);
-                if(closestDamagedStructure) {
+                if(closestDamagedStructure!=undefined) {
                     var ret = tower.repair(closestDamagedStructure);
                     if(ret!=0){
                         console.log("tower.repair ret = "+ret);
