@@ -60,8 +60,8 @@ function spawnNewCreepsForRoom(spawnName:string){
             // // else if(checkThenSpawn(spawnName,ROLE_HARVESTER,CASTE_WORKER,4,L4_1300_Worker,energy)){}
             // else if(checkThenSpawn(spawnName,ROLE_UPGRADER,CASTE_WORKER,3,L4_1300_Worker,energy)){}
             if(     checkThenSpawn(spawnName,ROLE_MINER,CASTE_WORKER,1,L4_1300_Miner,energy)){}
-            else if(checkThenSpawn(spawnName,ROLE_COURIER,CASTE_WORKER,2,L4_1300_Courier,energy)){}
-            else if(checkThenSpawn(spawnName,ROLE_PAVER,CASTE_WORKER,1,L4_1300_Worker,energy)){}
+            else if(checkThenSpawn(spawnName,ROLE_COURIER,CASTE_WORKER,1,L4_1300_Courier,energy)){}
+            else if(checkThenSpawn(spawnName,ROLE_PAVER,CASTE_WORKER,3,L4_1300_Worker,energy)){}
             else if(checkThenSpawn(spawnName,ROLE_MINER,CASTE_WORKER,2,L4_1300_Miner,energy)){}
         } else 
         if (Game.spawns[spawnName].room.energyCapacityAvailable>=1250){
@@ -69,8 +69,8 @@ function spawnNewCreepsForRoom(spawnName:string){
         }
         else if (Game.spawns[spawnName].room.energyCapacityAvailable>=800){
             if(     checkThenSpawn(spawnName,ROLE_MINER,CASTE_WORKER,1,L3_800_Miner,energy)){}
-            else if(checkThenSpawn(spawnName,ROLE_COURIER,CASTE_WORKER,2,L3_800_Courier,energy)){}
-            else if(checkThenSpawn(spawnName,ROLE_PAVER,CASTE_WORKER,1,L3_800_Worker,energy)){}
+            else if(checkThenSpawn(spawnName,ROLE_COURIER,CASTE_WORKER,1,L3_800_Courier,energy)){}
+            else if(checkThenSpawn(spawnName,ROLE_PAVER,CASTE_WORKER,3,L3_800_Worker,energy)){}
             else if(checkThenSpawn(spawnName,ROLE_MINER,CASTE_WORKER,2,L3_800_Miner,energy)){}
             // if(     checkThenSpawn(spawnName,ROLE_HARVESTER,CASTE_WORKER,3,L3_800_Worker,energy)){}
             // else if(checkThenSpawn(spawnName,ROLE_UPGRADER,CASTE_WORKER,1,L3_800_Worker,energy)){}

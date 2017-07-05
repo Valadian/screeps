@@ -47,16 +47,16 @@ function spawnNewCreepsForRoom(spawnName) {
     else {
         if (Game.spawns[spawnName].room.energyCapacityAvailable >= 1300) {
             if (checkThenSpawn(spawnName, exports.ROLE_MINER, exports.CASTE_WORKER, 1, L4_1300_Miner, energy)) { }
-            else if (checkThenSpawn(spawnName, exports.ROLE_COURIER, exports.CASTE_WORKER, 2, L4_1300_Courier, energy)) { }
-            else if (checkThenSpawn(spawnName, exports.ROLE_PAVER, exports.CASTE_WORKER, 1, L4_1300_Worker, energy)) { }
+            else if (checkThenSpawn(spawnName, exports.ROLE_COURIER, exports.CASTE_WORKER, 1, L4_1300_Courier, energy)) { }
+            else if (checkThenSpawn(spawnName, exports.ROLE_PAVER, exports.CASTE_WORKER, 3, L4_1300_Worker, energy)) { }
             else if (checkThenSpawn(spawnName, exports.ROLE_MINER, exports.CASTE_WORKER, 2, L4_1300_Miner, energy)) { }
         }
         else if (Game.spawns[spawnName].room.energyCapacityAvailable >= 1250) {
         }
         else if (Game.spawns[spawnName].room.energyCapacityAvailable >= 800) {
             if (checkThenSpawn(spawnName, exports.ROLE_MINER, exports.CASTE_WORKER, 1, L3_800_Miner, energy)) { }
-            else if (checkThenSpawn(spawnName, exports.ROLE_COURIER, exports.CASTE_WORKER, 2, L3_800_Courier, energy)) { }
-            else if (checkThenSpawn(spawnName, exports.ROLE_PAVER, exports.CASTE_WORKER, 1, L3_800_Worker, energy)) { }
+            else if (checkThenSpawn(spawnName, exports.ROLE_COURIER, exports.CASTE_WORKER, 1, L3_800_Courier, energy)) { }
+            else if (checkThenSpawn(spawnName, exports.ROLE_PAVER, exports.CASTE_WORKER, 3, L3_800_Worker, energy)) { }
             else if (checkThenSpawn(spawnName, exports.ROLE_MINER, exports.CASTE_WORKER, 2, L3_800_Miner, energy)) { }
         }
         else if (Game.spawns[spawnName].room.energyCapacityAvailable >= 550) {
