@@ -9,7 +9,7 @@ export function checkEnergy(creep:Creep){
         }
     }
 }
-export function deliverEnergyToTowerExtensionSpawnStorage(creep:Creep,alms=true){
+export function deliverEnergyToTowerExtensionSpawnStorage(creep:Creep,alms=true,deliver_towers=false){
     var spawn_or_extension = creep.pos.findClosestByRange(FIND_STRUCTURES, {
         filter: (structure:StructureExtension | StructureSpawn) => {
             return (structure.structureType == STRUCTURE_EXTENSION ||
@@ -23,7 +23,7 @@ export function deliverEnergyToTowerExtensionSpawnStorage(creep:Creep,alms=true)
             }});
     var alm_amount = Math.min(creep.carry.energy,50);
     //Alms enabled, tower has room, and creep is maxed
-    if(tower && alms && tower.energyCapacity-tower.energy>alm_amount && creep.carryCapacity == creep.carry.energy && tower.energy/tower.energyCapacity<0.50){
+    if(deliver_towers &&tower && alms && tower.energyCapacity-tower.energy>alm_amount && creep.carryCapacity == creep.carry.energy && tower.energy/tower.energyCapacity<0.50){
         if(creep.transfer(tower, RESOURCE_ENERGY,alm_amount) == ERR_NOT_IN_RANGE) {
             creep.travelTo(tower,{maxRooms:1});//, {visualizePathStyle: {stroke: '#ffffff'}});
         }
@@ -32,7 +32,7 @@ export function deliverEnergyToTowerExtensionSpawnStorage(creep:Creep,alms=true)
         if(creep.transfer(spawn_or_extension, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
             creep.travelTo(spawn_or_extension,{maxRooms:1});//, {visualizePathStyle: {stroke: '#ffffff'}});
         }
-    } else if(tower) {//fill tower
+    } else if(deliver_towers && tower) {//fill tower
         if(creep.transfer(tower, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
             creep.travelTo(tower,{maxRooms:1});//, {visualizePathStyle: {stroke: '#ffffff'}});
         }
