@@ -13,7 +13,7 @@ function run(creep) {
         worker.getFromStorage(creep);
     }
     else if (creep.memory.mode == worker.DELIVER) {
-        worker.deliverToStorage(creep);
+        worker.deliverEnergyToTowerExtensionSpawnStorage(creep);
     }
 }
 exports.run = run;

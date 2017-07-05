@@ -1,4 +1,5 @@
 import * as sourceUtil from "util.source" 
+import * as worker from "caste.worker" 
 export function run(creep:Creep) {
 
     if(creep.memory.building && creep.carry.energy == 0) {
@@ -77,15 +78,16 @@ export function run(creep:Creep) {
         }
     }
     else {
-        if(creep.memory.source==undefined){
-            creep.memory.source=sourceUtil.findsourceid(creep);
-            creep.say("Source: "+creep.memory.source.substring(21,24));
-        }
-        //var sources = creep.room.find(FIND_SOURCES) as Source[];
-        var source = Game.getObjectById(creep.memory.source) as Source;
-        //var sources = creep.room.find(FIND_SOURCES) as Source[];
-        if(creep.harvest(source) == ERR_NOT_IN_RANGE) {
-            creep.travelTo(source,{maxRooms:1});//, {visualizePathStyle: {stroke: '#ffaa00'}});
-        }
+        // if(creep.memory.source==undefined){
+        //     creep.memory.source=sourceUtil.findsourceid(creep);
+        //     creep.say("Source: "+creep.memory.source.substring(21,24));
+        // }
+        // //var sources = creep.room.find(FIND_SOURCES) as Source[];
+        // var source = Game.getObjectById(creep.memory.source) as Source;
+        // //var sources = creep.room.find(FIND_SOURCES) as Source[];
+        // if(creep.harvest(source) == ERR_NOT_IN_RANGE) {
+        //     creep.travelTo(source,{maxRooms:1});//, {visualizePathStyle: {stroke: '#ffaa00'}});
+        // }
+        worker.getFromStorage(creep)
     }
 }

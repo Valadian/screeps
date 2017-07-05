@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const sourceUtil = require("util.source");
+const worker = require("caste.worker");
 function run(creep) {
     if (creep.memory.building && creep.carry.energy == 0) {
         creep.memory.building = false;
@@ -46,14 +46,7 @@ function run(creep) {
         }
     }
     else {
-        if (creep.memory.source == undefined) {
-            creep.memory.source = sourceUtil.findsourceid(creep);
-            creep.say("Source: " + creep.memory.source.substring(21, 24));
-        }
-        var source = Game.getObjectById(creep.memory.source);
-        if (creep.harvest(source) == ERR_NOT_IN_RANGE) {
-            creep.travelTo(source, { maxRooms: 1 });
-        }
+        worker.getFromStorage(creep);
     }
 }
 exports.run = run;

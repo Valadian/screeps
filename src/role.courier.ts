@@ -11,6 +11,6 @@ export function run(creep:Creep) {
         worker.getFromStorage(creep)
     }
     else if (creep.memory.mode == worker.DELIVER){
-        worker.deliverToStorage(creep)
+        worker.deliverEnergyToTowerExtensionSpawnStorage(creep)
     }
 }
