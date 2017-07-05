@@ -63,6 +63,7 @@ function spawnNewCreepsForRoom(spawnName:string){
             else if(checkThenSpawn(spawnName,ROLE_COURIER,CASTE_WORKER,1,L4_1300_Courier,energy)){}
             else if(checkThenSpawn(spawnName,ROLE_PAVER,CASTE_WORKER,3,L4_1300_Worker,energy)){}
             else if(checkThenSpawn(spawnName,ROLE_MINER,CASTE_WORKER,2,L4_1300_Miner,energy)){}
+            else if(checkThenSpawn(spawnName,ROLE_COURIER,CASTE_WORKER,2,L4_1300_Courier,energy)){}
         } else 
         if (Game.spawns[spawnName].room.energyCapacityAvailable>=1250){
             //checkThenSpawn(spawnName,ROLE_HARVESTER,CASTE_WORKER,6,[MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, WORK, WORK, WORK, WORK, WORK, CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY],energy)
