@@ -1,4 +1,6 @@
 
+var L4_1300_Courier = [MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY]
+var L4_1300_Miner = [MOVE,MOVE,MOVE,MOVE,MOVE,MOVE, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY]
 var L4_1300_Worker = [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, WORK, WORK, WORK, WORK, WORK, WORK,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY]
 var L4_1300_OFFROAD_Worker = [MOVE,MOVE, MOVE,MOVE, MOVE,MOVE, MOVE,MOVE, MOVE,MOVE, MOVE, WORK, WORK, WORK, WORK, CARRY,CARRY, CARRY,CARRY, CARRY,CARRY, CARRY]
 var L4_1300_claim = [CLAIM,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE];
@@ -47,25 +49,28 @@ function spawnNewCreepsForRoom(spawnName:string){
         //Hostiles, don't spawn workers
     } else {
         if (Game.spawns[spawnName].room.energyCapacityAvailable>=1300){
-            //if(checkThenSpawn(spawnName,'claim',1,L4_1300_claim,energy)){}
-            //else 
-            if(     checkThenSpawn(spawnName,ROLE_HARVESTER,CASTE_WORKER,3,L4_1300_Worker,energy)){}
-            else if(checkThenSpawn(spawnName,ROLE_UPGRADER,CASTE_WORKER,1,L4_1300_Worker,energy)){}
-            // else if(checkThenSpawn(spawnName,'harvester',6,L4_1300_Worker,energy)){}
-            else if(checkThenSpawn(spawnName,ROLE_PAVER,CASTE_ROVER,1,L4_1300_OFFROAD_Worker,energy)){}
-            // else if(checkThenSpawn(spawnName,ROLE_HARVESTER,CASTE_WORKER,4,L4_1300_Worker,energy)){}
-            else if(checkThenSpawn(spawnName,ROLE_UPGRADER,CASTE_WORKER,3,L4_1300_Worker,energy)){}
+            // //if(checkThenSpawn(spawnName,'claim',1,L4_1300_claim,energy)){}
+            // //else 
+            // if(     checkThenSpawn(spawnName,ROLE_HARVESTER,CASTE_WORKER,3,L4_1300_Worker,energy)){}
+            // else if(checkThenSpawn(spawnName,ROLE_UPGRADER,CASTE_WORKER,1,L4_1300_Worker,energy)){}
+            // // else if(checkThenSpawn(spawnName,'harvester',6,L4_1300_Worker,energy)){}
+            // else if(checkThenSpawn(spawnName,ROLE_PAVER,CASTE_ROVER,1,L4_1300_OFFROAD_Worker,energy)){}
+            // // else if(checkThenSpawn(spawnName,ROLE_HARVESTER,CASTE_WORKER,4,L4_1300_Worker,energy)){}
+            // else if(checkThenSpawn(spawnName,ROLE_UPGRADER,CASTE_WORKER,3,L4_1300_Worker,energy)){}
+            if(     checkThenSpawn(spawnName,ROLE_MINER,CASTE_WORKER,1,L4_1300_Miner,energy)){}
+            else if(checkThenSpawn(spawnName,ROLE_COURIER,CASTE_WORKER,3,L4_1300_Courier,energy)){}
+            else if(checkThenSpawn(spawnName,ROLE_MINER,CASTE_WORKER,3,L4_1300_Miner,energy)){}
         } else 
         if (Game.spawns[spawnName].room.energyCapacityAvailable>=1250){
-            checkThenSpawn(spawnName,ROLE_HARVESTER,CASTE_WORKER,6,[MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, WORK, WORK, WORK, WORK, WORK, CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY],energy)
+            //checkThenSpawn(spawnName,ROLE_HARVESTER,CASTE_WORKER,6,[MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, WORK, WORK, WORK, WORK, WORK, CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY],energy)
         }
         else if (Game.spawns[spawnName].room.energyCapacityAvailable>=800){
-            if(     checkThenSpawn(spawnName,ROLE_HARVESTER,CASTE_WORKER,3,L3_800_Worker,energy)){}
-            else if(checkThenSpawn(spawnName,ROLE_UPGRADER,CASTE_WORKER,1,L3_800_Worker,energy)){}
-            else if(checkThenSpawn(spawnName,ROLE_HARVESTER,CASTE_WORKER,6,L3_800_Worker,energy)){}
-            else if(checkThenSpawn(spawnName,ROLE_PAVER,CASTE_ROVER,4,L3_800_OFFROAD_Worker,energy)){}
-            else if(checkThenSpawn(spawnName,ROLE_HARVESTER,CASTE_WORKER,9,L3_800_Worker,energy)){}
-            else if(checkThenSpawn(spawnName,ROLE_UPGRADER,CASTE_WORKER,6,L3_800_Worker,energy)){}
+            // if(     checkThenSpawn(spawnName,ROLE_HARVESTER,CASTE_WORKER,3,L3_800_Worker,energy)){}
+            // else if(checkThenSpawn(spawnName,ROLE_UPGRADER,CASTE_WORKER,1,L3_800_Worker,energy)){}
+            // else if(checkThenSpawn(spawnName,ROLE_HARVESTER,CASTE_WORKER,6,L3_800_Worker,energy)){}
+            // else if(checkThenSpawn(spawnName,ROLE_PAVER,CASTE_ROVER,4,L3_800_OFFROAD_Worker,energy)){}
+            // else if(checkThenSpawn(spawnName,ROLE_HARVESTER,CASTE_WORKER,9,L3_800_Worker,energy)){}
+            // else if(checkThenSpawn(spawnName,ROLE_UPGRADER,CASTE_WORKER,6,L3_800_Worker,energy)){}
         } else 
         if (Game.spawns[spawnName].room.energyCapacityAvailable>=550){
             if(     checkThenSpawn(spawnName,ROLE_HARVESTER,CASTE_WORKER,3,L2_550_Worker,energy)){}
