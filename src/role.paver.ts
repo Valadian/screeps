@@ -52,28 +52,9 @@ export function run(creep:Creep) {
                 creep.travelTo(targets[0]);//, {visualizePathStyle: {stroke: '#ffffff'}});
             }
         } else {
+            worker.deliverEnergyToTowerExtensionSpawnStorage(creep,true);
             if(creep.pos.look()[0].type!='structure'){ // TODO: Look at all things? Not only first 
                 creep.room.createConstructionSite(creep.pos.x, creep.pos.y, STRUCTURE_ROAD);
-            }
-            var path = creep.pos.findPathTo(creep.room.controller as StructureController); //Game.spawns["Home"].pos); //creep.room.controller
-            for(var i in path){
-                var target = path[i];
-                
-                var pos = creep.room.getPositionAt(target.x, target.y);
-                if(pos){
-                    var things = pos.look()
-                    var isroad = false;
-                    for(var i in things){
-                        var thing = things[i];
-                        if(thing.type=='structure'){
-                            isroad = true;
-                        }
-                    }
-                    if(!isroad){
-                        creep.room.createConstructionSite(target.x, target.y, STRUCTURE_ROAD);
-                        break;
-                    }
-                }
             }
         }
     }
@@ -89,5 +70,28 @@ export function run(creep:Creep) {
         //     creep.travelTo(source,{maxRooms:1});//, {visualizePathStyle: {stroke: '#ffaa00'}});
         // }
         worker.getFromStorage(creep)
+    }
+}
+//Need to refactor to auto find things to travel between
+function autoPaving(creep){
+    var path = creep.pos.findPathTo(creep.room.controller as StructureController); //Game.spawns["Home"].pos); //creep.room.controller
+    for(var i in path){
+        var target = path[i];
+        
+        var pos = creep.room.getPositionAt(target.x, target.y);
+        if(pos){
+            var things = pos.look()
+            var isroad = false;
+            for(var i in things){
+                var thing = things[i];
+                if(thing.type=='structure'){
+                    isroad = true;
+                }
+            }
+            if(!isroad){
+                creep.room.createConstructionSite(target.x, target.y, STRUCTURE_ROAD);
+                break;
+            }
+        }
     }
 }

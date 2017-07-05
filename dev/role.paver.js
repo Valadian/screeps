@@ -21,27 +21,9 @@ function run(creep) {
             }
         }
         else {
+            worker.deliverEnergyToTowerExtensionSpawnStorage(creep, true);
             if (creep.pos.look()[0].type != 'structure') {
                 creep.room.createConstructionSite(creep.pos.x, creep.pos.y, STRUCTURE_ROAD);
-            }
-            var path = creep.pos.findPathTo(creep.room.controller);
-            for (var i in path) {
-                var target = path[i];
-                var pos = creep.room.getPositionAt(target.x, target.y);
-                if (pos) {
-                    var things = pos.look();
-                    var isroad = false;
-                    for (var i in things) {
-                        var thing = things[i];
-                        if (thing.type == 'structure') {
-                            isroad = true;
-                        }
-                    }
-                    if (!isroad) {
-                        creep.room.createConstructionSite(target.x, target.y, STRUCTURE_ROAD);
-                        break;
-                    }
-                }
             }
         }
     }
@@ -50,3 +32,24 @@ function run(creep) {
     }
 }
 exports.run = run;
+function autoPaving(creep) {
+    var path = creep.pos.findPathTo(creep.room.controller);
+    for (var i in path) {
+        var target = path[i];
+        var pos = creep.room.getPositionAt(target.x, target.y);
+        if (pos) {
+            var things = pos.look();
+            var isroad = false;
+            for (var i in things) {
+                var thing = things[i];
+                if (thing.type == 'structure') {
+                    isroad = true;
+                }
+            }
+            if (!isroad) {
+                creep.room.createConstructionSite(target.x, target.y, STRUCTURE_ROAD);
+                break;
+            }
+        }
+    }
+}
