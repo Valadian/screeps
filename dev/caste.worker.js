@@ -40,11 +40,7 @@ function deliverEnergyToTowerExtensionSpawnStorage(creep, alms = true) {
         }
     }
     else {
-        if (creep.room.storage) {
-            if (creep.transfer(creep.room.storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                creep.travelTo(creep.room.storage);
-            }
-        }
+        return false;
     }
 }
 exports.deliverEnergyToTowerExtensionSpawnStorage = deliverEnergyToTowerExtensionSpawnStorage;

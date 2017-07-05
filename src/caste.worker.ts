@@ -37,15 +37,17 @@ export function deliverEnergyToTowerExtensionSpawnStorage(creep:Creep,alms=true)
             creep.travelTo(tower,{maxRooms:1});//, {visualizePathStyle: {stroke: '#ffffff'}});
         }
     } else {
-        // var storage = creep.pos.findClosestByRange<Storage>(FIND_STRUCTURES, {
-        //     filter: (structure:Storage) => {
-        //         return (structure.structureType == STRUCTURE_STORAGE) && structure.energy < structure.energyCapacity;
-        //     }});
-        if(creep.room.storage){
-            if(creep.transfer(creep.room.storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                creep.travelTo(creep.room.storage);//, {visualizePathStyle: {stroke: '#ffffff'}});
-            }
-        }
+        //don't deliver to storage, return false if no destination found
+        // // var storage = creep.pos.findClosestByRange<Storage>(FIND_STRUCTURES, {
+        // //     filter: (structure:Storage) => {
+        // //         return (structure.structureType == STRUCTURE_STORAGE) && structure.energy < structure.energyCapacity;
+        // //     }});
+        // if(creep.room.storage){
+        //     if(creep.transfer(creep.room.storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+        //         creep.travelTo(creep.room.storage);//, {visualizePathStyle: {stroke: '#ffffff'}});
+        //     }
+        // }
+        return false;
     }
 }
 export function deliverToStorage(creep){

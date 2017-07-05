@@ -21,7 +21,12 @@ function run(creep) {
             }
         }
         else {
-            worker.deliverEnergyToTowerExtensionSpawnStorage(creep, true);
+            var found = worker.deliverEnergyToTowerExtensionSpawnStorage(creep, true);
+            if (!found) {
+                if (creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
+                    creep.travelTo(creep.room.controller);
+                }
+            }
             if (creep.pos.look()[0].type != 'structure') {
                 creep.room.createConstructionSite(creep.pos.x, creep.pos.y, STRUCTURE_ROAD);
             }

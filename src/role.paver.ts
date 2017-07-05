@@ -52,7 +52,12 @@ export function run(creep:Creep) {
                 creep.travelTo(targets[0]);//, {visualizePathStyle: {stroke: '#ffffff'}});
             }
         } else {
-            worker.deliverEnergyToTowerExtensionSpawnStorage(creep,true);
+            var found = worker.deliverEnergyToTowerExtensionSpawnStorage(creep,true);
+            if(!found){
+                if(creep.upgradeController(creep.room.controller as StructureController) == ERR_NOT_IN_RANGE) {
+                    creep.travelTo(creep.room.controller as StructureController);//, {visualizePathStyle: {stroke: '#ffffff'}});
+                }
+            }
             if(creep.pos.look()[0].type!='structure'){ // TODO: Look at all things? Not only first 
                 creep.room.createConstructionSite(creep.pos.x, creep.pos.y, STRUCTURE_ROAD);
             }
