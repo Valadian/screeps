@@ -33,7 +33,7 @@ function commandTowers() {
                 }
                 if (closestDamagedStructure != undefined) {
                     var ret = tower.repair(closestDamagedStructure);
-                    if (ret != 0 && ret != 6) {
+                    if (ret != 0 && ret != -6) {
                         console.log("tower.repair ret = " + ret);
                     }
                 }
