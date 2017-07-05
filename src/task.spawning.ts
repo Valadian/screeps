@@ -28,7 +28,7 @@ export var CASTE_WORKER = 'worker';
 export var CASTE_ROVER = 'rover';
 export var CASTE_CLAIM = 'claim';
 
-var ROLES = [ROLE_HARVESTER,ROLE_UPGRADER,ROLE_BUILDER,ROLE_PAVER,ROLE_CLAIM];
+var ROLES = [ROLE_HARVESTER,ROLE_UPGRADER,ROLE_BUILDER,ROLE_PAVER,ROLE_CLAIM,ROLE_MINER,ROLE_COURIER];
 export function spawnNewCreeps(){
     for(var name of Object.keys(Game.spawns)){
         spawnNewCreepsForRoom(name);
