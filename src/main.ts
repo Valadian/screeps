@@ -3,6 +3,8 @@ import * as roleUpgrader from "role.upgrader";
 import * as roleBuilder from "role.builder";
 import * as rolePaver from "role.paver";
 import * as roleClaim from "role.spawn";
+import * as roleCourier from "role.courier";
+import * as roleMiner from "role.mining";
 import * as traveler from "Traveler";
 import * as creeps from "task.spawning";
 import * as towers from "task.towers";
@@ -29,6 +31,12 @@ function runCreeps(){
             }
             if(creep.memory.role == creeps.ROLE_CLAIM) {
                 roleClaim.run(creep);
+            }
+            if(creep.memory.role == creeps.ROLE_COURIER) {
+                roleCourier.run(creep);
+            }
+            if(creep.memory.role == creeps.ROLE_MINER) {
+                roleMiner.run(creep);
             }
         }
     }

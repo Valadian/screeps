@@ -5,6 +5,8 @@ const roleUpgrader = require("role.upgrader");
 const roleBuilder = require("role.builder");
 const rolePaver = require("role.paver");
 const roleClaim = require("role.spawn");
+const roleCourier = require("role.courier");
+const roleMiner = require("role.mining");
 const traveler = require("Traveler");
 const creeps = require("task.spawning");
 const towers = require("task.towers");
@@ -29,6 +31,12 @@ function runCreeps() {
             }
             if (creep.memory.role == creeps.ROLE_CLAIM) {
                 roleClaim.run(creep);
+            }
+            if (creep.memory.role == creeps.ROLE_COURIER) {
+                roleCourier.run(creep);
+            }
+            if (creep.memory.role == creeps.ROLE_MINER) {
+                roleMiner.run(creep);
             }
         }
     }
