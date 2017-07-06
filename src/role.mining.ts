@@ -22,6 +22,9 @@ export function mineSource(creep){
     }
     //var sources = creep.room.find(FIND_SOURCES) as Source[];
     var source = Game.getObjectById(creep.memory.source) as Source;
+    if(source.energy==0){
+        forgetSource(creep)
+    }
     var err = creep.harvest(source);
     if(err == ERR_NOT_IN_RANGE || err == ERR_NOT_ENOUGH_ENERGY) {
         creep.travelTo(source);//, {visualizePathStyle: {stroke: '#ffaa00'}});

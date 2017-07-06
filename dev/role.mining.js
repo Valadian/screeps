@@ -25,6 +25,9 @@ function mineSource(creep) {
         creep.say("Source: " + creep.memory.source.substring(21, 24));
     }
     var source = Game.getObjectById(creep.memory.source);
+    if (source.energy == 0) {
+        forgetSource(creep);
+    }
     var err = creep.harvest(source);
     if (err == ERR_NOT_IN_RANGE || err == ERR_NOT_ENOUGH_ENERGY) {
         creep.travelTo(source);
