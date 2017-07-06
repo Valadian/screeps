@@ -8,7 +8,24 @@ export function run(creep:Creep) {
         creep.memory.mode = worker.DELIVER;
     }
     if(creep.memory.mode == worker.PICKUP) {
-        worker.getFromStorage(creep)
+        var dropped = creep.room.find(FIND_DROPPED_RESOURCES) as Resource[]
+        if(dropped){
+            if(creep.pickup(dropped[0])==ERR_NOT_IN_RANGE){
+                creep.travelTo(dropped[0].pos);
+            }
+        } else {
+            var nonenergy_resource = undefined;
+            for(var name in Object.keys(creep.carry)){
+                if(name!=RESOURCE_ENERGY && creep.carry[name]>0){
+                    nonenergy_resource=name;
+                }    
+            }
+            if(creep.transfer(creep.room.storage,name)==ERR_NOT_IN_RANGE){
+                creep.travelTo(creep.room.storage);
+            } else {
+                worker.getFromStorage(creep)
+            }
+        }
     }
     else if (creep.memory.mode == worker.DELIVER){
         worker.deliverEnergyToTowerExtensionSpawnStorage(creep,false,true);
