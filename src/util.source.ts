@@ -41,7 +41,7 @@ export function findsourceid(creep:Creep): string{
     items.sort(function(first, second) {
         return first[1] - second[1];
     });
-    if(items){
+    if(items && items[0]){
         return items[0][0];
     } else {
         return undefined;
