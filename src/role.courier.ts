@@ -20,8 +20,10 @@ export function run(creep:Creep) {
                     nonenergy_resource=name;
                 }    
             }
-            if(creep.transfer(creep.room.storage,name)==ERR_NOT_IN_RANGE){
-                creep.travelTo(creep.room.storage);
+            if(nonenergy_resource){
+                if(creep.transfer(creep.room.storage,name)==ERR_NOT_IN_RANGE){
+                    creep.travelTo(creep.room.storage);
+                }
             } else {
                 worker.getFromStorage(creep)
             }
