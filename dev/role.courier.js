@@ -11,7 +11,7 @@ function run(creep) {
     }
     if (creep.memory.mode == worker.PICKUP) {
         var dropped = creep.room.find(FIND_DROPPED_RESOURCES);
-        if (dropped) {
+        if (dropped.length > 0) {
             console.log("Something dropped");
             if (creep.pickup(dropped[0]) == ERR_NOT_IN_RANGE) {
                 creep.travelTo(dropped[0].pos);

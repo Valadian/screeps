@@ -4,7 +4,7 @@ export function run(creep:Creep) {
     worker.checkEnergy(creep);
     if (creep.memory.mode == undefined || creep.carry.energy==0){
         creep.memory.mode = worker.HARVEST;
-    } else if(creep.carry.energy == creep.carryCapacity || (creep.memory.source!=undefined && creep.carry.energy>0 && Game.getObjectById(creep.memory.source) as Source).energy==0){
+    } else if(creep.carryCapacity - creep.carry.energy < creep.getActiveBodyparts(WORK)  || (creep.memory.source!=undefined && creep.carry.energy>0 && Game.getObjectById(creep.memory.source) as Source).energy==0){
         creep.memory.mode = worker.DELIVER;
     }
     if(creep.memory.mode == worker.HARVEST) {
