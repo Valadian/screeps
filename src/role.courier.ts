@@ -21,6 +21,7 @@ export function run(creep:Creep) {
                 }    
             }
             if(nonenergy_resource){
+                creep.say("I got special")
                 if(creep.transfer(creep.room.storage,name)==ERR_NOT_IN_RANGE){
                     creep.travelTo(creep.room.storage);
                 }
