@@ -32,6 +32,11 @@ function findsourceid(creep) {
     items.sort(function (first, second) {
         return first[1] - second[1];
     });
-    return items[0][0];
+    if (items) {
+        return items[0][0];
+    }
+    else {
+        return undefined;
+    }
 }
 exports.findsourceid = findsourceid;

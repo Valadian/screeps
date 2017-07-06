@@ -18,6 +18,9 @@ export function run(creep:Creep) {
 export function mineSource(creep){
     if(creep.memory.source==undefined){
         creep.memory.source=sourceUtil.findsourceid(creep);
+        if(creep.memory.source==undefined){
+            return;
+        }
         creep.say("Source: "+creep.memory.source.substring(21,24));
     }
     //var sources = creep.room.find(FIND_SOURCES) as Source[];
