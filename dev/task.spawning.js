@@ -50,6 +50,7 @@ function spawnNewCreepsForRoom(spawnName) {
             else if (checkThenSpawn(spawnName, exports.ROLE_COURIER, exports.CASTE_WORKER, 1, L4_1300_Courier, energy)) { }
             else if (checkThenSpawn(spawnName, exports.ROLE_PAVER, exports.CASTE_WORKER, 2, L4_1300_Worker, energy)) { }
             else if (checkThenSpawn(spawnName, exports.ROLE_MINER, exports.CASTE_WORKER, 3, L4_1300_Miner, energy)) { }
+            else if (checkThenSpawn(spawnName, exports.ROLE_PAVER, exports.CASTE_WORKER, 4, L4_1300_Worker, energy)) { }
         }
         else if (Game.spawns[spawnName].room.energyCapacityAvailable >= 1250) {
         }
