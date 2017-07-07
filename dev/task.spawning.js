@@ -83,13 +83,8 @@ function defaultValue(myVar, defaultVal) {
         myVar = defaultVal;
     return myVar;
 }
-var COSTS = {};
-COSTS[MOVE] = 50;
-COSTS[WORK] = 100;
-COSTS[CARRY] = 50;
-COSTS[CLAIM] = 600;
 function checkThenSpawn(spawnName, role, caste, limit, body, energyAvailable) {
-    var cost = body.map((part) => COSTS[part]).reduce((sum, next) => sum + next);
+    var cost = body.map((part) => BODYPART_COST[part]).reduce((sum, next) => sum + next);
     if ((Game.spawns[spawnName].memory.role_count[role] == undefined || Game.spawns[spawnName].memory.role_count[role] < limit) && energyAvailable >= cost) {
         Game.spawns[spawnName].createCreep(body, caste + Game.time.toString(), { role: role, caste: caste });
         return true;
