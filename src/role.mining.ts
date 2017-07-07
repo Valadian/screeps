@@ -6,13 +6,21 @@ export function run(creep:Creep) {
         creep.memory.mode = worker.HARVEST;
     } else if(creep.carryCapacity - creep.carry.energy < creep.getActiveBodyparts(WORK)  || (creep.memory.source!=undefined && creep.carry.energy>0 && Game.getObjectById(creep.memory.source) as Source).energy==0){
         creep.memory.mode = worker.DELIVER;
+        // if(creep.memory.dropoff == undefined){
+        //     var filter = (structure:Structure)=>structure.structureType==STRUCTURE_CONTAINER || structure.structureType==STRUCTURE_STORAGE;
+        //     creep.memory.dropoff = creep.pos.findClosestByRange<Structure>(FIND_MY_STRUCTURES,{filter:filter}).id;
+        // }
     }
     if(creep.memory.mode == worker.HARVEST) {
         mineSource(creep)
     }
     else if (creep.memory.mode == worker.DELIVER){
         forgetSource(creep)
-        worker.deliverToStorage(creep)
+        // if(creep.memory.dropoff){
+
+        // } else {
+            worker.deliverToStorage(creep)
+        // }
     }
 }
 export function mineSource(creep){

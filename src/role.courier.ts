@@ -10,12 +10,12 @@ export function run(creep:Creep) {
     if(creep.memory.mode == worker.PICKUP) {
         var dropped = creep.room.find(FIND_DROPPED_RESOURCES) as Resource[]
         if(dropped.length>0){
-            console.log("Something dropped")
+            //console.log("Something dropped")
             if(creep.pickup(dropped[0])==ERR_NOT_IN_RANGE){
                 creep.travelTo(dropped[0].pos);
             }
         } else {
-            console.log("nothing dropped")
+            //console.log("nothing dropped")
             var nonenergy_resource = undefined;
             for(var name in Object.keys(creep.carry)){
                 if(name!=RESOURCE_ENERGY && creep.carry[name]>0){
@@ -23,12 +23,12 @@ export function run(creep:Creep) {
                 }    
             }
             if(nonenergy_resource){
-                console.log("something to drop off")
+                //console.log("something to drop off")
                 if(creep.transfer(creep.room.storage,name)==ERR_NOT_IN_RANGE){
                     creep.travelTo(creep.room.storage);
                 }
             } else {
-                console.log("nothing to drop off")
+                //console.log("nothing to drop off")
                 worker.getFromStorage(creep)
             }
         }
