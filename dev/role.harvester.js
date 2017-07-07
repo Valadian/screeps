@@ -11,10 +11,10 @@ function run(creep) {
         creep.memory.mode = worker.DELIVER;
     }
     if (creep.memory.mode == worker.HARVEST) {
-        mining.mineSource;
+        mining.mineSource(creep);
     }
     else if (creep.memory.mode == worker.DELIVER) {
-        mining.forgetSource;
+        mining.forgetSource(creep);
         worker.deliverEnergyToTowerExtensionSpawnStorage(creep, true);
     }
 }
