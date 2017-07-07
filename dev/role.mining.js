@@ -15,7 +15,13 @@ function run(creep) {
     }
     else if (creep.memory.mode == worker.DELIVER) {
         forgetSource(creep);
-        worker.deliverToStorage(creep);
+        var couriers = creep.room.find(FIND_MY_CREEPS, { filter: { role: "courier" } });
+        if (couriers) {
+            worker.deliverToStorage(creep);
+        }
+        else {
+            worker.deliverEnergyToTowerExtensionSpawnStorage(creep, false, false);
+        }
     }
 }
 exports.run = run;

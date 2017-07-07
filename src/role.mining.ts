@@ -19,7 +19,12 @@ export function run(creep:Creep) {
         // if(creep.memory.dropoff){
 
         // } else {
-            worker.deliverToStorage(creep)
+            var couriers = creep.room.find(FIND_MY_CREEPS,{filter: {role:"courier"}})
+            if(couriers){
+                worker.deliverToStorage(creep)
+            } else {
+                worker.deliverEnergyToTowerExtensionSpawnStorage(creep,false,false);
+            }
         // }
     }
 }
