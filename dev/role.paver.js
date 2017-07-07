@@ -24,7 +24,7 @@ function run(creep) {
             if (creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
                 creep.travelTo(creep.room.controller);
             }
-            if (creep.pos.look()[0].type != 'structure') {
+            if (creep.memory.autopave == true && creep.pos.look()[0].type != 'structure') {
                 creep.room.createConstructionSite(creep.pos.x, creep.pos.y, STRUCTURE_ROAD);
             }
         }
