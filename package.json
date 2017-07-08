@@ -1,0 +1,31 @@
+{
+  "name": "screeps",
+  "version": "1.0.0",
+  "description": "personal screeps AI",
+  "main": "main.js",
+  "dependencies": {
+    "gulp-concat": "^2.6.1",
+    "underscore": "^1.8.3"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-replace": "^0.6.1",
+    "gulp-typescript": "^3.2.0",
+    "gulp-uglify": "^3.0.0",
+    "typescript": "^2.4.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Valadian/screeps.git"
+  },
+  "author": "",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/Valadian/screeps/issues"
+  },
+  "homepage": "https://github.com/Valadian/screeps#readme"
+}
