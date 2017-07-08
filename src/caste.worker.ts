@@ -77,6 +77,8 @@ export function getFromStorage(creep:Creep){
     var err = creep.withdraw(creep.room.storage, RESOURCE_ENERGY)
     if(err == ERR_NOT_IN_RANGE) {
         creep.travelTo(creep.room.storage);//, {visualizePathStyle: {stroke: '#ffffff'}});
+    } else if(err!=0){
+        console.log("Worker get from storage error: "+err)
     }
     return err;
 }
