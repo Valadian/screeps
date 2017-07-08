@@ -4,14 +4,13 @@ var concat = require('gulp-concat');
 //var sourcemaps = require('gulp-sourcemaps');
 var uglify = require('gulp-uglify');
 var replace = require('gulp-replace');
+var ts = require('gulp-typescript');
 
 gulp.task('compress', function() {
-     var tsResult = gulp.src(['dev/*.js'])
+    var tsProjectDts = ts.createProject('tsconfig.json', { sortOutput: true });
+     var tsResult = gulp.src(['src/*.ts'])
         // .pipe(sourcemaps.init()) // This means sourcemaps will be generated 
-        // .pipe(ts({
-        //      sortOutput: true,
-        //                // ... 
-        //  }));
+        .pipe(ts(tsProjectDts));
 
       return tsResult
          //.pipe(concat('lib/js-library.js')) // You can use other plugins that also support gulp-sourcemaps
