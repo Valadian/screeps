@@ -75,9 +75,6 @@ function getFromStorage(creep) {
     if (err == ERR_NOT_IN_RANGE) {
         creep.travelTo(creep.room.storage);
     }
-    else if (err != 0) {
-        console.log("Worker get from storage error: " + err);
-    }
     return err;
 }
 exports.getFromStorage = getFromStorage;

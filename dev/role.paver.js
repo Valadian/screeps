@@ -31,7 +31,7 @@ function run(creep) {
         }
     }
     else {
-        if (worker.getFromStorage(creep) == ERR_NOT_ENOUGH_ENERGY) {
+        if (worker.getFromStorage(creep) == ERR_NOT_ENOUGH_ENERGY || creep.room.storage.store[RESOURCE_ENERGY] == 0) {
             miner.mineSource(creep);
         }
     }

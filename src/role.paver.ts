@@ -75,7 +75,7 @@ export function run(creep:Creep) {
         // if(creep.harvest(source) == ERR_NOT_IN_RANGE) {
         //     creep.travelTo(source,{maxRooms:1});//, {visualizePathStyle: {stroke: '#ffaa00'}});
         // }
-        if(worker.getFromStorage(creep)==ERR_NOT_ENOUGH_ENERGY){
+        if(worker.getFromStorage(creep)==ERR_NOT_ENOUGH_ENERGY || creep.room.storage.store[RESOURCE_ENERGY]==0){
             miner.mineSource(creep)
         }
     }
