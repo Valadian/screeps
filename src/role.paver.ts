@@ -1,5 +1,6 @@
 import * as sourceUtil from "util.source" 
 import * as worker from "caste.worker" 
+import * as miner from "role.mining" 
 export function run(creep:Creep) {
 
     if(creep.memory.building && creep.carry.energy == 0) {
@@ -74,7 +75,9 @@ export function run(creep:Creep) {
         // if(creep.harvest(source) == ERR_NOT_IN_RANGE) {
         //     creep.travelTo(source,{maxRooms:1});//, {visualizePathStyle: {stroke: '#ffaa00'}});
         // }
-        worker.getFromStorage(creep)
+        if(worker.getFromStorage(creep)==ERR_NOT_ENOUGH_ENERGY){
+            miner.mineSource(creep)
+        }
     }
 }
 //Need to refactor to auto find things to travel between

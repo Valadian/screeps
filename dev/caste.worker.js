@@ -50,8 +50,20 @@ function deliverEnergyToTowerExtensionSpawnStorage(creep, alms = true, deliver_t
     }
 }
 exports.deliverEnergyToTowerExtensionSpawnStorage = deliverEnergyToTowerExtensionSpawnStorage;
+function dist(a, b) {
+    return Math.sqrt(Math.pow(a.x - b.x, 2) + Math.pow(a.y - b.y, 2));
+}
+exports.dist = dist;
 function deliverToStorage(creep) {
-    if (creep.room.storage) {
+    var container = creep.pos.findClosestByRange(FIND_MY_STRUCTURES, { filter: { structureType: STRUCTURE_CONTAINER } });
+    if (container) {
+        if (creep.room.storage && dist(container.pos, creep.pos) < dist(creep.room.storage.pos, creep.pos)) {
+            if (creep.transfer(container, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                creep.travelTo(container);
+            }
+        }
+    }
+    else if (creep.room.storage) {
         if (creep.transfer(creep.room.storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
             creep.travelTo(creep.room.storage);
         }
@@ -59,8 +71,10 @@ function deliverToStorage(creep) {
 }
 exports.deliverToStorage = deliverToStorage;
 function getFromStorage(creep) {
-    if (creep.withdraw(creep.room.storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+    var err = creep.withdraw(creep.room.storage, RESOURCE_ENERGY);
+    if (err == ERR_NOT_IN_RANGE) {
         creep.travelTo(creep.room.storage);
     }
+    return err;
 }
 exports.getFromStorage = getFromStorage;

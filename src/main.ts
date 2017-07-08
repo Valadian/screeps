@@ -70,6 +70,16 @@ function handleRoomRecovery(){
     }
 }
 function loop() {
+    preUpdate();
+    update();
+    lateUpdate();
+}
+function preUpdate(){
+    for(var name in Memory.creeps){
+        
+    }
+}
+function update(){
     calculateNeeds();
     
     runCreeps();
@@ -83,6 +93,9 @@ function loop() {
         handleRoomRecovery();
     }
     towers.commandTowers();
+}
+function lateUpdate(){
+
 }
 
 var module:any;

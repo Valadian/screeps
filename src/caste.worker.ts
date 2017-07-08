@@ -56,15 +56,27 @@ export function deliverEnergyToTowerExtensionSpawnStorage(creep:Creep,alms=true,
         return false;
     }
 }
-export function deliverToStorage(creep){
-    if(creep.room.storage){
+export function dist(a:RoomPosition,b:RoomPosition){
+    return Math.sqrt(Math.pow(a.x-b.x,2)+Math.pow(a.y-b.y,2));
+}
+export function deliverToStorage(creep:Creep){
+    var container = creep.pos.findClosestByRange<Storage>(FIND_MY_STRUCTURES,{filter:{structureType:STRUCTURE_CONTAINER}});
+    if(container){
+        if(creep.room.storage && dist(container.pos,creep.pos)<dist(creep.room.storage.pos,creep.pos)){
+            if(creep.transfer(container, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                creep.travelTo(container);//, {visualizePathStyle: {stroke: '#ffffff'}});
+            }
+        }
+    } else if(creep.room.storage){
         if(creep.transfer(creep.room.storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
             creep.travelTo(creep.room.storage);//, {visualizePathStyle: {stroke: '#ffffff'}});
         }
     }
 }
 export function getFromStorage(creep:Creep){
-    if(creep.withdraw(creep.room.storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+    var err = creep.withdraw(creep.room.storage, RESOURCE_ENERGY)
+    if(err == ERR_NOT_IN_RANGE) {
         creep.travelTo(creep.room.storage);//, {visualizePathStyle: {stroke: '#ffffff'}});
     }
+    return err;
 }

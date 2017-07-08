@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const worker = require("caste.worker");
+const miner = require("role.mining");
 function run(creep) {
     if (creep.memory.building && creep.carry.energy == 0) {
         creep.memory.building = false;
@@ -30,7 +31,9 @@ function run(creep) {
         }
     }
     else {
-        worker.getFromStorage(creep);
+        if (worker.getFromStorage(creep) == ERR_NOT_ENOUGH_ENERGY) {
+            miner.mineSource(creep);
+        }
     }
 }
 exports.run = run;

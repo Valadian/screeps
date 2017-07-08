@@ -65,6 +65,15 @@ function handleRoomRecovery() {
     }
 }
 function loop() {
+    preUpdate();
+    update();
+    lateUpdate();
+}
+function preUpdate() {
+    for (var name in Memory.creeps) {
+    }
+}
+function update() {
     calculateNeeds();
     runCreeps();
     if ((Game.time & 7) == 0) {
@@ -76,6 +85,8 @@ function loop() {
         handleRoomRecovery();
     }
     towers.commandTowers();
+}
+function lateUpdate() {
 }
 var module;
 module.exports.loop = loop;
