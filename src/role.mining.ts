@@ -20,11 +20,9 @@ export function run(creep:Creep) {
 
         // } else {
             var couriers = creep.room.find(FIND_MY_CREEPS,{filter: {role:"courier"}})
-            if(couriers){
-                console.log("found "+couriers.length+" couriers");
+            if(couriers.length>0){
                 worker.deliverToStorage(creep)
             } else {
-                console.log("no couriers")
                 worker.deliverEnergyToTowerExtensionSpawnStorage(creep,false,false);
             }
         // }
