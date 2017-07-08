@@ -1,4 +1,10 @@
 export function commandTowers(){
+    if(!Memory.MAX_REPAIR){
+        Memory.MAX_REPAIR = 300000;
+    }
+    if(!Memory.MAX_REPAIR_ROAD){
+        Memory.MAX_REPAIR_ROAD = 4000;
+    }
     for(var name of Object.keys(Game.spawns)){
         var towers = Game.spawns[name].room.find<Tower>(FIND_MY_STRUCTURES, {filter: {structureType: STRUCTURE_TOWER}});
         for(var tower of towers){
@@ -24,7 +30,7 @@ export function commandTowers(){
                     //     filter: (structure:Structure) => structure.hits<4000 && structure.id != tower.id && structure.hits<structure.hitsMax
                     // }) as Structure;
                     var allStructures = tower.room.find(FIND_STRUCTURES, {
-                        filter: (structure:Structure) => structure.id != tower.id && structure.hits<structure.hitsMax
+                        filter: (structure:Structure) => structure.id != tower.id && structure.hits<structure.hitsMax && structure.hits<Memory.MAX_REPAIR && (structure.structureType!=STRUCTURE_ROAD || structure.hits<Memory.MAX_REPAIR_ROAD)
                     }) as Structure[];
                     allStructures.sort((a:Structure,b:Structure)=>a.hits-b.hits);
                     if(allStructures.length>0){
@@ -33,11 +39,11 @@ export function commandTowers(){
                 }
                 
                 //console.log("Other structures <4000" +closestDamagedStructure);
-                if(!closestDamagedStructure){
-                    closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
-                        filter: (structure:Structure) => structure.hits<50000 && structure.hits < structure.hitsMax*0.75 && structure.id != tower.id && structure.hits<structure.hitsMax
-                    }) as Structure;
-                }
+                // if(!closestDamagedStructure){
+                //     closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
+                //         filter: (structure:Structure) => structure.hits<50000 && structure.hits < structure.hitsMax*0.75 && structure.id != tower.id && structure.hits<structure.hitsMax
+                //     }) as Structure;
+                // }
                 //console.log("Other structures <50000" +closestDamagedStructure);
                 if(closestDamagedStructure!=undefined) {
                     var ret = tower.repair(closestDamagedStructure);
