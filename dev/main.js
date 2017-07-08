@@ -90,7 +90,7 @@ function update() {
     var periodic = Game.cpu.getUsed();
     towers.commandTowers();
     var tower = Game.cpu.getUsed();
-    console.log("Start: " + start + " needs: " + (needs - start) + " creeps: " + (run - start) + " periodic: " + (periodic - start) + " towers: " + (tower - start));
+    console.log("Start: " + start + " needs: " + (needs - start) + " creeps: " + (run - needs) + " periodic: " + (periodic - run) + " towers: " + (tower - periodic));
 }
 function lateUpdate() {
 }
