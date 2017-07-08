@@ -19,7 +19,7 @@ export function run(creep:Creep) {
         // if(creep.memory.dropoff){
 
         // } else {
-            var couriers = creep.room.find(FIND_MY_CREEPS,{filter: {role:"courier"}})
+            var couriers = creep.room.find(FIND_MY_CREEPS,{filter: {memory:{role:"courier"}}})
             if(couriers.length>0){
                 worker.deliverToStorage(creep)
             } else {
