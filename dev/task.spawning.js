@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var L4_1300_Courier = [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY];
-var L4_1300_Miner = [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY];
+var L4_1300_Miner = [MOVE, MOVE, MOVE, MOVE, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY];
 var L4_1300_Worker = [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY];
 var L4_1300_OFFROAD_Worker = [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY];
 var L4_1300_claim = [CLAIM, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE];
@@ -48,9 +48,9 @@ function spawnNewCreepsForRoom(spawnName) {
         if (Game.spawns[spawnName].room.energyCapacityAvailable >= 1300) {
             if (checkThenSpawn(spawnName, exports.ROLE_MINER, exports.CASTE_WORKER, 1, L4_1300_Miner, energy)) { }
             else if (checkThenSpawn(spawnName, exports.ROLE_COURIER, exports.CASTE_WORKER, 1, L4_1300_Courier, energy)) { }
-            else if (checkThenSpawn(spawnName, exports.ROLE_PAVER, exports.CASTE_WORKER, 2, L4_1300_Worker, energy)) { }
-            else if (checkThenSpawn(spawnName, exports.ROLE_MINER, exports.CASTE_WORKER, 3, L4_1300_Miner, energy)) { }
-            else if (checkThenSpawn(spawnName, exports.ROLE_PAVER, exports.CASTE_WORKER, 4, L4_1300_Worker, energy)) { }
+            else if (checkThenSpawn(spawnName, exports.ROLE_PAVER, exports.CASTE_WORKER, 1, L4_1300_Worker, energy)) { }
+            else if (checkThenSpawn(spawnName, exports.ROLE_MINER, exports.CASTE_WORKER, 2, L4_1300_Miner, energy)) { }
+            else if (checkThenSpawn(spawnName, exports.ROLE_PAVER, exports.CASTE_WORKER, 5, L4_1300_Worker, energy)) { }
         }
         else if (Game.spawns[spawnName].room.energyCapacityAvailable >= 1250) {
         }
