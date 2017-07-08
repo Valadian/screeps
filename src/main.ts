@@ -76,13 +76,15 @@ function loop() {
 }
 function preUpdate(){
     for(var name in Memory.creeps){
-        
+
     }
 }
 function update(){
+    var start = Game.cpu.getUsed()
     calculateNeeds();
-    
+    var needs = Game.cpu.getUsed()
     runCreeps();
+    var run = Game.cpu.getUsed()
     if((Game.time & 7) == 0){
 
     }
@@ -92,7 +94,10 @@ function update(){
     if((Game.time & 63) == 0){ //every 64 ticks
         handleRoomRecovery();
     }
+    var periodic = Game.cpu.getUsed()
     towers.commandTowers();
+    var tower = Game.cpu.getUsed()
+    console.log("Start: "+start+" needs: "+(needs-start)+" creeps: "+(run-start)+" periodic: "+(periodic-start)+" towers: "+(tower-start))
 }
 function lateUpdate(){
 
