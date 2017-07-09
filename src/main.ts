@@ -1,15 +1,45 @@
 
 var start = Game.cpu.getUsed()
 import * as roleHarvester from "role.harvester";
+var prev = start
+var now = Game.cpu.getUsed()
+console.log("harvester: "+(now-prev))
 import * as roleUpgrader from "role.upgrader";
+var prev = now
+var now = Game.cpu.getUsed()
+console.log("upgrader: "+(now-prev))
 import * as roleBuilder from "role.builder";
+var prev = now
+var now = Game.cpu.getUsed()
+console.log("builder: "+(now-prev))
 import * as rolePaver from "role.paver";
+var prev = now
+var now = Game.cpu.getUsed()
+console.log("paver: "+(now-prev))
 import * as roleClaim from "role.spawn";
+var prev = now
+var now = Game.cpu.getUsed()
+console.log("claim: "+(now-prev))
 import * as roleCourier from "role.courier";
+var prev = now
+var now = Game.cpu.getUsed()
+console.log("courier: "+(now-prev))
 import * as roleMiner from "role.mining";
+var prev = now
+var now = Game.cpu.getUsed()
+console.log("miner: "+(now-prev))
 import * as traveler from "Traveler";
+var prev = now
+var now = Game.cpu.getUsed()
+console.log("traveler: "+(now-prev))
 import * as creeps from "task.spawning";
+var prev = now
+var now = Game.cpu.getUsed()
+console.log("creeps: "+(now-prev))
 import * as towers from "task.towers";
+var prev = now;
+var now = Game.cpu.getUsed();
+console.log("towers: "+(now-prev));
 
 (Creep.prototype as any).travelTo = function(destination: {pos: RoomPosition}, options?: TravelToOptions) {
     return traveler.Traveler.travelTo(this, destination, options);
