@@ -1,46 +1,47 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var start = Game.cpu.getUsed();
+var profiling = {};
 const roleHarvester = require("role.harvester");
 var prev = start;
 var now = Game.cpu.getUsed();
-console.log("harvester: " + (now - prev));
+profiling["harvester_import"] = now - prev;
 const roleUpgrader = require("role.upgrader");
-var prev = now;
-var now = Game.cpu.getUsed();
-console.log("upgrader: " + (now - prev));
+prev = start;
+now = Game.cpu.getUsed();
+profiling["upgrder_import"] = now - prev;
 const roleBuilder = require("role.builder");
-var prev = now;
-var now = Game.cpu.getUsed();
-console.log("builder: " + (now - prev));
+prev = start;
+now = Game.cpu.getUsed();
+profiling["builder_import"] = now - prev;
 const rolePaver = require("role.paver");
-var prev = now;
-var now = Game.cpu.getUsed();
-console.log("paver: " + (now - prev));
+prev = start;
+now = Game.cpu.getUsed();
+profiling["paver_import"] = now - prev;
 const roleClaim = require("role.spawn");
-var prev = now;
-var now = Game.cpu.getUsed();
-console.log("claim: " + (now - prev));
+prev = start;
+now = Game.cpu.getUsed();
+profiling["spawn_import"] = now - prev;
 const roleCourier = require("role.courier");
-var prev = now;
-var now = Game.cpu.getUsed();
-console.log("courier: " + (now - prev));
+prev = start;
+now = Game.cpu.getUsed();
+profiling["courier_import"] = now - prev;
 const roleMiner = require("role.mining");
-var prev = now;
-var now = Game.cpu.getUsed();
-console.log("miner: " + (now - prev));
+prev = start;
+now = Game.cpu.getUsed();
+profiling["mining_import"] = now - prev;
 const traveler = require("Traveler");
-var prev = now;
-var now = Game.cpu.getUsed();
-console.log("traveler: " + (now - prev));
+prev = start;
+now = Game.cpu.getUsed();
+profiling["traveler_import"] = now - prev;
 const creeps = require("task.spawning");
-var prev = now;
-var now = Game.cpu.getUsed();
-console.log("creeps: " + (now - prev));
+prev = start;
+now = Game.cpu.getUsed();
+profiling["spawning_import"] = now - prev;
 const towers = require("task.towers");
-var prev = now;
-var now = Game.cpu.getUsed();
-console.log("towers: " + (now - prev));
+prev = start;
+now = Game.cpu.getUsed();
+profiling["towers_import"] = now - prev;
 Creep.prototype.travelTo = function (destination, options) {
     return traveler.Traveler.travelTo(this, destination, options);
 };
@@ -101,6 +102,12 @@ function loop() {
     lateUpdate();
 }
 function preUpdate() {
+    var log_str = "";
+    for (var name in profiling) {
+        var time = profiling[name];
+        log_str += " " + name + ":" + profiling[name].toFixed(2);
+    }
+    console.log(log_str);
     for (var name in Memory.creeps) {
     }
 }
