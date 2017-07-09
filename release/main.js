@@ -1,383 +1,394 @@
 define("caste.worker", ["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.PICKUP = "pickup";
-    exports.HARVEST = "harvest";
-    exports.DELIVER = "deliver";
-    function checkEnergy(creep) {
-        if (creep.pos.lookFor(LOOK_ENERGY)) {
-            if (creep.carryCapacity > creep.carry.energy) {
-                creep.pickup(creep.pos.lookFor(LOOK_ENERGY)[0]);
+    class Worker {
+        static checkEnergy(creep) {
+            if (creep.pos.lookFor(LOOK_ENERGY)) {
+                if (creep.carryCapacity > creep.carry.energy) {
+                    creep.pickup(creep.pos.lookFor(LOOK_ENERGY)[0]);
+                }
             }
         }
-    }
-    exports.checkEnergy = checkEnergy;
-    function deliverEnergyToTowerExtensionSpawnStorage(creep, alms = true, deliver_towers = false) {
-        var spawn_or_extension = creep.pos.findClosestByRange(FIND_STRUCTURES, {
-            filter: (structure) => {
-                return (structure.structureType == STRUCTURE_EXTENSION ||
-                    structure.structureType == STRUCTURE_SPAWN) && structure.energy < structure.energyCapacity;
-            }
-        });
-        var delivered_to_tower = false;
-        if (deliver_towers) {
-            var tower = creep.pos.findClosestByRange(FIND_STRUCTURES, {
+        static deliverEnergyToTowerExtensionSpawnStorage(creep, alms = true, deliver_towers = false) {
+            var spawn_or_extension = creep.pos.findClosestByRange(FIND_STRUCTURES, {
                 filter: (structure) => {
-                    return (structure.structureType == STRUCTURE_TOWER) && structure.energy < structure.energyCapacity;
+                    return (structure.structureType == STRUCTURE_EXTENSION ||
+                        structure.structureType == STRUCTURE_SPAWN) && structure.energy < structure.energyCapacity;
                 }
             });
-            var alm_amount = Math.min(creep.carry.energy, 50);
-            if (deliver_towers && tower && alms && tower.energyCapacity - tower.energy > alm_amount && creep.carryCapacity == creep.carry.energy && tower.energy / tower.energyCapacity < 0.50) {
-                delivered_to_tower = true;
-                if (creep.transfer(tower, RESOURCE_ENERGY, alm_amount) == ERR_NOT_IN_RANGE) {
+            var delivered_to_tower = false;
+            if (deliver_towers) {
+                var tower = creep.pos.findClosestByRange(FIND_STRUCTURES, {
+                    filter: (structure) => {
+                        return (structure.structureType == STRUCTURE_TOWER) && structure.energy < structure.energyCapacity;
+                    }
+                });
+                var alm_amount = Math.min(creep.carry.energy, 50);
+                if (deliver_towers && tower && alms && tower.energyCapacity - tower.energy > alm_amount && creep.carryCapacity == creep.carry.energy && tower.energy / tower.energyCapacity < 0.50) {
+                    delivered_to_tower = true;
+                    if (creep.transfer(tower, RESOURCE_ENERGY, alm_amount) == ERR_NOT_IN_RANGE) {
+                        creep.travelTo(tower, { maxRooms: 1 });
+                    }
+                }
+            }
+            if (delivered_to_tower) {
+            }
+            else if (spawn_or_extension) {
+                if (creep.transfer(spawn_or_extension, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                    creep.travelTo(spawn_or_extension, { maxRooms: 1 });
+                }
+            }
+            else if (deliver_towers && tower) {
+                if (creep.transfer(tower, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                     creep.travelTo(tower, { maxRooms: 1 });
                 }
             }
-        }
-        if (delivered_to_tower) {
-        }
-        else if (spawn_or_extension) {
-            if (creep.transfer(spawn_or_extension, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                creep.travelTo(spawn_or_extension, { maxRooms: 1 });
+            else {
+                return false;
             }
         }
-        else if (deliver_towers && tower) {
-            if (creep.transfer(tower, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                creep.travelTo(tower, { maxRooms: 1 });
+        static dist(a, b) {
+            return Math.sqrt(Math.pow(a.x - b.x, 2) + Math.pow(a.y - b.y, 2));
+        }
+        static deliverToStorage(creep) {
+            var container = creep.pos.findClosestByRange(FIND_MY_STRUCTURES, { filter: { structureType: STRUCTURE_CONTAINER } });
+            if (container) {
+                if (creep.room.storage && Worker.dist(container.pos, creep.pos) < Worker.dist(creep.room.storage.pos, creep.pos)) {
+                    if (creep.transfer(container, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                        creep.travelTo(container);
+                    }
+                }
             }
-        }
-        else {
-            return false;
-        }
-    }
-    exports.deliverEnergyToTowerExtensionSpawnStorage = deliverEnergyToTowerExtensionSpawnStorage;
-    function dist(a, b) {
-        return Math.sqrt(Math.pow(a.x - b.x, 2) + Math.pow(a.y - b.y, 2));
-    }
-    exports.dist = dist;
-    function deliverToStorage(creep) {
-        var container = creep.pos.findClosestByRange(FIND_MY_STRUCTURES, { filter: { structureType: STRUCTURE_CONTAINER } });
-        if (container) {
-            if (creep.room.storage && dist(container.pos, creep.pos) < dist(creep.room.storage.pos, creep.pos)) {
-                if (creep.transfer(container, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                    creep.travelTo(container);
+            else if (creep.room.storage) {
+                if (creep.transfer(creep.room.storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                    creep.travelTo(creep.room.storage);
                 }
             }
         }
-        else if (creep.room.storage) {
-            if (creep.transfer(creep.room.storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+        static getFromStorage(creep) {
+            var err = creep.withdraw(creep.room.storage, RESOURCE_ENERGY);
+            if (err == ERR_NOT_IN_RANGE) {
                 creep.travelTo(creep.room.storage);
             }
+            return err;
         }
     }
-    exports.deliverToStorage = deliverToStorage;
-    function getFromStorage(creep) {
-        var err = creep.withdraw(creep.room.storage, RESOURCE_ENERGY);
-        if (err == ERR_NOT_IN_RANGE) {
-            creep.travelTo(creep.room.storage);
-        }
-        return err;
-    }
-    exports.getFromStorage = getFromStorage;
+    Worker.PICKUP = "pickup";
+    Worker.HARVEST = "harvest";
+    Worker.DELIVER = "deliver";
+    exports.default = Worker;
 });
 define("util.source", ["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    var DIRS = [{ x: 0, y: -1 }, { x: 1, y: -1 }, { x: 0, y: 1 }, { x: 1, y: 1 }, { x: 0, y: 1 }, { x: -1, y: 1 }, { x: -1, y: 0 }, { x: -1, y: -1 }];
-    function findsourceid(creep) {
-        var sources = creep.room.find(FIND_SOURCES);
-        var source_ratios = {};
-        for (var source of sources) {
-            if (!Memory.source_harvest_slots) {
-                Memory.source_harvest_slots = {};
+    class SourceUtil {
+        static findsourceid(creep) {
+            var sources = creep.room.find(FIND_SOURCES);
+            var source_ratios = {};
+            for (var source of sources) {
+                if (!Memory.source_harvest_slots) {
+                    Memory.source_harvest_slots = {};
+                }
+                if (!Memory.source_harvest_slots[source.id]) {
+                    var terrain = creep.room.lookForAtArea(LOOK_TERRAIN, source.pos.y - 1, source.pos.x - 1, source.pos.y + 1, source.pos.x + 1, true);
+                    terrain = terrain.filter((t) => t.terrain == "wall");
+                    Memory.source_harvest_slots[source.id] = 9 - terrain.length;
+                }
+                if (source.energy > 0) {
+                    var results = creep.room.lookForAtArea(LOOK_CREEPS, source.pos.y - 2, source.pos.x - 2, source.pos.y + 2, source.pos.x + 2, true);
+                    var num_harvesting = results.map((result) => result.creep).filter((creep) => creep.memory != undefined && creep.memory.mode == "harvest").length;
+                    source_ratios[source.id] = num_harvesting / Memory.source_harvest_slots[source.id];
+                }
             }
-            if (!Memory.source_harvest_slots[source.id]) {
-                var terrain = creep.room.lookForAtArea(LOOK_TERRAIN, source.pos.y - 1, source.pos.x - 1, source.pos.y + 1, source.pos.x + 1, true);
-                terrain = terrain.filter((t) => t.terrain == "wall");
-                Memory.source_harvest_slots[source.id] = 9 - terrain.length;
-            }
-            if (source.energy > 0) {
-                var results = creep.room.lookForAtArea(LOOK_CREEPS, source.pos.y - 2, source.pos.x - 2, source.pos.y + 2, source.pos.x + 2, true);
-                var num_harvesting = results.map((result) => result.creep).filter((creep) => creep.memory != undefined && creep.memory.mode == "harvest").length;
-                source_ratios[source.id] = num_harvesting / Memory.source_harvest_slots[source.id];
-            }
-        }
-        var items = Object.keys(source_ratios).map(function (key) {
-            return [key, source_ratios[key]];
-        });
-        items.sort(function (first, second) {
-            var first_pos = Game.getObjectById(first[0]).pos;
-            var second_pos = Game.getObjectById(second[0]).pos;
-            var first_dist = Math.sqrt(Math.pow(first_pos.x - creep.pos.x, 2)) + Math.sqrt(Math.pow(first_pos.y - creep.pos.y, 2));
-            var second_dist = Math.sqrt(Math.pow(second_pos.x - creep.pos.x, 2)) + Math.sqrt(Math.pow(second_pos.y - creep.pos.y, 2));
-            return first_dist - second_dist;
-        });
-        items.sort(function (first, second) {
-            return first[1] - second[1];
-        });
-        if (items && items[0]) {
-            return items[0][0];
-        }
-        else {
-            return undefined;
-        }
-    }
-    exports.findsourceid = findsourceid;
-});
-define("role.mining", ["require", "exports", "util.source", "caste.worker"], function (require, exports, sourceUtil, worker) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    function run(creep) {
-        worker.checkEnergy(creep);
-        if (creep.memory.mode == undefined || creep.carry.energy == 0) {
-            creep.memory.mode = worker.HARVEST;
-        }
-        else if (creep.carryCapacity - creep.carry.energy < creep.getActiveBodyparts(WORK) || (creep.memory.source != undefined && creep.carry.energy > 0 && Game.getObjectById(creep.memory.source)).energy == 0) {
-            creep.memory.mode = worker.DELIVER;
-        }
-        if (creep.memory.mode == worker.HARVEST) {
-            mineSource(creep);
-        }
-        else if (creep.memory.mode == worker.DELIVER) {
-            forgetSource(creep);
-            var couriers = creep.room.find(FIND_MY_CREEPS, { filter: { memory: { role: "courier" } } });
-            if (couriers.length > 0) {
-                worker.deliverToStorage(creep);
+            var items = Object.keys(source_ratios).map(function (key) {
+                return [key, source_ratios[key]];
+            });
+            items.sort(function (first, second) {
+                var first_pos = Game.getObjectById(first[0]).pos;
+                var second_pos = Game.getObjectById(second[0]).pos;
+                var first_dist = Math.sqrt(Math.pow(first_pos.x - creep.pos.x, 2)) + Math.sqrt(Math.pow(first_pos.y - creep.pos.y, 2));
+                var second_dist = Math.sqrt(Math.pow(second_pos.x - creep.pos.x, 2)) + Math.sqrt(Math.pow(second_pos.y - creep.pos.y, 2));
+                return first_dist - second_dist;
+            });
+            items.sort(function (first, second) {
+                return first[1] - second[1];
+            });
+            if (items && items[0]) {
+                return items[0][0];
             }
             else {
-                worker.deliverEnergyToTowerExtensionSpawnStorage(creep, false, false);
+                return undefined;
             }
         }
     }
-    exports.run = run;
-    function mineSource(creep) {
-        if (creep.memory.source == undefined) {
-            creep.memory.source = sourceUtil.findsourceid(creep);
-            if (creep.memory.source == undefined) {
-                return;
-            }
-            creep.say("Source: " + creep.memory.source.substring(21, 24));
-        }
-        var source = Game.getObjectById(creep.memory.source);
-        if (source.energy == 0) {
-            forgetSource(creep);
-        }
-        var err = creep.harvest(source);
-        if (err == ERR_NOT_IN_RANGE || err == ERR_NOT_ENOUGH_ENERGY) {
-            creep.travelTo(source);
-        }
-    }
-    exports.mineSource = mineSource;
-    function forgetSource(creep) {
-        delete creep.memory.source;
-    }
-    exports.forgetSource = forgetSource;
+    exports.default = SourceUtil;
 });
-define("role.harvester", ["require", "exports", "caste.worker", "role.mining"], function (require, exports, worker, mining) {
+define("role.mining", ["require", "exports", "util.source", "caste.worker"], function (require, exports, util_source_1, caste_worker_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    function run(creep) {
-        worker.checkEnergy(creep);
-        if (creep.memory.mode == undefined || creep.carry.energy == 0) {
-            creep.memory.mode = worker.HARVEST;
-        }
-        else if (creep.carry.energy == creep.carryCapacity || (creep.memory.source != undefined && creep.carry.energy > 0 && Game.getObjectById(creep.memory.source)).energy == 0) {
-            creep.memory.mode = worker.DELIVER;
-        }
-        if (creep.memory.mode == worker.HARVEST) {
-            mining.mineSource(creep);
-        }
-        else if (creep.memory.mode == worker.DELIVER) {
-            mining.forgetSource(creep);
-            worker.deliverEnergyToTowerExtensionSpawnStorage(creep, true);
-        }
-    }
-    exports.run = run;
-});
-define("role.upgrader", ["require", "exports", "util.source"], function (require, exports, sourceUtil) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    function run(creep) {
-        if (creep.memory.upgrading && creep.carry.energy == 0) {
-            creep.memory.upgrading = false;
-            creep.memory.mode = "harvest";
-            creep.say('\uD83D\uDD04 harvest');
-        }
-        if (!creep.memory.upgrading && creep.carry.energy == creep.carryCapacity) {
-            creep.memory.upgrading = true;
-            creep.say('\u26A1 upgrade');
-            creep.memory.mode = "upgrade";
-        }
-        if (creep.memory.upgrading) {
-            delete creep.memory.source;
-            if (creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
-                creep.travelTo(creep.room.controller);
+    class Miner {
+        static run(creep) {
+            caste_worker_1.default.checkEnergy(creep);
+            if (creep.memory.mode == undefined || creep.carry.energy == 0) {
+                creep.memory.mode = caste_worker_1.default.HARVEST;
+            }
+            else if (creep.carryCapacity - creep.carry.energy < creep.getActiveBodyparts(WORK) || (creep.memory.source != undefined && creep.carry.energy > 0 && Game.getObjectById(creep.memory.source)).energy == 0) {
+                creep.memory.mode = caste_worker_1.default.DELIVER;
+            }
+            if (creep.memory.mode == caste_worker_1.default.HARVEST) {
+                Miner.mineSource(creep);
+            }
+            else if (creep.memory.mode == caste_worker_1.default.DELIVER) {
+                Miner.forgetSource(creep);
+                var couriers = creep.room.find(FIND_MY_CREEPS, { filter: { memory: { role: "courier" } } });
+                if (couriers.length > 0) {
+                    caste_worker_1.default.deliverToStorage(creep);
+                }
+                else {
+                    caste_worker_1.default.deliverEnergyToTowerExtensionSpawnStorage(creep, false, false);
+                }
             }
         }
-        else {
+        static mineSource(creep) {
             if (creep.memory.source == undefined) {
-                creep.memory.source = sourceUtil.findsourceid(creep);
+                creep.memory.source = util_source_1.default.findsourceid(creep);
+                if (creep.memory.source == undefined) {
+                    return;
+                }
                 creep.say("Source: " + creep.memory.source.substring(21, 24));
             }
             var source = Game.getObjectById(creep.memory.source);
-            if (creep.harvest(source) == ERR_NOT_IN_RANGE) {
-                creep.travelTo(source, { maxRooms: 1 });
+            if (source.energy == 0) {
+                Miner.forgetSource(creep);
+            }
+            var err = creep.harvest(source);
+            if (err == ERR_NOT_IN_RANGE || err == ERR_NOT_ENOUGH_ENERGY) {
+                creep.travelTo(source);
+            }
+        }
+        static forgetSource(creep) {
+            delete creep.memory.source;
+        }
+    }
+    exports.default = Miner;
+});
+define("role.harvester", ["require", "exports", "caste.worker", "role.mining"], function (require, exports, caste_worker_2, role_mining_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    class Harvester {
+        static run(creep) {
+            caste_worker_2.default.checkEnergy(creep);
+            if (creep.memory.mode == undefined || creep.carry.energy == 0) {
+                creep.memory.mode = caste_worker_2.default.HARVEST;
+            }
+            else if (creep.carry.energy == creep.carryCapacity || (creep.memory.source != undefined && creep.carry.energy > 0 && Game.getObjectById(creep.memory.source)).energy == 0) {
+                creep.memory.mode = caste_worker_2.default.DELIVER;
+            }
+            if (creep.memory.mode == caste_worker_2.default.HARVEST) {
+                role_mining_1.default.mineSource(creep);
+            }
+            else if (creep.memory.mode == caste_worker_2.default.DELIVER) {
+                role_mining_1.default.forgetSource(creep);
+                caste_worker_2.default.deliverEnergyToTowerExtensionSpawnStorage(creep, true);
             }
         }
     }
-    exports.run = run;
+    exports.default = Harvester;
+});
+define("role.upgrader", ["require", "exports", "util.source"], function (require, exports, util_source_2) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    class Upgrader {
+        static run(creep) {
+            if (creep.memory.upgrading && creep.carry.energy == 0) {
+                creep.memory.upgrading = false;
+                creep.memory.mode = "harvest";
+                creep.say('\uD83D\uDD04 harvest');
+            }
+            if (!creep.memory.upgrading && creep.carry.energy == creep.carryCapacity) {
+                creep.memory.upgrading = true;
+                creep.say('\u26A1 upgrade');
+                creep.memory.mode = "upgrade";
+            }
+            if (creep.memory.upgrading) {
+                delete creep.memory.source;
+                if (creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
+                    creep.travelTo(creep.room.controller);
+                }
+            }
+            else {
+                if (creep.memory.source == undefined) {
+                    creep.memory.source = util_source_2.default.findsourceid(creep);
+                    creep.say("Source: " + creep.memory.source.substring(21, 24));
+                }
+                var source = Game.getObjectById(creep.memory.source);
+                if (creep.harvest(source) == ERR_NOT_IN_RANGE) {
+                    creep.travelTo(source, { maxRooms: 1 });
+                }
+            }
+        }
+    }
+    exports.default = Upgrader;
 });
 define("role.builder", ["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    function run(creep) {
-        if (creep.memory.building && creep.carry.energy == 0) {
-            creep.memory.building = false;
-            creep.say('\uD83D\uDD04 harvest');
-        }
-        if (!creep.memory.building && creep.carry.energy == creep.carryCapacity) {
-            creep.memory.building = true;
-            creep.say('\uD83D\uDEA7 build');
-        }
-        if (creep.memory.building) {
-            var targets = creep.room.find(FIND_CONSTRUCTION_SITES);
-            if (targets.length) {
-                if (creep.build(targets[0]) == ERR_NOT_IN_RANGE) {
-                    creep.travelTo(targets[0]);
-                }
+    class Builder {
+        static run(creep) {
+            if (creep.memory.building && creep.carry.energy == 0) {
+                creep.memory.building = false;
+                creep.say('\uD83D\uDD04 harvest');
             }
-        }
-        else {
-            var sources = creep.room.find(FIND_SOURCES);
-            if (creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
-                creep.travelTo(sources[0]);
+            if (!creep.memory.building && creep.carry.energy == creep.carryCapacity) {
+                creep.memory.building = true;
+                creep.say('\uD83D\uDEA7 build');
             }
-        }
-    }
-    exports.run = run;
-});
-define("role.paver", ["require", "exports", "caste.worker", "role.mining"], function (require, exports, worker, miner) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    function run(creep) {
-        if (creep.memory.building && creep.carry.energy == 0) {
-            creep.memory.building = false;
-            creep.memory.mode = "harvest";
-            creep.say('\uD83D\uDD04 harvest');
-        }
-        if (!creep.memory.building && creep.carry.energy == creep.carryCapacity) {
-            creep.memory.building = true;
-            creep.memory.mode = "building";
-            creep.say('\uD83D\uDEA7 build');
-        }
-        if (creep.memory.building) {
-            delete creep.memory.source;
-            var targets = creep.room.find(FIND_CONSTRUCTION_SITES);
-            if (targets.length) {
-                if (creep.build(targets[0]) == ERR_NOT_IN_RANGE) {
-                    creep.travelTo(targets[0]);
+            if (creep.memory.building) {
+                var targets = creep.room.find(FIND_CONSTRUCTION_SITES);
+                if (targets.length) {
+                    if (creep.build(targets[0]) == ERR_NOT_IN_RANGE) {
+                        creep.travelTo(targets[0]);
+                    }
                 }
             }
             else {
-                if (creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
-                    creep.travelTo(creep.room.controller);
+                var sources = creep.room.find(FIND_SOURCES);
+                if (creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
+                    creep.travelTo(sources[0]);
                 }
-                if (creep.memory.autopave == true && creep.pos.look()[0].type != 'structure') {
-                    creep.room.createConstructionSite(creep.pos.x, creep.pos.y, STRUCTURE_ROAD);
-                }
-            }
-        }
-        else {
-            if (worker.getFromStorage(creep) == ERR_NOT_ENOUGH_ENERGY || creep.room.storage.store[RESOURCE_ENERGY] == 0) {
-                miner.mineSource(creep);
             }
         }
     }
-    exports.run = run;
-    function autoPaving(creep) {
-        var path = creep.pos.findPathTo(creep.room.controller);
-        for (var i in path) {
-            var target = path[i];
-            var pos = creep.room.getPositionAt(target.x, target.y);
-            if (pos) {
-                var things = pos.look();
-                var isroad = false;
-                for (var i in things) {
-                    var thing = things[i];
-                    if (thing.type == 'structure') {
-                        isroad = true;
+    exports.default = Builder;
+});
+define("role.paver", ["require", "exports", "caste.worker", "role.mining"], function (require, exports, caste_worker_3, role_mining_2) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    class Paver {
+        static run(creep) {
+            if (creep.memory.building && creep.carry.energy == 0) {
+                creep.memory.building = false;
+                creep.memory.mode = "harvest";
+                creep.say('\uD83D\uDD04 harvest');
+            }
+            if (!creep.memory.building && creep.carry.energy == creep.carryCapacity) {
+                creep.memory.building = true;
+                creep.memory.mode = "building";
+                creep.say('\uD83D\uDEA7 build');
+            }
+            if (creep.memory.building) {
+                delete creep.memory.source;
+                var targets = creep.room.find(FIND_CONSTRUCTION_SITES);
+                if (targets.length) {
+                    if (creep.build(targets[0]) == ERR_NOT_IN_RANGE) {
+                        creep.travelTo(targets[0]);
                     }
                 }
-                if (!isroad) {
-                    creep.room.createConstructionSite(target.x, target.y, STRUCTURE_ROAD);
-                    break;
+                else {
+                    if (creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
+                        creep.travelTo(creep.room.controller);
+                    }
+                    if (creep.memory.autopave == true && creep.pos.look()[0].type != 'structure') {
+                        creep.room.createConstructionSite(creep.pos.x, creep.pos.y, STRUCTURE_ROAD);
+                    }
+                }
+            }
+            else {
+                if (caste_worker_3.default.getFromStorage(creep) == ERR_NOT_ENOUGH_ENERGY || creep.room.storage.store[RESOURCE_ENERGY] == 0) {
+                    role_mining_2.default.mineSource(creep);
+                }
+            }
+        }
+        static autoPaving(creep) {
+            var path = creep.pos.findPathTo(creep.room.controller);
+            for (var i in path) {
+                var target = path[i];
+                var pos = creep.room.getPositionAt(target.x, target.y);
+                if (pos) {
+                    var things = pos.look();
+                    var isroad = false;
+                    for (var i in things) {
+                        var thing = things[i];
+                        if (thing.type == 'structure') {
+                            isroad = true;
+                        }
+                    }
+                    if (!isroad) {
+                        creep.room.createConstructionSite(target.x, target.y, STRUCTURE_ROAD);
+                        break;
+                    }
                 }
             }
         }
     }
+    exports.default = Paver;
 });
 define("role.spawn", ["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    function run(creep) {
-        if (creep.room.controller.my == undefined) {
-            var err = creep.claimController(creep.room.controller);
-            creep.say("" + err);
-            if (err == ERR_NOT_IN_RANGE) {
-                creep.travelTo(creep.room.controller);
-            }
-        }
-        else {
-            for (var name in Game.flags) {
-                var flag = Game.flags[name];
-                if (flag.room == undefined) {
-                    creep.travelTo(flag);
-                }
-            }
-        }
-    }
-    exports.run = run;
-});
-define("role.courier", ["require", "exports", "caste.worker"], function (require, exports, worker) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    function run(creep) {
-        worker.checkEnergy(creep);
-        if (creep.memory.mode == undefined || creep.carry.energy == 0) {
-            creep.memory.mode = worker.PICKUP;
-        }
-        else if (creep.carry.energy == creep.carryCapacity) {
-            creep.memory.mode = worker.DELIVER;
-        }
-        if (creep.memory.mode == worker.PICKUP) {
-            var dropped = creep.room.find(FIND_DROPPED_RESOURCES);
-            if (dropped.length > 0) {
-                if (creep.pickup(dropped[0]) == ERR_NOT_IN_RANGE) {
-                    creep.travelTo(dropped[0].pos);
+    class Claim {
+        static run(creep) {
+            if (creep.room.controller.my == undefined) {
+                var err = creep.claimController(creep.room.controller);
+                creep.say("" + err);
+                if (err == ERR_NOT_IN_RANGE) {
+                    creep.travelTo(creep.room.controller);
                 }
             }
             else {
-                var nonenergy_resource = undefined;
-                for (var name in Object.keys(creep.carry)) {
-                    if (name != RESOURCE_ENERGY && creep.carry[name] > 0) {
-                        nonenergy_resource = name;
+                for (var name in Game.flags) {
+                    var flag = Game.flags[name];
+                    if (flag.room == undefined) {
+                        creep.travelTo(flag);
                     }
-                }
-                if (nonenergy_resource) {
-                    if (creep.transfer(creep.room.storage, name) == ERR_NOT_IN_RANGE) {
-                        creep.travelTo(creep.room.storage);
-                    }
-                }
-                else {
-                    worker.getFromStorage(creep);
                 }
             }
         }
-        else if (creep.memory.mode == worker.DELIVER) {
-            worker.deliverEnergyToTowerExtensionSpawnStorage(creep, false, true);
+    }
+    exports.default = Claim;
+});
+define("role.courier", ["require", "exports", "caste.worker"], function (require, exports, caste_worker_4) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    class Courier extends caste_worker_4.default {
+        static run(creep) {
+            caste_worker_4.default.checkEnergy(creep);
+            if (creep.memory.mode == undefined || creep.carry.energy == 0) {
+                creep.memory.mode = caste_worker_4.default.PICKUP;
+            }
+            else if (creep.carry.energy == creep.carryCapacity) {
+                creep.memory.mode = caste_worker_4.default.DELIVER;
+            }
+            if (creep.memory.mode == caste_worker_4.default.PICKUP) {
+                var dropped = creep.room.find(FIND_DROPPED_RESOURCES);
+                if (dropped.length > 0) {
+                    if (creep.pickup(dropped[0]) == ERR_NOT_IN_RANGE) {
+                        creep.travelTo(dropped[0].pos);
+                    }
+                }
+                else {
+                    var nonenergy_resource = undefined;
+                    for (var name in Object.keys(creep.carry)) {
+                        if (name != RESOURCE_ENERGY && creep.carry[name] > 0) {
+                            nonenergy_resource = name;
+                        }
+                    }
+                    if (nonenergy_resource) {
+                        if (creep.transfer(creep.room.storage, name) == ERR_NOT_IN_RANGE) {
+                            creep.travelTo(creep.room.storage);
+                        }
+                    }
+                    else {
+                        caste_worker_4.default.getFromStorage(creep);
+                    }
+                }
+            }
+            else if (creep.memory.mode == caste_worker_4.default.DELIVER) {
+                caste_worker_4.default.deliverEnergyToTowerExtensionSpawnStorage(creep, false, true);
+            }
         }
     }
-    exports.run = run;
+    exports.default = Courier;
 });
 define("Traveler", ["require", "exports"], function (require, exports) {
     "use strict";
@@ -846,156 +857,160 @@ define("Traveler", ["require", "exports"], function (require, exports) {
 define("task.spawning", ["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    var L1_300_Worker = [MOVE, WORK, CARRY];
-    var L1_300_OFFROAD_Worker = [MOVE, MOVE, MOVE, WORK, CARRY];
-    var L2_550_Worker = [MOVE, MOVE, MOVE, WORK, WORK, CARRY, CARRY, CARRY, CARRY];
-    var L2_550_OFFROAD_Worker = [MOVE, MOVE, MOVE, MOVE, MOVE, WORK, WORK, CARRY, CARRY];
-    var L3_800_Courier = [MOVE, MOVE, MOVE, MOVE, MOVE, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY];
-    var L3_800_Miner = [MOVE, MOVE, WORK, WORK, WORK, WORK, WORK, WORK, CARRY, CARRY];
-    var L3_800_Worker = [MOVE, MOVE, MOVE, MOVE, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY];
-    var L3_800_OFFROAD_Worker = [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY];
-    var L3_800_claim = [CLAIM, MOVE, MOVE, MOVE, MOVE];
-    var L4_1300_Courier = [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY];
-    var L4_1300_Miner = [MOVE, MOVE, MOVE, MOVE, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY];
-    var L4_1300_Worker = [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY];
-    var L4_1300_OFFROAD_Worker = [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY];
-    var L4_1300_claim = [CLAIM, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE];
-    var L5_1800_Miner = [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY];
-    var L5_1800_Courier = [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY];
-    var L5_1800_Worker = [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY];
-    exports.ROLE_HARVESTER = 'harvester';
-    exports.ROLE_UPGRADER = 'upgrader';
-    exports.ROLE_BUILDER = 'builder';
-    exports.ROLE_PAVER = 'paver';
-    exports.ROLE_CLAIM = 'claim';
-    exports.ROLE_MINER = 'miner';
-    exports.ROLE_COURIER = 'courier';
-    exports.CASTE_WORKER = 'worker';
-    exports.CASTE_ROVER = 'rover';
-    exports.CASTE_CLAIM = 'claim';
-    var ROLES = [exports.ROLE_HARVESTER, exports.ROLE_UPGRADER, exports.ROLE_BUILDER, exports.ROLE_PAVER, exports.ROLE_CLAIM, exports.ROLE_MINER, exports.ROLE_COURIER];
-    function spawnNewCreeps() {
-        for (var name of Object.keys(Game.spawns)) {
-            spawnNewCreepsForRoom(name);
+    class Spawning {
+        static spawnNewCreeps() {
+            for (var name of Object.keys(Game.spawns)) {
+                Spawning.spawnNewCreepsForRoom(name);
+            }
         }
-    }
-    exports.spawnNewCreeps = spawnNewCreeps;
-    function spawnNewCreepsForRoom(spawnName) {
-        Game.spawns[spawnName].memory.role_count = {};
-        for (var creep of Game.spawns[spawnName].room.find(FIND_MY_CREEPS)) {
-            for (var role of ROLES) {
-                if (creep.memory.role == role) {
-                    Game.spawns[spawnName].memory.role_count[role] = defaultValue(Game.spawns[spawnName].memory.role_count[role], 0) + 1;
+        static spawnNewCreepsForRoom(spawnName) {
+            Game.spawns[spawnName].memory.role_count = {};
+            for (var creep of Game.spawns[spawnName].room.find(FIND_MY_CREEPS)) {
+                for (var role of Spawning.ROLES) {
+                    if (creep.memory.role == role) {
+                        Game.spawns[spawnName].memory.role_count[role] = Spawning.defaultValue(Game.spawns[spawnName].memory.role_count[role], 0) + 1;
+                    }
+                }
+            }
+            var energy = Game.spawns[spawnName].room.energyAvailable;
+            var level = Game.spawns[spawnName].room.controller.level;
+            if (Game.spawns[spawnName].room.find(FIND_HOSTILE_CREEPS).length > 0) {
+            }
+            else {
+                if (Game.spawns[spawnName].room.energyCapacityAvailable >= 1800) {
+                    if (Spawning.checkThenSpawn(spawnName, Spawning.ROLE_MINER, Spawning.CASTE_WORKER, 1, Spawning.L5_1800_Miner, energy)) { }
+                    else if (Spawning.checkThenSpawn(spawnName, Spawning.ROLE_COURIER, Spawning.CASTE_WORKER, 1, Spawning.L5_1800_Courier, energy)) { }
+                    else if (Spawning.checkThenSpawn(spawnName, Spawning.ROLE_PAVER, Spawning.CASTE_WORKER, 1, Spawning.L5_1800_Worker, energy)) { }
+                    else if (Spawning.checkThenSpawn(spawnName, Spawning.ROLE_MINER, Spawning.CASTE_WORKER, 2, Spawning.L5_1800_Miner, energy)) { }
+                    else if (Spawning.checkThenSpawn(spawnName, Spawning.ROLE_PAVER, Spawning.CASTE_WORKER, 3, Spawning.L5_1800_Worker, energy)) { }
+                }
+                else if (Game.spawns[spawnName].room.energyCapacityAvailable >= 1300) {
+                    if (Spawning.checkThenSpawn(spawnName, Spawning.ROLE_MINER, Spawning.CASTE_WORKER, 1, Spawning.L4_1300_Miner, energy)) { }
+                    else if (Spawning.checkThenSpawn(spawnName, Spawning.ROLE_COURIER, Spawning.CASTE_WORKER, 1, Spawning.L4_1300_Courier, energy)) { }
+                    else if (Spawning.checkThenSpawn(spawnName, Spawning.ROLE_PAVER, Spawning.CASTE_WORKER, 1, Spawning.L4_1300_Worker, energy)) { }
+                    else if (Spawning.checkThenSpawn(spawnName, Spawning.ROLE_MINER, Spawning.CASTE_WORKER, 2, Spawning.L4_1300_Miner, energy)) { }
+                    else if (Spawning.checkThenSpawn(spawnName, Spawning.ROLE_PAVER, Spawning.CASTE_WORKER, 5, Spawning.L4_1300_Worker, energy)) { }
+                }
+                else if (Game.spawns[spawnName].room.energyCapacityAvailable >= 1250) {
+                }
+                else if (Game.spawns[spawnName].room.energyCapacityAvailable >= 800) {
+                    if (Spawning.checkThenSpawn(spawnName, Spawning.ROLE_MINER, Spawning.CASTE_WORKER, 1, Spawning.L3_800_Miner, energy)) { }
+                    else if (Spawning.checkThenSpawn(spawnName, Spawning.ROLE_COURIER, Spawning.CASTE_WORKER, 1, Spawning.L3_800_Courier, energy)) { }
+                    else if (Spawning.checkThenSpawn(spawnName, Spawning.ROLE_PAVER, Spawning.CASTE_WORKER, 3, Spawning.L3_800_Worker, energy)) { }
+                    else if (Spawning.checkThenSpawn(spawnName, Spawning.ROLE_MINER, Spawning.CASTE_WORKER, 2, Spawning.L3_800_Miner, energy)) { }
+                }
+                else if (Game.spawns[spawnName].room.energyCapacityAvailable >= 550) {
+                    if (Spawning.checkThenSpawn(spawnName, Spawning.ROLE_HARVESTER, Spawning.CASTE_WORKER, 3, Spawning.L2_550_Worker, energy)) { }
+                    else if (Spawning.checkThenSpawn(spawnName, Spawning.ROLE_UPGRADER, Spawning.CASTE_WORKER, 1, Spawning.L2_550_Worker, energy)) { }
+                    else if (Spawning.checkThenSpawn(spawnName, Spawning.ROLE_HARVESTER, Spawning.CASTE_WORKER, 6, Spawning.L2_550_Worker, energy)) { }
+                    else if (Spawning.checkThenSpawn(spawnName, Spawning.ROLE_PAVER, Spawning.CASTE_ROVER, 4, Spawning.L2_550_OFFROAD_Worker, energy)) { }
+                    else if (Spawning.checkThenSpawn(spawnName, Spawning.ROLE_HARVESTER, Spawning.CASTE_WORKER, 9, Spawning.L2_550_Worker, energy)) { }
+                    else if (Spawning.checkThenSpawn(spawnName, Spawning.ROLE_UPGRADER, Spawning.CASTE_WORKER, 6, Spawning.L2_550_Worker, energy)) { }
+                }
+                else if (Game.spawns[spawnName].room.energyCapacityAvailable >= 300) {
+                    if (Spawning.checkThenSpawn(spawnName, Spawning.ROLE_HARVESTER, Spawning.CASTE_WORKER, 3, Spawning.L1_300_Worker, energy)) { }
+                    else if (Spawning.checkThenSpawn(spawnName, Spawning.ROLE_UPGRADER, Spawning.CASTE_WORKER, 1, Spawning.L1_300_Worker, energy)) { }
+                    else if (Spawning.checkThenSpawn(spawnName, Spawning.ROLE_HARVESTER, Spawning.CASTE_WORKER, 6, Spawning.L1_300_Worker, energy)) { }
+                    else if (Spawning.checkThenSpawn(spawnName, Spawning.ROLE_PAVER, Spawning.CASTE_ROVER, 2, Spawning.L1_300_OFFROAD_Worker, energy)) { }
+                    else if (Spawning.checkThenSpawn(spawnName, Spawning.ROLE_HARVESTER, Spawning.CASTE_WORKER, 9, Spawning.L1_300_Worker, energy)) { }
+                    else if (Spawning.checkThenSpawn(spawnName, Spawning.ROLE_UPGRADER, Spawning.CASTE_WORKER, 6, Spawning.L1_300_Worker, energy)) { }
                 }
             }
         }
-        var energy = Game.spawns[spawnName].room.energyAvailable;
-        var level = Game.spawns[spawnName].room.controller.level;
-        if (Game.spawns[spawnName].room.find(FIND_HOSTILE_CREEPS).length > 0) {
+        static defaultValue(myVar, defaultVal) {
+            if (typeof myVar === "undefined")
+                myVar = defaultVal;
+            return myVar;
         }
-        else {
-            if (Game.spawns[spawnName].room.energyCapacityAvailable >= 1800) {
-                if (checkThenSpawn(spawnName, exports.ROLE_MINER, exports.CASTE_WORKER, 1, L5_1800_Miner, energy)) { }
-                else if (checkThenSpawn(spawnName, exports.ROLE_COURIER, exports.CASTE_WORKER, 1, L5_1800_Courier, energy)) { }
-                else if (checkThenSpawn(spawnName, exports.ROLE_PAVER, exports.CASTE_WORKER, 1, L5_1800_Worker, energy)) { }
-                else if (checkThenSpawn(spawnName, exports.ROLE_MINER, exports.CASTE_WORKER, 2, L5_1800_Miner, energy)) { }
-                else if (checkThenSpawn(spawnName, exports.ROLE_PAVER, exports.CASTE_WORKER, 3, L5_1800_Worker, energy)) { }
+        static checkThenSpawn(spawnName, role, caste, limit, body, energyAvailable) {
+            var cost = body.map((part) => BODYPART_COST[part]).reduce((sum, next) => sum + next);
+            if ((Game.spawns[spawnName].memory.role_count[role] == undefined || Game.spawns[spawnName].memory.role_count[role] < limit) && energyAvailable >= cost) {
+                Game.spawns[spawnName].createCreep(body, caste + Game.time.toString(), { role: role, caste: caste });
+                return true;
             }
-            else if (Game.spawns[spawnName].room.energyCapacityAvailable >= 1300) {
-                if (checkThenSpawn(spawnName, exports.ROLE_MINER, exports.CASTE_WORKER, 1, L4_1300_Miner, energy)) { }
-                else if (checkThenSpawn(spawnName, exports.ROLE_COURIER, exports.CASTE_WORKER, 1, L4_1300_Courier, energy)) { }
-                else if (checkThenSpawn(spawnName, exports.ROLE_PAVER, exports.CASTE_WORKER, 1, L4_1300_Worker, energy)) { }
-                else if (checkThenSpawn(spawnName, exports.ROLE_MINER, exports.CASTE_WORKER, 2, L4_1300_Miner, energy)) { }
-                else if (checkThenSpawn(spawnName, exports.ROLE_PAVER, exports.CASTE_WORKER, 5, L4_1300_Worker, energy)) { }
-            }
-            else if (Game.spawns[spawnName].room.energyCapacityAvailable >= 1250) {
-            }
-            else if (Game.spawns[spawnName].room.energyCapacityAvailable >= 800) {
-                if (checkThenSpawn(spawnName, exports.ROLE_MINER, exports.CASTE_WORKER, 1, L3_800_Miner, energy)) { }
-                else if (checkThenSpawn(spawnName, exports.ROLE_COURIER, exports.CASTE_WORKER, 1, L3_800_Courier, energy)) { }
-                else if (checkThenSpawn(spawnName, exports.ROLE_PAVER, exports.CASTE_WORKER, 3, L3_800_Worker, energy)) { }
-                else if (checkThenSpawn(spawnName, exports.ROLE_MINER, exports.CASTE_WORKER, 2, L3_800_Miner, energy)) { }
-            }
-            else if (Game.spawns[spawnName].room.energyCapacityAvailable >= 550) {
-                if (checkThenSpawn(spawnName, exports.ROLE_HARVESTER, exports.CASTE_WORKER, 3, L2_550_Worker, energy)) { }
-                else if (checkThenSpawn(spawnName, exports.ROLE_UPGRADER, exports.CASTE_WORKER, 1, L2_550_Worker, energy)) { }
-                else if (checkThenSpawn(spawnName, exports.ROLE_HARVESTER, exports.CASTE_WORKER, 6, L2_550_Worker, energy)) { }
-                else if (checkThenSpawn(spawnName, exports.ROLE_PAVER, exports.CASTE_ROVER, 4, L2_550_OFFROAD_Worker, energy)) { }
-                else if (checkThenSpawn(spawnName, exports.ROLE_HARVESTER, exports.CASTE_WORKER, 9, L2_550_Worker, energy)) { }
-                else if (checkThenSpawn(spawnName, exports.ROLE_UPGRADER, exports.CASTE_WORKER, 6, L2_550_Worker, energy)) { }
-            }
-            else if (Game.spawns[spawnName].room.energyCapacityAvailable >= 300) {
-                if (checkThenSpawn(spawnName, exports.ROLE_HARVESTER, exports.CASTE_WORKER, 3, L1_300_Worker, energy)) { }
-                else if (checkThenSpawn(spawnName, exports.ROLE_UPGRADER, exports.CASTE_WORKER, 1, L1_300_Worker, energy)) { }
-                else if (checkThenSpawn(spawnName, exports.ROLE_HARVESTER, exports.CASTE_WORKER, 6, L1_300_Worker, energy)) { }
-                else if (checkThenSpawn(spawnName, exports.ROLE_PAVER, exports.CASTE_ROVER, 2, L1_300_OFFROAD_Worker, energy)) { }
-                else if (checkThenSpawn(spawnName, exports.ROLE_HARVESTER, exports.CASTE_WORKER, 9, L1_300_Worker, energy)) { }
-                else if (checkThenSpawn(spawnName, exports.ROLE_UPGRADER, exports.CASTE_WORKER, 6, L1_300_Worker, energy)) { }
-            }
+            return false;
         }
     }
-    function defaultValue(myVar, defaultVal) {
-        if (typeof myVar === "undefined")
-            myVar = defaultVal;
-        return myVar;
-    }
-    function checkThenSpawn(spawnName, role, caste, limit, body, energyAvailable) {
-        var cost = body.map((part) => BODYPART_COST[part]).reduce((sum, next) => sum + next);
-        if ((Game.spawns[spawnName].memory.role_count[role] == undefined || Game.spawns[spawnName].memory.role_count[role] < limit) && energyAvailable >= cost) {
-            Game.spawns[spawnName].createCreep(body, caste + Game.time.toString(), { role: role, caste: caste });
-            return true;
-        }
-        return false;
-    }
+    Spawning.L1_300_Worker = [MOVE, WORK, CARRY];
+    Spawning.L1_300_OFFROAD_Worker = [MOVE, MOVE, MOVE, WORK, CARRY];
+    Spawning.L2_550_Worker = [MOVE, MOVE, MOVE, WORK, WORK, CARRY, CARRY, CARRY, CARRY];
+    Spawning.L2_550_OFFROAD_Worker = [MOVE, MOVE, MOVE, MOVE, MOVE, WORK, WORK, CARRY, CARRY];
+    Spawning.L3_800_Courier = [MOVE, MOVE, MOVE, MOVE, MOVE, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY];
+    Spawning.L3_800_Miner = [MOVE, MOVE, WORK, WORK, WORK, WORK, WORK, WORK, CARRY, CARRY];
+    Spawning.L3_800_Worker = [MOVE, MOVE, MOVE, MOVE, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY];
+    Spawning.L3_800_OFFROAD_Worker = [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY];
+    Spawning.L3_800_claim = [CLAIM, MOVE, MOVE, MOVE, MOVE];
+    Spawning.L4_1300_Courier = [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY];
+    Spawning.L4_1300_Miner = [MOVE, MOVE, MOVE, MOVE, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY];
+    Spawning.L4_1300_Worker = [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY];
+    Spawning.L4_1300_OFFROAD_Worker = [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY];
+    Spawning.L4_1300_claim = [CLAIM, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE];
+    Spawning.L5_1800_Miner = [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY];
+    Spawning.L5_1800_Courier = [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY];
+    Spawning.L5_1800_Worker = [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY];
+    Spawning.ROLE_HARVESTER = 'harvester';
+    Spawning.ROLE_UPGRADER = 'upgrader';
+    Spawning.ROLE_BUILDER = 'builder';
+    Spawning.ROLE_PAVER = 'paver';
+    Spawning.ROLE_CLAIM = 'claim';
+    Spawning.ROLE_MINER = 'miner';
+    Spawning.ROLE_COURIER = 'courier';
+    Spawning.CASTE_WORKER = 'worker';
+    Spawning.CASTE_ROVER = 'rover';
+    Spawning.CASTE_CLAIM = 'claim';
+    Spawning.ROLES = [Spawning.ROLE_HARVESTER, Spawning.ROLE_UPGRADER, Spawning.ROLE_BUILDER, Spawning.ROLE_PAVER, Spawning.ROLE_CLAIM, Spawning.ROLE_MINER, Spawning.ROLE_COURIER];
+    exports.default = Spawning;
 });
 define("task.towers", ["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    function commandTowers() {
-        if (!Memory.MAX_REPAIR) {
-            Memory.MAX_REPAIR = 300000;
-        }
-        if (!Memory.MAX_REPAIR_ROAD) {
-            Memory.MAX_REPAIR_ROAD = 4000;
-        }
-        for (var name of Object.keys(Game.spawns)) {
-            var towers = Game.spawns[name].room.find(FIND_MY_STRUCTURES, { filter: { structureType: STRUCTURE_TOWER } });
-            for (var tower of towers) {
-                var closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
-                if (closestHostile) {
-                    tower.attack(closestHostile);
-                }
-                else {
-                    var allCriticalRamparts = tower.room.find(FIND_MY_STRUCTURES, {
-                        filter: (structure) => structure.structureType == STRUCTURE_RAMPART && structure.hits < 4000
-                    });
-                    allCriticalRamparts.sort((a, b) => a.hits - b.hits);
-                    var closestDamagedStructure = null;
-                    if (allCriticalRamparts) {
-                        closestDamagedStructure = allCriticalRamparts[0];
+    class Towers {
+        static commandTowers() {
+            if (!Memory.MAX_REPAIR) {
+                Memory.MAX_REPAIR = 300000;
+            }
+            if (!Memory.MAX_REPAIR_ROAD) {
+                Memory.MAX_REPAIR_ROAD = 4000;
+            }
+            for (var name of Object.keys(Game.spawns)) {
+                var towers = Game.spawns[name].room.find(FIND_MY_STRUCTURES, { filter: { structureType: STRUCTURE_TOWER } });
+                for (var tower of towers) {
+                    var closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
+                    if (closestHostile) {
+                        tower.attack(closestHostile);
                     }
-                    if (!closestDamagedStructure) {
-                        var allStructures = tower.room.find(FIND_STRUCTURES, {
-                            filter: (structure) => structure.id != tower.id && structure.hits < structure.hitsMax && structure.hits < Memory.MAX_REPAIR && (structure.structureType != STRUCTURE_ROAD || structure.hits < Memory.MAX_REPAIR_ROAD)
+                    else {
+                        var allCriticalRamparts = tower.room.find(FIND_MY_STRUCTURES, {
+                            filter: (structure) => structure.structureType == STRUCTURE_RAMPART && structure.hits < 4000
                         });
-                        allStructures.sort((a, b) => a.hits - b.hits);
-                        if (allStructures.length > 0) {
-                            closestDamagedStructure = allStructures[0];
+                        allCriticalRamparts.sort((a, b) => a.hits - b.hits);
+                        var closestDamagedStructure = null;
+                        if (allCriticalRamparts) {
+                            closestDamagedStructure = allCriticalRamparts[0];
                         }
-                    }
-                    if (closestDamagedStructure != undefined) {
-                        var ret = tower.repair(closestDamagedStructure);
-                        if (ret != 0 && ret != -6) {
-                            console.log("tower.repair ret = " + ret);
+                        if (!closestDamagedStructure) {
+                            var allStructures = tower.room.find(FIND_STRUCTURES, {
+                                filter: (structure) => structure.id != tower.id && structure.hits < structure.hitsMax && structure.hits < Memory.MAX_REPAIR && (structure.structureType != STRUCTURE_ROAD || structure.hits < Memory.MAX_REPAIR_ROAD)
+                            });
+                            allStructures.sort((a, b) => a.hits - b.hits);
+                            if (allStructures.length > 0) {
+                                closestDamagedStructure = allStructures[0];
+                            }
+                        }
+                        if (closestDamagedStructure != undefined) {
+                            var ret = tower.repair(closestDamagedStructure);
+                            if (ret != 0 && ret != -6) {
+                                console.log("tower.repair ret = " + ret);
+                            }
                         }
                     }
                 }
             }
         }
     }
-    exports.commandTowers = commandTowers;
+    exports.default = Towers;
 });
-define("main", ["require", "exports", "role.harvester", "role.upgrader", "role.builder", "role.paver", "role.spawn", "role.courier", "role.mining", "Traveler", "task.spawning", "task.towers"], function (require, exports, roleHarvester, roleUpgrader, roleBuilder, rolePaver, roleClaim, roleCourier, roleMiner, traveler, creeps, towers) {
+define("main", ["require", "exports", "role.harvester", "role.upgrader", "role.builder", "role.paver", "role.spawn", "role.courier", "role.mining", "Traveler", "task.spawning", "task.towers"], function (require, exports, role_harvester_1, role_upgrader_1, role_builder_1, role_paver_1, role_spawn_1, role_courier_1, role_mining_3, traveler, task_spawning_1, task_towers_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var start = Game.cpu.getUsed();
@@ -1037,26 +1052,26 @@ define("main", ["require", "exports", "role.harvester", "role.upgrader", "role.b
         for (var name in Game.creeps) {
             var creep = Game.creeps[name];
             if (creep.my) {
-                if (creep.memory.role == creeps.ROLE_HARVESTER) {
-                    roleHarvester.run(creep);
+                if (creep.memory.role == task_spawning_1.default.ROLE_HARVESTER) {
+                    role_harvester_1.default.run(creep);
                 }
-                if (creep.memory.role == creeps.ROLE_UPGRADER) {
-                    roleUpgrader.run(creep);
+                if (creep.memory.role == task_spawning_1.default.ROLE_UPGRADER) {
+                    role_upgrader_1.default.run(creep);
                 }
-                if (creep.memory.role == creeps.ROLE_BUILDER) {
-                    roleBuilder.run(creep);
+                if (creep.memory.role == task_spawning_1.default.ROLE_BUILDER) {
+                    role_builder_1.default.run(creep);
                 }
-                if (creep.memory.role == creeps.ROLE_PAVER) {
-                    rolePaver.run(creep);
+                if (creep.memory.role == task_spawning_1.default.ROLE_PAVER) {
+                    role_paver_1.default.run(creep);
                 }
-                if (creep.memory.role == creeps.ROLE_CLAIM) {
-                    roleClaim.run(creep);
+                if (creep.memory.role == task_spawning_1.default.ROLE_CLAIM) {
+                    role_spawn_1.default.run(creep);
                 }
-                if (creep.memory.role == creeps.ROLE_COURIER) {
-                    roleCourier.run(creep);
+                if (creep.memory.role == task_spawning_1.default.ROLE_COURIER) {
+                    role_courier_1.default.run(creep);
                 }
-                if (creep.memory.role == creeps.ROLE_MINER) {
-                    roleMiner.run(creep);
+                if (creep.memory.role == task_spawning_1.default.ROLE_MINER) {
+                    role_mining_3.default.run(creep);
                 }
             }
         }
@@ -1108,13 +1123,13 @@ define("main", ["require", "exports", "role.harvester", "role.upgrader", "role.b
         if ((Game.time & 7) == 0) {
         }
         if ((Game.time & 15) == 0) {
-            creeps.spawnNewCreeps();
+            task_spawning_1.default.spawnNewCreeps();
         }
         if ((Game.time & 63) == 0) {
             handleRoomRecovery();
         }
         var periodic = Game.cpu.getUsed();
-        towers.commandTowers();
+        task_towers_1.default.commandTowers();
         var tower = Game.cpu.getUsed();
         console.log("Start: " + start + " imports: " + (update - start) + " needs: " + (needs - update) + " creeps: " + (run - needs) + " periodic: " + (periodic - run) + " towers: " + (tower - periodic));
     }
