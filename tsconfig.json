@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "module": "amd",//commonjs",
+    "module": "system",//commonjs",
     "target": "es6",
     "removeComments": true,
     "noEmitOnError": false,
