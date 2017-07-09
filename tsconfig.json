@@ -1,11 +1,11 @@
 {
   "compilerOptions": {
-    "module": "amd",//commonjs",
+    "module": "commonjs",//commonjs",
     "target": "es6",
     "removeComments": true,
     "noEmitOnError": false,
     "noResolve": false,
-    "experimentalDecorators": true,
+    "experimentalDecorators": false,
     "strict": false,
     "noUnusedParameters": false,
     "noUnusedLocals": false,

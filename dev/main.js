@@ -2,31 +2,31 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var start = Game.cpu.getUsed();
 var profiling = {};
-const roleHarvester = require("role.harvester");
+const role_harvester_1 = require("role.harvester");
 var prev = start;
 var now = Game.cpu.getUsed();
 profiling["harvester_import"] = now - prev;
-const roleUpgrader = require("role.upgrader");
+const role_upgrader_1 = require("role.upgrader");
 prev = now;
 now = Game.cpu.getUsed();
 profiling["upgrder_import"] = now - prev;
-const roleBuilder = require("role.builder");
+const role_builder_1 = require("role.builder");
 prev = now;
 now = Game.cpu.getUsed();
 profiling["builder_import"] = now - prev;
-const rolePaver = require("role.paver");
+const role_paver_1 = require("role.paver");
 prev = now;
 now = Game.cpu.getUsed();
 profiling["paver_import"] = now - prev;
-const roleClaim = require("role.spawn");
+const role_spawn_1 = require("role.spawn");
 prev = now;
 now = Game.cpu.getUsed();
 profiling["spawn_import"] = now - prev;
-const roleCourier = require("role.courier");
+const role_courier_1 = require("role.courier");
 prev = now;
 now = Game.cpu.getUsed();
 profiling["courier_import"] = now - prev;
-const roleMiner = require("role.mining");
+const role_mining_1 = require("role.mining");
 prev = now;
 now = Game.cpu.getUsed();
 profiling["mining_import"] = now - prev;
@@ -34,11 +34,11 @@ const traveler = require("Traveler");
 prev = now;
 now = Game.cpu.getUsed();
 profiling["traveler_import"] = now - prev;
-const creeps = require("task.spawning");
+const task_spawning_1 = require("task.spawning");
 prev = now;
 now = Game.cpu.getUsed();
 profiling["spawning_import"] = now - prev;
-const towers = require("task.towers");
+const task_towers_1 = require("task.towers");
 prev = now;
 now = Game.cpu.getUsed();
 profiling["towers_import"] = now - prev;
@@ -49,26 +49,26 @@ function runCreeps() {
     for (var name in Game.creeps) {
         var creep = Game.creeps[name];
         if (creep.my) {
-            if (creep.memory.role == creeps.ROLE_HARVESTER) {
-                roleHarvester.run(creep);
+            if (creep.memory.role == task_spawning_1.default.ROLE_HARVESTER) {
+                role_harvester_1.default.run(creep);
             }
-            if (creep.memory.role == creeps.ROLE_UPGRADER) {
-                roleUpgrader.run(creep);
+            if (creep.memory.role == task_spawning_1.default.ROLE_UPGRADER) {
+                role_upgrader_1.default.run(creep);
             }
-            if (creep.memory.role == creeps.ROLE_BUILDER) {
-                roleBuilder.run(creep);
+            if (creep.memory.role == task_spawning_1.default.ROLE_BUILDER) {
+                role_builder_1.default.run(creep);
             }
-            if (creep.memory.role == creeps.ROLE_PAVER) {
-                rolePaver.run(creep);
+            if (creep.memory.role == task_spawning_1.default.ROLE_PAVER) {
+                role_paver_1.default.run(creep);
             }
-            if (creep.memory.role == creeps.ROLE_CLAIM) {
-                roleClaim.run(creep);
+            if (creep.memory.role == task_spawning_1.default.ROLE_CLAIM) {
+                role_spawn_1.default.run(creep);
             }
-            if (creep.memory.role == creeps.ROLE_COURIER) {
-                roleCourier.run(creep);
+            if (creep.memory.role == task_spawning_1.default.ROLE_COURIER) {
+                role_courier_1.default.run(creep);
             }
-            if (creep.memory.role == creeps.ROLE_MINER) {
-                roleMiner.run(creep);
+            if (creep.memory.role == task_spawning_1.default.ROLE_MINER) {
+                role_mining_1.default.run(creep);
             }
         }
     }
@@ -120,13 +120,13 @@ function update() {
     if ((Game.time & 7) == 0) {
     }
     if ((Game.time & 15) == 0) {
-        creeps.spawnNewCreeps();
+        task_spawning_1.default.spawnNewCreeps();
     }
     if ((Game.time & 63) == 0) {
         handleRoomRecovery();
     }
     var periodic = Game.cpu.getUsed();
-    towers.commandTowers();
+    task_towers_1.default.commandTowers();
     var tower = Game.cpu.getUsed();
     console.log("Start: " + start + " imports: " + (update - start) + " needs: " + (needs - update) + " creeps: " + (run - needs) + " periodic: " + (periodic - run) + " towers: " + (tower - periodic));
 }
