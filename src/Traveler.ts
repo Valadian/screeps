@@ -1,4 +1,4 @@
-import * as _ from "underscore"
+// import * as _ from "underscore"
 /**
  * To start using Traveler, require it in main.js:
  * Example: var Traveler = require('Traveler.js');
@@ -11,6 +11,23 @@ export class Traveler {
     private static creepMatrixTick: number;
     private static structureMatrixTick: number;
 
+    private static defaults(keysFunc, undefinedOnly) {
+        return function(obj) {
+        var length = arguments.length;
+        if (length < 2 || obj == null) return obj;
+        for (var index = 1; index < length; index++) {
+            var source = arguments[index],
+                keys = keysFunc(source),
+                l = keys.length;
+            for (var i = 0; i < l; i++) {
+            var key = keys[i];
+            if (!undefinedOnly || obj[key] === void 0) obj[key] = source[key];
+            }
+        }
+        return obj;
+        };
+    }
+    
     /**
      * move creep to destination
      * @param creep
@@ -18,7 +35,6 @@ export class Traveler {
      * @param options
      * @returns {number}
      */
-
     public static travelTo(creep: Creep, destination: HasPos|RoomPosition, options: TravelToOptions = {}): number {
 
         // uncomment if you would like to register hostile rooms entered
@@ -247,7 +263,7 @@ export class Traveler {
     public static findTravelPath(origin: RoomPosition|HasPos, destination: RoomPosition|HasPos,
                                  options: TravelToOptions = {}): PathfinderReturn {
 
-        _.defaults(options, {
+        Traveler.defaults(options, {
             ignoreCreeps: true,
             maxOps: DEFAULT_MAXOPS,
             range: 1,
@@ -421,7 +437,7 @@ export class Traveler {
             },
         });
 
-        if (!_.isArray(ret)) {
+        if (!Array.isArray(ret)) {
             console.log(`couldn't findRoute to ${destination}`);
             return;
         }

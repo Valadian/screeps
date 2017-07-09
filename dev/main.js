@@ -8,8 +8,12 @@ const rolePaver = require("role.paver");
 const roleClaim = require("role.spawn");
 const roleCourier = require("role.courier");
 const roleMiner = require("role.mining");
+const traveler = require("Traveler");
 const creeps = require("task.spawning");
 const towers = require("task.towers");
+Creep.prototype.travelTo = function (destination, options) {
+    return traveler.Traveler.travelTo(this, destination, options);
+};
 function runCreeps() {
     for (var name in Game.creeps) {
         var creep = Game.creeps[name];

@@ -7,13 +7,13 @@ import * as rolePaver from "role.paver";
 import * as roleClaim from "role.spawn";
 import * as roleCourier from "role.courier";
 import * as roleMiner from "role.mining";
-// import * as traveler from "Traveler";
+import * as traveler from "Traveler";
 import * as creeps from "task.spawning";
 import * as towers from "task.towers";
 
-// (Creep.prototype as any).travelTo = function(destination: {pos: RoomPosition}, options?: TravelToOptions) {
-//     return traveler.Traveler.travelTo(this, destination, options);
-// };
+(Creep.prototype as any).travelTo = function(destination: {pos: RoomPosition}, options?: TravelToOptions) {
+    return traveler.Traveler.travelTo(this, destination, options);
+};
 
 function runCreeps(){
     for(var name in Game.creeps) {

@@ -1,7 +1,22 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const _ = require("underscore");
 class Traveler {
+    static defaults(keysFunc, undefinedOnly) {
+        return function (obj) {
+            var length = arguments.length;
+            if (length < 2 || obj == null)
+                return obj;
+            for (var index = 1; index < length; index++) {
+                var source = arguments[index], keys = keysFunc(source), l = keys.length;
+                for (var i = 0; i < l; i++) {
+                    var key = keys[i];
+                    if (!undefinedOnly || obj[key] === void 0)
+                        obj[key] = source[key];
+                }
+            }
+            return obj;
+        };
+    }
     static travelTo(creep, destination, options = {}) {
         if (!destination) {
             return ERR_INVALID_ARGS;
@@ -140,7 +155,7 @@ class Traveler {
         }
     }
     static findTravelPath(origin, destination, options = {}) {
-        _.defaults(options, {
+        Traveler.defaults(options, {
             ignoreCreeps: true,
             maxOps: DEFAULT_MAXOPS,
             range: 1,
@@ -281,7 +296,7 @@ class Traveler {
                 return highwayBias;
             },
         });
-        if (!_.isArray(ret)) {
+        if (!Array.isArray(ret)) {
             console.log(`couldn't findRoute to ${destination}`);
             return;
         }
