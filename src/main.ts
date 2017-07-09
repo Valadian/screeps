@@ -1,3 +1,5 @@
+
+var start = Game.cpu.getUsed()
 import * as roleHarvester from "role.harvester";
 import * as roleUpgrader from "role.upgrader";
 import * as roleBuilder from "role.builder";
@@ -80,7 +82,7 @@ function preUpdate(){
     }
 }
 function update(){
-    var start = Game.cpu.getUsed()
+    var update = Game.cpu.getUsed()
     calculateNeeds();
     var needs = Game.cpu.getUsed()
     runCreeps();
@@ -97,7 +99,7 @@ function update(){
     var periodic = Game.cpu.getUsed()
     towers.commandTowers();
     var tower = Game.cpu.getUsed()
-    console.log("Start: "+start+" needs: "+(needs-start)+" creeps: "+(run-needs)+" periodic: "+(periodic-run)+" towers: "+(tower-periodic))
+    console.log("Start: "+start+" imports: "+(update-start)+" needs: "+(needs-update)+" creeps: "+(run-needs)+" periodic: "+(periodic-run)+" towers: "+(tower-periodic))
 }
 function lateUpdate(){
 

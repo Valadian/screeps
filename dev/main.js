@@ -1,7 +1,6 @@
-
-var start = Game.cpu.getUsed();
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+var start = Game.cpu.getUsed();
 const roleHarvester = require("role.harvester");
 const roleUpgrader = require("role.upgrader");
 const roleBuilder = require("role.builder");
@@ -9,13 +8,8 @@ const rolePaver = require("role.paver");
 const roleClaim = require("role.spawn");
 const roleCourier = require("role.courier");
 const roleMiner = require("role.mining");
-const traveler = require("Traveler");
 const creeps = require("task.spawning");
 const towers = require("task.towers");
-var requires = Game.cpu.getUsed();
-Creep.prototype.travelTo = function (destination, options) {
-    return traveler.Traveler.travelTo(this, destination, options);
-};
 function runCreeps() {
     for (var name in Game.creeps) {
         var creep = Game.creeps[name];
@@ -93,7 +87,7 @@ function update() {
     var periodic = Game.cpu.getUsed();
     towers.commandTowers();
     var tower = Game.cpu.getUsed();
-    console.log("Start: " + start +" requires: " +(requires-start) + " needs: " + (needs - update) + " creeps: " + (run - needs) + " periodic: " + (periodic - run) + " towers: " + (tower - periodic));
+    console.log("Start: " + start + " imports: " + (update - start) + " needs: " + (needs - update) + " creeps: " + (run - needs) + " periodic: " + (periodic - run) + " towers: " + (tower - periodic));
 }
 function lateUpdate() {
 }

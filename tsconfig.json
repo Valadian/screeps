@@ -13,7 +13,7 @@
     "baseUrl": "./src/",
     "outDir": "./dev/",
     "allowJs": true,
-    "watch": true
+    "watch": false
     //"outFile": "./dev/main.js"
   },
   "compileOnSave": true,
