@@ -1,4 +1,4 @@
-import * as sourceUtil from "util.source" 
+//import * as sourceUtil from "util.source" 
 import * as worker from "caste.worker" 
 export function run(creep:Creep) {
     worker.checkEnergy(creep);
