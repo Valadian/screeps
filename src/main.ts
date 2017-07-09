@@ -4,23 +4,23 @@ var profiling = {}
 import * as roleHarvester from "role.harvester";
 var prev = start;var now = Game.cpu.getUsed(); profiling["harvester_import"] = now-prev;
 import * as roleUpgrader from "role.upgrader";
-prev = start;now = Game.cpu.getUsed(); profiling["upgrder_import"] = now-prev;
+prev = now;now = Game.cpu.getUsed(); profiling["upgrder_import"] = now-prev;
 import * as roleBuilder from "role.builder";
-prev = start;now = Game.cpu.getUsed(); profiling["builder_import"] = now-prev;
+prev = now;now = Game.cpu.getUsed(); profiling["builder_import"] = now-prev;
 import * as rolePaver from "role.paver";
-prev = start;now = Game.cpu.getUsed(); profiling["paver_import"] = now-prev;
+prev = now;now = Game.cpu.getUsed(); profiling["paver_import"] = now-prev;
 import * as roleClaim from "role.spawn";
-prev = start;now = Game.cpu.getUsed(); profiling["spawn_import"] = now-prev;
+prev = now;now = Game.cpu.getUsed(); profiling["spawn_import"] = now-prev;
 import * as roleCourier from "role.courier";
-prev = start;now = Game.cpu.getUsed(); profiling["courier_import"] = now-prev;
+prev = now;now = Game.cpu.getUsed(); profiling["courier_import"] = now-prev;
 import * as roleMiner from "role.mining";
-prev = start;now = Game.cpu.getUsed(); profiling["mining_import"] = now-prev;
+prev = now;now = Game.cpu.getUsed(); profiling["mining_import"] = now-prev;
 import * as traveler from "Traveler";
-prev = start;now = Game.cpu.getUsed(); profiling["traveler_import"] = now-prev;
+prev = now;now = Game.cpu.getUsed(); profiling["traveler_import"] = now-prev;
 import * as creeps from "task.spawning";
-prev = start;now = Game.cpu.getUsed(); profiling["spawning_import"] = now-prev;
+prev = now;now = Game.cpu.getUsed(); profiling["spawning_import"] = now-prev;
 import * as towers from "task.towers";
-prev = start;now = Game.cpu.getUsed(); profiling["towers_import"] = now-prev;
+prev = now;now = Game.cpu.getUsed(); profiling["towers_import"] = now-prev;
 
 (Creep.prototype as any).travelTo = function(destination: {pos: RoomPosition}, options?: TravelToOptions) {
     return traveler.Traveler.travelTo(this, destination, options);
