@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "module": "system",//commonjs",
+    "module": "amd",//commonjs",
     "target": "es6",
     "removeComments": true,
     "noEmitOnError": false,
@@ -11,10 +11,10 @@
     "noUnusedLocals": false,
     //"sourceMap": true,
     "baseUrl": "./src/",
-    //"outDir": "./dev/",
+    "outDir": "./dev/",
     "allowJs": true,
-    "watch": false,
-    "outFile": "./release/main.js"
+    "watch": false
+    //"outFile": "./release/main.js"
   },
   "compileOnSave": true,
   "include": [
