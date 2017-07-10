@@ -17,8 +17,10 @@ class Claim {
                         creep.travelTo(flag);
                     }
                     else {
-                        if (creep.claimController(creep.room.controller) == ERR_NOT_IN_RANGE) {
-                            creep.travelTo(creep.room.controller);
+                        if (flag.room == creep.room) {
+                            if (creep.claimController(creep.room.controller) == ERR_NOT_IN_RANGE) {
+                                creep.travelTo(creep.room.controller);
+                            }
                         }
                     }
                 }
