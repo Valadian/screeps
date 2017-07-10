@@ -6,7 +6,7 @@ class Claim {
             if (name.toLowerCase().startsWith("claim")) {
                 var flag = Game.flags[name];
                 if (flag.room == undefined) {
-                    creep.travelTo(flag);
+                    creep.travelTo(flag.pos);
                 }
                 else {
                     if (flag.room == creep.room && creep.room.controller.my == undefined) {
