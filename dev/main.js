@@ -102,12 +102,6 @@ function loop() {
     lateUpdate();
 }
 function preUpdate() {
-    var log_str = "";
-    for (var name in profiling) {
-        var time = profiling[name];
-        log_str += " " + name + ":" + profiling[name].toFixed(2);
-    }
-    console.log(log_str);
     for (var name in Memory.creeps) {
     }
 }
@@ -128,7 +122,6 @@ function update() {
     var periodic = Game.cpu.getUsed();
     task_towers_1.default.commandTowers();
     var tower = Game.cpu.getUsed();
-    console.log("Start: " + start + " imports: " + (update - start) + " needs: " + (needs - update) + " creeps: " + (run - needs) + " periodic: " + (periodic - run) + " towers: " + (tower - periodic));
 }
 function lateUpdate() {
 }
