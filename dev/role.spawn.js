@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 class Claim {
     static run(creep) {
-        for (var name in Game.flags) {
+        for (var name in Object.keys(Game.flags)) {
             if (name.startsWith("claim")) {
                 var flag = Game.flags[name];
                 if (flag.room == undefined) {
