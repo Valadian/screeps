@@ -3,8 +3,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 class Claim {
     static run(creep) {
         for (var name in Object.keys(Game.flags)) {
-            console.log("found claim flag");
+            console.log("Num flags: " + Object.keys(Game.flags).length);
             if (name.toLowerCase().startsWith("claim")) {
+                console.log("found claim flag");
                 var flag = Game.flags[name];
                 if (flag.room == undefined) {
                     console.log("moving to claim flag room");
