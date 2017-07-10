@@ -11,13 +11,13 @@ class Claim {
                 var flag = Game.flags[name];
                 if (flag.room == undefined) {
                     console.log("moving to claim flag room");
-                    creep.travelTo(flag);
+                    creep.travelTo(flag, { useFindRoute: true, allowHostile: true });
                 }
                 else {
                     console.log("claiming controller");
                     if (flag.room == creep.room && creep.room.controller.my == undefined) {
                         if (creep.claimController(creep.room.controller) == ERR_NOT_IN_RANGE) {
-                            creep.travelTo(creep.room.controller);
+                            creep.travelTo(creep.room.controller, {});
                         }
                     }
                 }
