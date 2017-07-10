@@ -8,7 +8,7 @@ export default class Claim{
         //     }
         // } else {
             for(var name in Object.keys(Game.flags)){
-                if(name.startsWith("claim")){
+                if(name.toLowerCase().startsWith("claim")){
                     var flag = Game.flags[name];
                     if(flag.room == undefined){
                         creep.travelTo(flag)
