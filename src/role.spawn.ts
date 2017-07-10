@@ -9,7 +9,9 @@ export default class Claim{
         // } else {
             for(var name in Object.keys(Game.flags)){
                 console.log("Num flags: "+Object.keys(Game.flags).length)
-                if(name.toLowerCase().startsWith("claim")){
+                var isClaim = name.toLowerCase().startsWith("claim")
+                console.log(name+" is claim? "+isClaim)
+                if(isClaim){
                     console.log("found claim flag")
                     var flag = Game.flags[name];
                     if(flag.room == undefined){
