@@ -11,9 +11,16 @@ class Claim {
         }
         else {
             for (var name in Game.flags) {
-                var flag = Game.flags[name];
-                if (flag.room == undefined) {
-                    creep.travelTo(flag);
+                if (name.startsWith("claim")) {
+                    var flag = Game.flags[name];
+                    if (flag.room == undefined) {
+                        creep.travelTo(flag);
+                    }
+                    else {
+                        if (creep.claimController(creep.room.controller) == ERR_NOT_IN_RANGE) {
+                            creep.travelTo(creep.room.controller);
+                        }
+                    }
                 }
             }
         }
