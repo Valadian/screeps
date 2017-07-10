@@ -11,7 +11,7 @@ class Claim {
                 var flag = Game.flags[name];
                 if (flag.room == undefined) {
                     console.log("moving to claim flag room");
-                    creep.travelTo(flag, { useFindRoute: true, allowHostile: true });
+                    creep.travelTo(flag, { useFindRoute: true, allowHostile: true, ensurePath: true, maxRooms: 4 });
                 }
                 else {
                     console.log("claiming controller");
