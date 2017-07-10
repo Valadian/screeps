@@ -15,7 +15,7 @@ class Claim {
                 }
                 else {
                     console.log("claiming controller");
-                    if (flag.room == creep.room && creep.room.controller.my == undefined) {
+                    if (flag.room == creep.room && (creep.room.controller.my == undefined || creep.room.controller.my == false)) {
                         if (creep.claimController(flag.room.controller) == ERR_NOT_IN_RANGE) {
                             creep.travelTo(flag.room.controller, { useFindRoute: true, allowHostile: true, ensurePath: true, maxRooms: 0 });
                         }
