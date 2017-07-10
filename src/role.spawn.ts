@@ -20,8 +20,8 @@ export default class Claim{
                     } else {
                         console.log("claiming controller")
                         if(flag.room == creep.room && creep.room.controller.my==undefined){
-                            if(creep.claimController(creep.room.controller)==ERR_NOT_IN_RANGE){
-                                creep.travelTo(creep.room.controller,{})
+                            if(creep.claimController(flag.room.controller)==ERR_NOT_IN_RANGE){
+                                creep.travelTo(flag.room.controller,{useFindRoute:true,allowHostile:true,ensurePath:true,maxRooms:4})
                             }
                         }
                     }
