@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 class Claim {
     static run(creep) {
-        for (var name in Object.keys(Game.flags)) {
+        for (var name of Object.keys(Game.flags)) {
             console.log("Num flags: " + Object.keys(Game.flags).length);
             var isClaim = name.toLowerCase().startsWith("claim");
             console.log(name + " is claim? " + isClaim);

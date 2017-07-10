@@ -7,7 +7,7 @@ export default class Claim{
         //         creep.travelTo(creep.room.controller);
         //     }
         // } else {
-            for(var name in Object.keys(Game.flags)){
+            for(var name of Object.keys(Game.flags)){
                 console.log("Num flags: "+Object.keys(Game.flags).length)
                 var isClaim = name.toLowerCase().startsWith("claim")
                 console.log(name+" is claim? "+isClaim)
