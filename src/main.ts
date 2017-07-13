@@ -53,7 +53,7 @@ function runCreeps(){
                 Miner.run(creep);
             }
             if(creep.memory.role == Spawning.ROLE_INFANTRY) {
-                Miner.run(creep);
+                Infantry.run(creep);
             }
         }
     }

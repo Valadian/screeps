@@ -42,6 +42,7 @@ const task_towers_1 = require("task.towers");
 prev = now;
 now = Game.cpu.getUsed();
 profiling["towers_import"] = now - prev;
+const role_infantry_1 = require("role.infantry");
 Creep.prototype.travelTo = function (destination, options) {
     return traveler.Traveler.travelTo(this, destination, options);
 };
@@ -71,7 +72,7 @@ function runCreeps() {
                 role_mining_1.default.run(creep);
             }
             if (creep.memory.role == task_spawning_1.default.ROLE_INFANTRY) {
-                role_mining_1.default.run(creep);
+                role_infantry_1.default.run(creep);
             }
         }
     }

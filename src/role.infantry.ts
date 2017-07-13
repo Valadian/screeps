@@ -1,3 +1,6 @@
+//Game.spawns["Home"].createCreep([MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,
+    //                             ATTACK,ATTACK,ATTACK,ATTACK,ATTACK,ATTACK,ATTACK,ATTACK,ATTACK,ATTACK,ATTACK,ATTACK,ATTACK],
+    //"army"+Game.time.toLocaleString(),{role:"infantry",caste:"military"})
 export default class Infantry{ 
     public static run(creep:Creep) {
         for(var name of Object.keys(Game.flags)){
