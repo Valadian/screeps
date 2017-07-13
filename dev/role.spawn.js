@@ -7,7 +7,7 @@ class Claim {
             if (isClaim) {
                 console.log("found claim flag");
                 var flag = Game.flags[name];
-                if (flag.room == undefined) {
+                if (flag.room == undefined || flag.room != creep.room) {
                     console.log("moving to claim flag room");
                     creep.travelTo(flag, { useFindRoute: true, allowHostile: true, ensurePath: true, maxRooms: 4 });
                 }
