@@ -98,6 +98,7 @@ Spawning.ROLE_PAVER = 'paver';
 Spawning.ROLE_CLAIM = 'claim';
 Spawning.ROLE_MINER = 'miner';
 Spawning.ROLE_COURIER = 'courier';
+Spawning.ROLE_INFANTRY = 'infantry';
 Spawning.CASTE_WORKER = 'worker';
 Spawning.CASTE_ROVER = 'rover';
 Spawning.CASTE_CLAIM = 'claim';

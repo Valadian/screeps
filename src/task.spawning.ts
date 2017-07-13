@@ -33,6 +33,7 @@ export default class Spawning{
     public static ROLE_CLAIM = 'claim';
     public static ROLE_MINER = 'miner';
     public static ROLE_COURIER = 'courier';
+    public static ROLE_INFANTRY = 'infantry';
     public static CASTE_WORKER = 'worker';
     public static CASTE_ROVER = 'rover';
     public static CASTE_CLAIM = 'claim';

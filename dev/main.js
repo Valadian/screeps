@@ -70,6 +70,9 @@ function runCreeps() {
             if (creep.memory.role == task_spawning_1.default.ROLE_MINER) {
                 role_mining_1.default.run(creep);
             }
+            if (creep.memory.role == task_spawning_1.default.ROLE_INFANTRY) {
+                role_mining_1.default.run(creep);
+            }
         }
     }
 }
