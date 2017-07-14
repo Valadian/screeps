@@ -53,7 +53,7 @@ class Roamer {
             }
         }
         else {
-            if (creep.room.storage || undefined || caste_worker_1.default.getFromStorage(creep) == ERR_NOT_ENOUGH_ENERGY || creep.room.storage.store[RESOURCE_ENERGY] == 0) {
+            if (creep.room.storage == undefined || caste_worker_1.default.getFromStorage(creep) == ERR_NOT_ENOUGH_ENERGY || creep.room.storage.store[RESOURCE_ENERGY] == 0) {
                 role_mining_1.default.mineSource(creep);
             }
         }

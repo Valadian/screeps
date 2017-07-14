@@ -48,7 +48,7 @@ export default class Roamer{
                 creep.say("no constructions remaining in room");
             }
         } else {
-            if(creep.room.storage || undefined || Worker.getFromStorage(creep)==ERR_NOT_ENOUGH_ENERGY || creep.room.storage.store[RESOURCE_ENERGY]==0){
+            if(creep.room.storage == undefined || Worker.getFromStorage(creep)==ERR_NOT_ENOUGH_ENERGY || creep.room.storage.store[RESOURCE_ENERGY]==0){
                 Miner.mineSource(creep)
             }
         }
