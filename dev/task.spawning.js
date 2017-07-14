@@ -37,13 +37,22 @@ class Spawning {
             else if (Game.spawns[spawnName].room.energyCapacityAvailable >= 1250) {
             }
             else if (Game.spawns[spawnName].room.energyCapacityAvailable >= 800) {
-                Spawning.checkThenSpawn(spawnName, Spawning.ROLE_PAVER, Spawning.CASTE_WORKER, 4, Spawning.L3_800_Worker, energy);
+                Spawning.checkThenSpawn(spawnName, Spawning.ROLE_HARVESTER, Spawning.CASTE_WORKER, 1, Spawning.L3_800_Worker, energy);
+                Spawning.checkThenSpawn(spawnName, Spawning.ROLE_PAVER, Spawning.CASTE_WORKER, 1, Spawning.L3_800_Worker, energy);
+                Spawning.checkThenSpawn(spawnName, Spawning.ROLE_HARVESTER, Spawning.CASTE_WORKER, 2, Spawning.L3_800_Worker, energy);
+                Spawning.checkThenSpawn(spawnName, Spawning.ROLE_PAVER, Spawning.CASTE_WORKER, 2, Spawning.L3_800_Worker, energy);
             }
             else if (Game.spawns[spawnName].room.energyCapacityAvailable >= 550) {
-                Spawning.checkThenSpawn(spawnName, Spawning.ROLE_PAVER, Spawning.CASTE_WORKER, 4, Spawning.L2_550_Worker, energy);
+                Spawning.checkThenSpawn(spawnName, Spawning.ROLE_HARVESTER, Spawning.CASTE_WORKER, 1, Spawning.L2_550_Worker, energy);
+                Spawning.checkThenSpawn(spawnName, Spawning.ROLE_PAVER, Spawning.CASTE_WORKER, 1, Spawning.L2_550_Worker, energy);
+                Spawning.checkThenSpawn(spawnName, Spawning.ROLE_HARVESTER, Spawning.CASTE_WORKER, 2, Spawning.L2_550_Worker, energy);
+                Spawning.checkThenSpawn(spawnName, Spawning.ROLE_PAVER, Spawning.CASTE_WORKER, 2, Spawning.L2_550_Worker, energy);
             }
             else if (Game.spawns[spawnName].room.energyCapacityAvailable >= 300) {
-                Spawning.checkThenSpawn(spawnName, Spawning.ROLE_PAVER, Spawning.CASTE_WORKER, 4, Spawning.L1_300_Worker, energy);
+                Spawning.checkThenSpawn(spawnName, Spawning.ROLE_HARVESTER, Spawning.CASTE_WORKER, 1, Spawning.L1_300_Worker, energy);
+                Spawning.checkThenSpawn(spawnName, Spawning.ROLE_PAVER, Spawning.CASTE_WORKER, 1, Spawning.L1_300_Worker, energy);
+                Spawning.checkThenSpawn(spawnName, Spawning.ROLE_HARVESTER, Spawning.CASTE_WORKER, 2, Spawning.L1_300_Worker, energy);
+                Spawning.checkThenSpawn(spawnName, Spawning.ROLE_PAVER, Spawning.CASTE_WORKER, 2, Spawning.L1_300_Worker, energy);
             }
         }
     }
