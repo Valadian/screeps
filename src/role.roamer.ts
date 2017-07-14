@@ -1,3 +1,4 @@
+//Game.spawns["Home"].createCreep([MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,WORK,WORK,WORK,WORK,WORK,WORK,WORK,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY],"roamer"+Game.time.toString(),{role:"roamer"})
 import Worker from "caste.worker" 
 import Miner from "role.mining" 
 export default class Roamer{ 
@@ -5,13 +6,13 @@ export default class Roamer{
         for(var name of Object.keys(Game.flags)){
             var isBuild = name.toLowerCase().startsWith("build")
             if(isBuild){
-                //console.log("found claim flag")
+                console.log("found build flag")
                 var flag = Game.flags[name];
                 if(flag.room == undefined || flag.room!=creep.room){
-                    //console.log("moving to claim flag room")
+                    console.log("moving to build flag room")
                     creep.travelTo(flag,{useFindRoute:true,allowHostile:true,ensurePath:true,maxRooms:4})
                 } else {
-                    //console.log("claiming controller")
+                    console.log("building")
                     if(flag.room == creep.room){
                         Roamer.DoBuild(creep,flag)
                     }

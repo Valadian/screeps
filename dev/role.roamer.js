@@ -7,11 +7,14 @@ class Roamer {
         for (var name of Object.keys(Game.flags)) {
             var isBuild = name.toLowerCase().startsWith("build");
             if (isBuild) {
+                console.log("found build flag");
                 var flag = Game.flags[name];
                 if (flag.room == undefined || flag.room != creep.room) {
+                    console.log("moving to build flag room");
                     creep.travelTo(flag, { useFindRoute: true, allowHostile: true, ensurePath: true, maxRooms: 4 });
                 }
                 else {
+                    console.log("building");
                     if (flag.room == creep.room) {
                         Roamer.DoBuild(creep, flag);
                     }
