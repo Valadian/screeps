@@ -34,11 +34,12 @@ export default class Spawning{
     public static ROLE_MINER = 'miner';
     public static ROLE_COURIER = 'courier';
     public static ROLE_INFANTRY = 'infantry';
+    public static ROLE_ROAMER = 'roamer';
     public static CASTE_WORKER = 'worker';
     public static CASTE_ROVER = 'rover';
     public static CASTE_CLAIM = 'claim';
 
-    private static ROLES = [Spawning.ROLE_HARVESTER,Spawning.ROLE_UPGRADER,Spawning.ROLE_BUILDER,Spawning.ROLE_PAVER,Spawning.ROLE_CLAIM,Spawning.ROLE_MINER,Spawning.ROLE_COURIER];
+    private static ROLES = [Spawning.ROLE_HARVESTER,Spawning.ROLE_UPGRADER,Spawning.ROLE_BUILDER,Spawning.ROLE_PAVER,Spawning.ROLE_CLAIM,Spawning.ROLE_MINER,Spawning.ROLE_COURIER,Spawning.ROLE_INFANTRY,Spawning.ROLE_ROAMER];
     public static spawnNewCreeps(){
         for(var name of Object.keys(Game.spawns)){
             Spawning.spawnNewCreepsForRoom(name);

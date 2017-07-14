@@ -22,6 +22,7 @@ prev = now;now = Game.cpu.getUsed(); profiling["spawning_import"] = now-prev;
 import Towers from "task.towers";
 prev = now;now = Game.cpu.getUsed(); profiling["towers_import"] = now-prev;
 import Infantry from "role.infantry";
+import Roamer from "role.roamer";
 
 (Creep.prototype as any).travelTo = function(destination: {pos: RoomPosition}, options?: TravelToOptions) {
     return traveler.Traveler.travelTo(this, destination, options);
@@ -54,6 +55,9 @@ function runCreeps(){
             }
             if(creep.memory.role == Spawning.ROLE_INFANTRY) {
                 Infantry.run(creep);
+            }
+            if(creep.memory.role == Spawning.ROLE_ROAMER) {
+                Roamer.run(creep);
             }
         }
     }
