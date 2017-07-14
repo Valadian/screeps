@@ -14,19 +14,22 @@ export default class Infantry{
                 } else {
                     //console.log("claiming controller")
                     if(flag.room == creep.room){
-                        var hostileStruct = flag.pos.findClosestByRange<Structure>(FIND_HOSTILE_STRUCTURES);
-                        if(hostileStruct){
-                            if(creep.attack(hostileStruct)==ERR_NOT_IN_RANGE){
-                                creep.travelTo(hostileStruct);
-                            }
-
-                        } else {
-                            flag.remove()
-                            creep.say("no structures remaining in room");
-                        }
+                        Infantry.DoAttack(creep,flag)
                     }
                 }
             }
+        }
+    }
+    private static DoAttack(creep:Creep, flag:Flag){
+        var hostileStruct = flag.pos.findClosestByRange<Structure>(FIND_HOSTILE_STRUCTURES);
+        if(hostileStruct){
+            if(creep.attack(hostileStruct)==ERR_NOT_IN_RANGE){
+                creep.travelTo(hostileStruct);
+            }
+
+        } else {
+            flag.remove()
+            creep.say("no structures remaining in room");
         }
     }
 }

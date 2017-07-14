@@ -11,19 +11,22 @@ class Infantry {
                 }
                 else {
                     if (flag.room == creep.room) {
-                        var hostileStruct = flag.pos.findClosestByRange(FIND_HOSTILE_STRUCTURES);
-                        if (hostileStruct) {
-                            if (creep.attack(hostileStruct) == ERR_NOT_IN_RANGE) {
-                                creep.travelTo(hostileStruct);
-                            }
-                        }
-                        else {
-                            flag.remove();
-                            creep.say("no structures remaining in room");
-                        }
+                        Infantry.DoAttack(creep, flag);
                     }
                 }
             }
+        }
+    }
+    static DoAttack(creep, flag) {
+        var hostileStruct = flag.pos.findClosestByRange(FIND_HOSTILE_STRUCTURES);
+        if (hostileStruct) {
+            if (creep.attack(hostileStruct) == ERR_NOT_IN_RANGE) {
+                creep.travelTo(hostileStruct);
+            }
+        }
+        else {
+            flag.remove();
+            creep.say("no structures remaining in room");
         }
     }
 }
