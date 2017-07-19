@@ -16,7 +16,7 @@ class Paver {
         }
         if (creep.memory.building) {
             delete creep.memory.source;
-            if (creep.room.controller.ticksToDowngrade < 18000) {
+            if (creep.room.controller.ticksToDowngrade < 10000) {
                 if (creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
                     creep.travelTo(creep.room.controller);
                 }

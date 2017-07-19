@@ -48,7 +48,7 @@ export default class Paver{
             //     //     }
             //     // }
             // }
-            if(creep.room.controller.ticksToDowngrade<18000){
+            if(creep.room.controller.ticksToDowngrade<10000){
                 if(creep.upgradeController(creep.room.controller as StructureController) == ERR_NOT_IN_RANGE) {
                     creep.travelTo(creep.room.controller as StructureController);
                 }
