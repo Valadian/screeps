@@ -30,7 +30,10 @@ class Courier extends caste_worker_1.default {
                     }
                 }
                 else {
-                    caste_worker_1.default.getFromStorage(creep);
+                    var err = caste_worker_1.default.getFromStorage(creep);
+                    if (err == ERR_NOT_ENOUGH_ENERGY) {
+                        creep.memory.mode = caste_worker_1.default.DELIVER;
+                    }
                 }
             }
         }

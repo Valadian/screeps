@@ -30,7 +30,10 @@ export default class Courier extends Worker{
                     }
                 } else {
                     //console.log("nothing to drop off")
-                    Worker.getFromStorage(creep)
+                    var err = Worker.getFromStorage(creep)
+                    if(err==ERR_NOT_ENOUGH_ENERGY){
+                        creep.memory.mode = Worker.DELIVER;
+                    }
                 }
             }
         }
