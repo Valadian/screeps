@@ -48,20 +48,26 @@ export default class Paver{
             //     //     }
             //     // }
             // }
-            var targets = creep.room.find(FIND_CONSTRUCTION_SITES) as ConstructionSite[];
-            if(targets.length) {
-                if(creep.build(targets[0]) == ERR_NOT_IN_RANGE) {
-                    creep.travelTo(targets[0]);//, {visualizePathStyle: {stroke: '#ffffff'}});
+            if(creep.room.controller.ticksToDowngrade<18000){
+                if(creep.upgradeController(creep.room.controller as StructureController) == ERR_NOT_IN_RANGE) {
+                    creep.travelTo(creep.room.controller as StructureController);
                 }
             } else {
-                //var found = worker.deliverEnergyToTowerExtensionSpawnStorage(creep,true);
-                //if(!found){
-                    if(creep.upgradeController(creep.room.controller as StructureController) == ERR_NOT_IN_RANGE) {
-                        creep.travelTo(creep.room.controller as StructureController);//, {visualizePathStyle: {stroke: '#ffffff'}});
+                var targets = creep.room.find(FIND_CONSTRUCTION_SITES) as ConstructionSite[];
+                if(targets.length) {
+                    if(creep.build(targets[0]) == ERR_NOT_IN_RANGE) {
+                        creep.travelTo(targets[0]);//, {visualizePathStyle: {stroke: '#ffffff'}});
                     }
-                //}
-                if(creep.memory.autopave==true && creep.pos.look()[0].type!='structure'){ // TODO: Look at all things? Not only first 
-                    creep.room.createConstructionSite(creep.pos.x, creep.pos.y, STRUCTURE_ROAD);
+                } else {
+                    //var found = worker.deliverEnergyToTowerExtensionSpawnStorage(creep,true);
+                    //if(!found){
+                        if(creep.upgradeController(creep.room.controller as StructureController) == ERR_NOT_IN_RANGE) {
+                            creep.travelTo(creep.room.controller as StructureController);//, {visualizePathStyle: {stroke: '#ffffff'}});
+                        }
+                    //}
+                    if(creep.memory.autopave==true && creep.pos.look()[0].type!='structure'){ // TODO: Look at all things? Not only first 
+                        creep.room.createConstructionSite(creep.pos.x, creep.pos.y, STRUCTURE_ROAD);
+                    }
                 }
             }
         }
