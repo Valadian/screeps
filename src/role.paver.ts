@@ -76,7 +76,7 @@ export default class Paver{
             // if(creep.harvest(source) == ERR_NOT_IN_RANGE) {
             //     creep.travelTo(source,{maxRooms:1});//, {visualizePathStyle: {stroke: '#ffaa00'}});
             // }
-            if(creep.room.storage == undefined || Worker.getFromStorage(creep)==ERR_NOT_ENOUGH_ENERGY || creep.room.storage.store[RESOURCE_ENERGY]==0){
+            if(creep.room.storage == undefined || creep.room.storage.store[RESOURCE_ENERGY]==0 || Worker.getFromStorage(creep)==ERR_NOT_ENOUGH_ENERGY){
                 Miner.mineSource(creep)
             }
         }
