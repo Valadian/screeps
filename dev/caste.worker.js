@@ -9,7 +9,7 @@ class Worker {
         }
     }
     static deliverEnergyToTowerExtensionSpawnStorage(creep, alms = true, deliver_towers = false) {
-        var spawn_or_extension = creep.pos.findClosestByRange(FIND_STRUCTURES, {
+        var spawn_or_extension = creep.pos.findClosestByPath(FIND_STRUCTURES, {
             filter: (structure) => {
                 return (structure.structureType == STRUCTURE_EXTENSION ||
                     structure.structureType == STRUCTURE_SPAWN) && structure.energy < structure.energyCapacity;
@@ -17,7 +17,7 @@ class Worker {
         });
         var delivered_to_tower = false;
         if (deliver_towers) {
-            var tower = creep.pos.findClosestByRange(FIND_STRUCTURES, {
+            var tower = creep.pos.findClosestByPath(FIND_STRUCTURES, {
                 filter: (structure) => {
                     return (structure.structureType == STRUCTURE_TOWER) && structure.energy < structure.energyCapacity;
                 }
