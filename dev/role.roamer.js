@@ -4,7 +4,7 @@ const caste_worker_1 = require("caste.worker");
 const role_mining_1 = require("role.mining");
 class Roamer {
     static run(creep) {
-        if (creep.room.storage != undefined && creep.carry.energy < creep.carryCapacity) {
+        if (!creep.memory.building && creep.room.storage != undefined && creep.room.storage.store.energy > 0 && creep.carry.energy < creep.carryCapacity) {
             caste_worker_1.default.getFromStorage(creep);
         }
         else {
@@ -48,12 +48,11 @@ class Roamer {
                 }
             }
             else {
-                flag.remove();
                 creep.say("no constructions remaining in room");
             }
         }
         else {
-            if (creep.room.storage == undefined || caste_worker_1.default.getFromStorage(creep) == ERR_NOT_ENOUGH_ENERGY || creep.room.storage.store[RESOURCE_ENERGY] == 0) {
+            if (creep.room.storage == undefined || creep.room.storage.store[RESOURCE_ENERGY] == 0 || caste_worker_1.default.getFromStorage(creep) == ERR_NOT_ENOUGH_ENERGY) {
                 role_mining_1.default.mineSource(creep);
             }
         }

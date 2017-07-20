@@ -16,23 +16,30 @@ class Paver {
         }
         if (creep.memory.building) {
             delete creep.memory.source;
-            var targets = creep.room.find(FIND_CONSTRUCTION_SITES);
-            if (targets.length) {
-                if (creep.build(targets[0]) == ERR_NOT_IN_RANGE) {
-                    creep.travelTo(targets[0]);
-                }
-            }
-            else {
+            if (creep.room.controller.ticksToDowngrade < 10000) {
                 if (creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
                     creep.travelTo(creep.room.controller);
                 }
-                if (creep.memory.autopave == true && creep.pos.look()[0].type != 'structure') {
-                    creep.room.createConstructionSite(creep.pos.x, creep.pos.y, STRUCTURE_ROAD);
+            }
+            else {
+                var targets = creep.room.find(FIND_CONSTRUCTION_SITES);
+                if (targets.length) {
+                    if (creep.build(targets[0]) == ERR_NOT_IN_RANGE) {
+                        creep.travelTo(targets[0]);
+                    }
+                }
+                else {
+                    if (creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
+                        creep.travelTo(creep.room.controller);
+                    }
+                    if (creep.memory.autopave == true && creep.pos.look()[0].type != 'structure') {
+                        creep.room.createConstructionSite(creep.pos.x, creep.pos.y, STRUCTURE_ROAD);
+                    }
                 }
             }
         }
         else {
-            if (creep.room.storage == undefined || caste_worker_1.default.getFromStorage(creep) == ERR_NOT_ENOUGH_ENERGY || creep.room.storage.store[RESOURCE_ENERGY] == 0) {
+            if (creep.room.storage == undefined || creep.room.storage.store[RESOURCE_ENERGY] == 0 || caste_worker_1.default.getFromStorage(creep) == ERR_NOT_ENOUGH_ENERGY) {
                 role_mining_1.default.mineSource(creep);
             }
         }

@@ -48,20 +48,26 @@ export default class Paver{
             //     //     }
             //     // }
             // }
-            var targets = creep.room.find(FIND_CONSTRUCTION_SITES) as ConstructionSite[];
-            if(targets.length) {
-                if(creep.build(targets[0]) == ERR_NOT_IN_RANGE) {
-                    creep.travelTo(targets[0]);//, {visualizePathStyle: {stroke: '#ffffff'}});
+            if(creep.room.controller.ticksToDowngrade<10000){
+                if(creep.upgradeController(creep.room.controller as StructureController) == ERR_NOT_IN_RANGE) {
+                    creep.travelTo(creep.room.controller as StructureController);
                 }
             } else {
-                //var found = worker.deliverEnergyToTowerExtensionSpawnStorage(creep,true);
-                //if(!found){
-                    if(creep.upgradeController(creep.room.controller as StructureController) == ERR_NOT_IN_RANGE) {
-                        creep.travelTo(creep.room.controller as StructureController);//, {visualizePathStyle: {stroke: '#ffffff'}});
+                var targets = creep.room.find(FIND_CONSTRUCTION_SITES) as ConstructionSite[];
+                if(targets.length) {
+                    if(creep.build(targets[0]) == ERR_NOT_IN_RANGE) {
+                        creep.travelTo(targets[0]);//, {visualizePathStyle: {stroke: '#ffffff'}});
                     }
-                //}
-                if(creep.memory.autopave==true && creep.pos.look()[0].type!='structure'){ // TODO: Look at all things? Not only first 
-                    creep.room.createConstructionSite(creep.pos.x, creep.pos.y, STRUCTURE_ROAD);
+                } else {
+                    //var found = worker.deliverEnergyToTowerExtensionSpawnStorage(creep,true);
+                    //if(!found){
+                        if(creep.upgradeController(creep.room.controller as StructureController) == ERR_NOT_IN_RANGE) {
+                            creep.travelTo(creep.room.controller as StructureController);//, {visualizePathStyle: {stroke: '#ffffff'}});
+                        }
+                    //}
+                    if(creep.memory.autopave==true && creep.pos.look()[0].type!='structure'){ // TODO: Look at all things? Not only first 
+                        creep.room.createConstructionSite(creep.pos.x, creep.pos.y, STRUCTURE_ROAD);
+                    }
                 }
             }
         }
@@ -76,7 +82,7 @@ export default class Paver{
             // if(creep.harvest(source) == ERR_NOT_IN_RANGE) {
             //     creep.travelTo(source,{maxRooms:1});//, {visualizePathStyle: {stroke: '#ffaa00'}});
             // }
-            if(creep.room.storage == undefined || Worker.getFromStorage(creep)==ERR_NOT_ENOUGH_ENERGY || creep.room.storage.store[RESOURCE_ENERGY]==0){
+            if(creep.room.storage == undefined || creep.room.storage.store[RESOURCE_ENERGY]==0 || Worker.getFromStorage(creep)==ERR_NOT_ENOUGH_ENERGY){
                 Miner.mineSource(creep)
             }
         }
