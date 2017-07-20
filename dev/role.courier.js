@@ -38,6 +38,14 @@ class Courier extends caste_worker_1.default {
             }
         }
         else if (creep.memory.mode == caste_worker_1.default.DELIVER) {
+            if (creep.ticksToLive < 100) {
+                var spawns = creep.room.find(FIND_MY_SPAWNS);
+                if (spawns.length > 0) {
+                    if (spawns[0].renewCreep(creep) == ERR_NOT_IN_RANGE) {
+                        creep.travelTo(spawns[0]);
+                    }
+                }
+            }
             caste_worker_1.default.deliverEnergyToTowerExtensionSpawnStorage(creep, false, true);
         }
     }

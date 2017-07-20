@@ -38,6 +38,14 @@ export default class Courier extends Worker{
             }
         }
         else if (creep.memory.mode == Worker.DELIVER){
+            if(creep.ticksToLive<100){
+                var spawns = creep.room.find<Spawn>(FIND_MY_SPAWNS)
+                if(spawns.length>0){
+                    if(spawns[0].renewCreep(creep)==ERR_NOT_IN_RANGE){
+                        creep.travelTo(spawns[0]);
+                    }
+                }
+            }
             Worker.deliverEnergyToTowerExtensionSpawnStorage(creep,false,true);
         }
     }

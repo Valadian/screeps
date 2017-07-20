@@ -87,7 +87,7 @@ export default class Spawning{
                 else if(Spawning.checkThenSpawn(spawnName,Spawning.ROLE_COURIER,Spawning.CASTE_WORKER,1,Spawning.L4_1300_Courier,energy)){}
                 else if(Spawning.checkThenSpawn(spawnName,Spawning.ROLE_PAVER,Spawning.CASTE_WORKER,1,Spawning.L4_1300_Worker,energy)){}
                 else if(Spawning.checkThenSpawn(spawnName,Spawning.ROLE_MINER,Spawning.CASTE_WORKER,2,Spawning.L4_1300_Miner,energy)){}
-                else if(Spawning.checkThenSpawn(spawnName,Spawning.ROLE_PAVER,Spawning.CASTE_WORKER,5,Spawning.L4_1300_Worker,energy)){}
+                else if(Spawning.checkThenSpawn(spawnName,Spawning.ROLE_PAVER,Spawning.CASTE_WORKER,2,Spawning.L4_1300_Worker,energy)){}
             } else 
             if (Game.spawns[spawnName].room.energyCapacityAvailable>=1250){
                 //checkThenSpawn(spawnName,ROLE_HARVESTER,CASTE_WORKER,6,[MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, WORK, WORK, WORK, WORK, WORK, CARRY,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY],energy)
