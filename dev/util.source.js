@@ -15,7 +15,7 @@ class SourceUtil {
             }
             if (source.energy > 0) {
                 var results = creep.room.lookForAtArea(LOOK_CREEPS, source.pos.y - 2, source.pos.x - 2, source.pos.y + 2, source.pos.x + 2, true);
-                var num_harvesting = results.map((result) => result.creep).filter((creep) => creep.memory != undefined && creep.memory.mode == "harvest").length;
+                var num_harvesting = results.map((result) => result.creep).filter((near) => near.memory != undefined && near.memory.mode == "harvest" && near != creep).length;
                 source_ratios[source.id] = num_harvesting / Memory.source_harvest_slots[source.id];
             }
         }
