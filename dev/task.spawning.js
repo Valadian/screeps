@@ -25,7 +25,7 @@ class Spawning {
                 else if (Spawning.checkThenSpawn(spawnName, Spawning.ROLE_COURIER, Spawning.CASTE_WORKER, 1, Spawning.L5_1800_Courier, energy)) { }
                 else if (Spawning.checkThenSpawn(spawnName, Spawning.ROLE_PAVER, Spawning.CASTE_WORKER, 1, Spawning.L5_1800_Worker, energy)) { }
                 else if (Spawning.checkThenSpawn(spawnName, Spawning.ROLE_MINER, Spawning.CASTE_WORKER, 2, Spawning.L5_1800_Miner, energy)) { }
-                else if (Spawning.checkThenSpawn(spawnName, Spawning.ROLE_PAVER, Spawning.CASTE_WORKER, 3, Spawning.L5_1800_Worker, energy)) { }
+                else if (Spawning.checkThenSpawn(spawnName, Spawning.ROLE_PAVER, Spawning.CASTE_WORKER, 2, Spawning.L5_1800_Worker, energy)) { }
             }
             else if (Game.spawns[spawnName].room.energyCapacityAvailable >= 1300) {
                 if (Spawning.checkThenSpawn(spawnName, Spawning.ROLE_MINER, Spawning.CASTE_WORKER, 1, Spawning.L4_1300_Miner, energy)) { }
