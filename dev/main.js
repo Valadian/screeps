@@ -44,6 +44,7 @@ now = Game.cpu.getUsed();
 profiling["towers_import"] = now - prev;
 const role_infantry_1 = require("role.infantry");
 const role_roamer_1 = require("role.roamer");
+const role_sentinel_1 = require("role.sentinel");
 Creep.prototype.travelTo = function (destination, options) {
     return traveler.Traveler.travelTo(this, destination, options);
 };
@@ -77,6 +78,9 @@ function runCreeps() {
             }
             if (creep.memory.role == task_spawning_1.default.ROLE_ROAMER) {
                 role_roamer_1.default.run(creep);
+            }
+            if (creep.memory.role == task_spawning_1.default.ROLE_SENTINEL) {
+                role_sentinel_1.default.run(creep);
             }
         }
     }
