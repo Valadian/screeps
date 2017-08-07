@@ -3,14 +3,14 @@ var start = Game.cpu.getUsed()
 var profiling = {}
 import Harvester from "role.harvester";
 var prev = start;var now = Game.cpu.getUsed(); profiling["harvester_import"] = now-prev;
-import Upgrader from "role.upgrader";
-prev = now;now = Game.cpu.getUsed(); profiling["upgrder_import"] = now-prev;
-import Builder from "role.builder";
-prev = now;now = Game.cpu.getUsed(); profiling["builder_import"] = now-prev;
+//import Upgrader from "role.upgrader";
+//prev = now;now = Game.cpu.getUsed(); profiling["upgrder_import"] = now-prev;
+//import Builder from "role.builder";
+//prev = now;now = Game.cpu.getUsed(); profiling["builder_import"] = now-prev;
 import Paver from "role.paver";
 prev = now;now = Game.cpu.getUsed(); profiling["paver_import"] = now-prev;
-import Claim from "role.spawn";
-prev = now;now = Game.cpu.getUsed(); profiling["spawn_import"] = now-prev;
+// import Claim from "role.spawn";
+// prev = now;now = Game.cpu.getUsed(); profiling["spawn_import"] = now-prev;
 import Courier from "role.courier";
 prev = now;now = Game.cpu.getUsed(); profiling["courier_import"] = now-prev;
 import Miner from "role.mining";
@@ -21,8 +21,8 @@ import Spawning from "task.spawning";
 prev = now;now = Game.cpu.getUsed(); profiling["spawning_import"] = now-prev;
 import Towers from "task.towers";
 prev = now;now = Game.cpu.getUsed(); profiling["towers_import"] = now-prev;
-import Infantry from "role.infantry";
-import Roamer from "role.roamer";
+//import Infantry from "role.infantry";
+//import Roamer from "role.roamer";
 import Sentinel from "role.sentinel";
 
 (Creep.prototype as any).travelTo = function(destination: {pos: RoomPosition}, options?: TravelToOptions) {
@@ -36,30 +36,30 @@ function runCreeps(){
             if(creep.memory.role == Spawning.ROLE_HARVESTER) {
                 Harvester.run(creep);
             }
-            if(creep.memory.role == Spawning.ROLE_UPGRADER) {
-                Upgrader.run(creep);
-            }
-            if(creep.memory.role == Spawning.ROLE_BUILDER) {
-                Builder.run(creep);
-            }
+            // if(creep.memory.role == Spawning.ROLE_UPGRADER) {
+            //     Upgrader.run(creep);
+            // }
+            // if(creep.memory.role == Spawning.ROLE_BUILDER) {
+            //     Builder.run(creep);
+            // }
             if(creep.memory.role == Spawning.ROLE_PAVER) {
                 Paver.run(creep);
             }
-            if(creep.memory.role == Spawning.ROLE_CLAIM) {
-                Claim.run(creep);
-            }
+            // if(creep.memory.role == Spawning.ROLE_CLAIM) {
+            //     Claim.run(creep);
+            // }
             if(creep.memory.role == Spawning.ROLE_COURIER) {
                 Courier.run(creep);
             }
             if(creep.memory.role == Spawning.ROLE_MINER) {
                 Miner.run(creep);
             }
-            if(creep.memory.role == Spawning.ROLE_INFANTRY) {
-                Infantry.run(creep);
-            }
-            if(creep.memory.role == Spawning.ROLE_ROAMER) {
-                Roamer.run(creep);
-            }
+            // if(creep.memory.role == Spawning.ROLE_INFANTRY) {
+            //     Infantry.run(creep);
+            // }
+            // if(creep.memory.role == Spawning.ROLE_ROAMER) {
+            //     Roamer.run(creep);
+            // }
             if(creep.memory.role == Spawning.ROLE_SENTINEL) {
                 Sentinel.run(creep);
             }
